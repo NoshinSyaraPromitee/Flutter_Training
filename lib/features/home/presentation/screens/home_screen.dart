@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
                   child: AppButton(
                     label: "Upload your Plant's Photo",
                     trailingIcon: Icons.add_circle_outline,
-                    onPressed: () {},
+                    onPressed: () => context.go('/ai-doctor'),
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -34,12 +34,12 @@ class HomeScreen extends StatelessWidget {
                     MenuActionCard(
                       imageAsset: 'assets/images/maintenance_cactus.png',
                       label: 'Maintainance',
-                      onTap: () {},
+                      onTap: () => context.go('/plants/new'),
                     ),
                     MenuActionCard(
                       imageAsset: 'assets/images/disease_plant.png',
                       label: 'Disease Detection',
-                      onTap: () {},
+                      onTap: () => context.go('/ai-doctor'),
                     ),
                   ],
                 ),
