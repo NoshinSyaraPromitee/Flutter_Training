@@ -1,27 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/network/api_exception.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/gradient_background.dart';
-import '../../domain/diagnosis_result.dart';
+import '../../data/placeholder_photo.dart';
+import '../../domain/diagnosis.dart';
+import '../providers/diagnosis_providers.dart';
 
-/// "Diseases Detection" screen. Uploading/capturing a photo is mocked —
-/// either action reveals a static diagnosis result matching the Figma
-/// design, since this screen is UI-only for now.
-class AiDoctorScreen extends StatefulWidget {
+/// "Diseases Detection" screen. There's no real camera/gallery picker yet,
+/// so "Upload"/"Open Camera" both submit a placeholder photo to the real
+/// /api/v1/diagnoses endpoint and render whatever the backend returns.
+class AiDoctorScreen extends ConsumerStatefulWidget {
   const AiDoctorScreen({super.key});
 
   @override
-  State<AiDoctorScreen> createState() => _AiDoctorScreenState();
+  ConsumerState<AiDoctorScreen> createState() => _AiDoctorScreenState();
 }
 
-class _AiDoctorScreenState extends State<AiDoctorScreen> {
-  bool _hasResult = false;
+class _AiDoctorScreenState extends ConsumerState<AiDoctorScreen> {
+  Diagnosis? _diagnosis;
+  bool _isAnalyzing = false;
+  String? _errorMessage;
+
+  Future<void> _analyze() async {
+    setState(() {
+      _isAnalyzing = true;
+      _errorMessage = null;
+    });
+    try {
+      final diagnosis = await ref
+          .read(diagnosisRepositoryProvider)
+          .analyze(placeholderPlantPhotoBytes());
+      if (!mounted) return;
+      setState(() => _diagnosis = diagnosis);
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() => _errorMessage = e.message);
+    } catch (_) {
+      if (!mounted) return;
+      setState(
+        () => _errorMessage = 'Could not reach the server. Is the backend running?',
+      );
+    } finally {
+      if (mounted) setState(() => _isAnalyzing = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final diagnosis = _diagnosis;
     return Scaffold(
       body: GradientBackground(
         child: SafeArea(
@@ -44,30 +75,39 @@ class _AiDoctorScreenState extends State<AiDoctorScreen> {
                 ),
                 const SizedBox(height: 20),
                 AppButton(
-                  label: "Upload your Plant's Photo",
+                  label: _isAnalyzing
+                      ? 'Analyzing...'
+                      : "Upload your Plant's Photo",
                   trailingIcon: Icons.add_circle_outline,
-                  onPressed: () => setState(() => _hasResult = true),
+                  onPressed: _isAnalyzing ? null : _analyze,
                 ),
                 const SizedBox(height: 12),
                 AppButton(
-                  label: 'Open Camera to take photo',
+                  label: _isAnalyzing
+                      ? 'Analyzing...'
+                      : 'Open Camera to take photo',
                   trailingIcon: Icons.add_circle_outline,
-                  onPressed: () => setState(() => _hasResult = true),
+                  onPressed: _isAnalyzing ? null : _analyze,
                 ),
                 const SizedBox(height: 24),
-                if (_hasResult) ...[
+                if (_errorMessage != null)
+                  Text(
+                    _errorMessage!,
+                    style: const TextStyle(color: Colors.red, fontSize: 13),
+                  ),
+                if (diagnosis != null) ...[
                   _ResultBox(
-                    text: mockDiagnosisResult.issue,
+                    text: diagnosis.issue,
                     color: AppColors.dangerBoxRed,
                   ),
                   const SizedBox(height: 16),
                   _ResultBox(
-                    text: 'cure : ${mockDiagnosisResult.cure}',
+                    text: 'cure : ${diagnosis.cure}',
                     color: AppColors.cureBoxGreen,
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    diagnosisDisclaimer,
+                    diagnosis.disclaimer,
                     style: AppTextStyles.bodyText.copyWith(
                       fontSize: 11,
                       color: Colors.black54,

@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/network/api_exception.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/gradient_background.dart';
-import '../../domain/care_roadmap.dart';
+import '../../domain/plant.dart';
+import '../providers/plant_providers.dart';
 
-/// Plant registration form ("Maintainance") that, on submit, shows the
-/// generated care roadmap in place — mirroring the Figma flow from the
-/// "maintenance" frame to the "Maintenance_2" frame.
-class PlantCareScreen extends StatefulWidget {
+/// Plant registration form ("Maintainance") that, on submit, calls the
+/// backend and shows the generated care roadmap in place — mirroring the
+/// Figma flow from the "maintenance" frame to the "Maintenance_2" frame.
+class PlantCareScreen extends ConsumerStatefulWidget {
   const PlantCareScreen({super.key});
 
   @override
-  State<PlantCareScreen> createState() => _PlantCareScreenState();
+  ConsumerState<PlantCareScreen> createState() => _PlantCareScreenState();
 }
 
-class _PlantCareScreenState extends State<PlantCareScreen> {
+class _PlantCareScreenState extends ConsumerState<PlantCareScreen> {
   final _nameController = TextEditingController();
   final _typeController = TextEditingController();
   final _ageController = TextEditingController();
 
-  String? _plantName;
-  CareRoadmap? _roadmap;
+  Plant? _plant;
+  bool _isSubmitting = false;
+  String? _errorMessage;
 
   @override
   void dispose() {
@@ -33,20 +37,38 @@ class _PlantCareScreenState extends State<PlantCareScreen> {
     super.dispose();
   }
 
-  void _createRoadmap() {
+  Future<void> _createRoadmap() async {
     if (_nameController.text.trim().isEmpty) return;
     setState(() {
-      _plantName = _nameController.text.trim();
-      _roadmap = buildCareRoadmap(
-        plantType: _typeController.text,
-        ageStage: _ageController.text,
-      );
+      _isSubmitting = true;
+      _errorMessage = null;
     });
+    try {
+      final plant = await ref
+          .read(plantRepositoryProvider)
+          .create(
+            name: _nameController.text.trim(),
+            type: _typeController.text.trim(),
+            ageStage: _ageController.text.trim(),
+          );
+      if (!mounted) return;
+      setState(() => _plant = plant);
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() => _errorMessage = e.message);
+    } catch (_) {
+      if (!mounted) return;
+      setState(
+        () => _errorMessage = 'Could not reach the server. Is the backend running?',
+      );
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final roadmap = _roadmap;
+    final plant = _plant;
     return Scaffold(
       body: GradientBackground(
         child: SafeArea(
@@ -64,19 +86,24 @@ class _PlantCareScreenState extends State<PlantCareScreen> {
                 Center(
                   child: Image.asset(
                     'assets/images/maintenance_cactus.png',
-                    width: roadmap == null ? 170 : 120,
+                    width: plant == null ? 170 : 120,
                   ),
                 ),
                 const SizedBox(height: 20),
-                if (roadmap == null)
+                if (plant == null)
                   _PlantCareForm(
                     nameController: _nameController,
                     typeController: _typeController,
                     ageController: _ageController,
+                    isSubmitting: _isSubmitting,
+                    errorMessage: _errorMessage,
                     onSubmit: _createRoadmap,
                   )
                 else
-                  _CareRoadmapView(plantName: _plantName!, roadmap: roadmap),
+                  _CareRoadmapView(
+                    plantName: plant.name,
+                    roadmap: plant.careRoadmap,
+                  ),
                 const SizedBox(height: 24),
                 Align(
                   alignment: Alignment.centerRight,
@@ -100,12 +127,16 @@ class _PlantCareForm extends StatelessWidget {
     required this.nameController,
     required this.typeController,
     required this.ageController,
+    required this.isSubmitting,
+    required this.errorMessage,
     required this.onSubmit,
   });
 
   final TextEditingController nameController;
   final TextEditingController typeController;
   final TextEditingController ageController;
+  final bool isSubmitting;
+  final String? errorMessage;
   final VoidCallback onSubmit;
 
   @override
@@ -134,11 +165,18 @@ class _PlantCareForm extends StatelessWidget {
             hint: 'Seed, Seedlings...',
             maxLines: 3,
           ),
+          if (errorMessage != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              errorMessage!,
+              style: const TextStyle(color: Colors.red, fontSize: 13),
+            ),
+          ],
           const SizedBox(height: 20),
           AppButton(
-            label: 'Create My Roadmap',
+            label: isSubmitting ? 'Creating...' : 'Create My Roadmap',
             variant: AppButtonVariant.orange,
-            onPressed: onSubmit,
+            onPressed: isSubmitting ? null : onSubmit,
           ),
         ],
       ),
