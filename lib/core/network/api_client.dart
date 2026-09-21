@@ -9,14 +9,20 @@ import 'api_exception.dart';
 /// backend's `{"data": ...}` / `{"error": ...}` JSON envelope and throws
 /// [ApiException] for non-2xx responses.
 class ApiClient {
-  ApiClient({http.Client? client, String? baseUrl})
+  ApiClient({http.Client? client, String? baseUrl, this.languageCode = 'en'})
     : _client = client ?? http.Client(),
       baseUrl = baseUrl ?? ApiConfig.baseUrl;
 
   final http.Client _client;
   final String baseUrl;
+  final String languageCode;
 
-  static const _headers = {'Content-Type': 'application/json'};
+  Map<String, String> get _headers => {
+    'Content-Type': 'application/json',
+    // Lets the backend return localized text (fertilizer recipes,
+    // diagnosis results, care tips) for seeded/generated content.
+    'Accept-Language': languageCode,
+  };
 
   Future<dynamic> get(String path, {Map<String, String>? query}) async {
     var uri = Uri.parse('$baseUrl$path');

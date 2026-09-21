@@ -4,9 +4,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/network/api_exception.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/gradient_background.dart';
+import '../../../../core/widgets/app_card.dart';
+import '../../../../core/widgets/curved_header.dart';
+import '../../../../core/widgets/language_switcher.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/fertilizer.dart';
 import '../providers/fertilizer_providers.dart';
 
@@ -18,60 +22,45 @@ class FertilizerScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fertilizersAsync = ref.watch(fertilizerListProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      body: GradientBackground(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Fertilizer Making',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.screenTitle,
-                ),
-                const SizedBox(height: 12),
-                Center(
-                  child: Image.asset(
-                    'assets/images/fertilizer_bag.png',
-                    width: 100,
-                    height: 100,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const _FertilizerSearchBar(),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: fertilizersAsync.when(
-                    data: (items) => _FertilizerList(items: items),
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    error: (err, _) => _FertilizerError(error: err),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AppButton(
-                      label: 'Back',
-                      variant: AppButtonVariant.green,
-                      onPressed: () => context.go('/home'),
-                    ),
-                    AppButton(
-                      label: 'Add a new Fertilizer',
-                      variant: AppButtonVariant.orange,
-                      onPressed: () => _showAddFertilizerDialog(context, ref),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-              ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          CurvedHeader(
+            title: l10n.fertilizerHeaderTitle,
+            subtitle: l10n.fertilizerHeaderSubtitle,
+            color: AppColors.orange,
+            onBack: () => context.go('/home'),
+            corner: const LanguageSwitcher(),
+            trailing: const _FertilizerSearchBar(),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              child: fertilizersAsync.when(
+                data: (items) => _FertilizerList(items: items),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, _) => _FertilizerError(error: err),
+              ),
             ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.xl,
+              0,
+              AppSpacing.xl,
+              AppSpacing.xl,
+            ),
+            child: AppButton(
+              label: l10n.addFertilizerButton,
+              leadingIcon: Icons.add,
+              expand: true,
+              onPressed: () => _showAddFertilizerDialog(context, ref),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -80,6 +69,7 @@ class FertilizerScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
+    final l10n = AppLocalizations.of(context);
     final nameController = TextEditingController();
     final categoryController = TextEditingController();
     final instructionsController = TextEditingController();
@@ -87,21 +77,30 @@ class FertilizerScreen extends ConsumerWidget {
     final created = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Add a new Fertilizer'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+        ),
+        title: Text(l10n.addFertilizerButton),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
+              decoration: InputDecoration(
+                labelText: l10n.fertilizerNameFieldLabel,
+              ),
             ),
             TextField(
               controller: categoryController,
-              decoration: const InputDecoration(labelText: 'Category'),
+              decoration: InputDecoration(
+                labelText: l10n.fertilizerCategoryFieldLabel,
+              ),
             ),
             TextField(
               controller: instructionsController,
-              decoration: const InputDecoration(labelText: 'Instructions'),
+              decoration: InputDecoration(
+                labelText: l10n.fertilizerInstructionsFieldLabel,
+              ),
               maxLines: 4,
             ),
           ],
@@ -109,7 +108,7 @@ class FertilizerScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancelButton),
           ),
           FilledButton(
             onPressed: () async {
@@ -136,7 +135,7 @@ class FertilizerScreen extends ConsumerWidget {
                 }
               }
             },
-            child: const Text('Save'),
+            child: Text(l10n.saveButton),
           ),
         ],
       ),
@@ -171,22 +170,26 @@ class _FertilizerSearchBarState extends ConsumerState<_FertilizerSearchBar> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.greenCardFill.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(28),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppRadius.button),
       ),
       child: TextField(
         controller: _controller,
+        style: AppTextStyles.bodyText,
         onSubmitted: (value) =>
             ref.read(fertilizerSearchQueryProvider.notifier).state = value,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.menu),
+          prefixIcon: Icon(Icons.search, color: AppColors.orange),
           suffixIcon: IconButton(
-            icon: const Icon(Icons.search),
+            icon: Icon(Icons.arrow_forward, color: AppColors.orange),
             onPressed: () =>
                 ref.read(fertilizerSearchQueryProvider.notifier).state =
                     _controller.text,
           ),
-          hintText: 'Find your homemade fertilizer',
+          hintText: AppLocalizations.of(context).searchFertilizerHint,
+          hintStyle: AppTextStyles.bodyText.copyWith(
+            color: AppColors.textSecondary,
+          ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(vertical: 14),
         ),
@@ -202,32 +205,56 @@ class _FertilizerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (items.isEmpty) {
-      return const Center(child: Text('No fertilizers found.'));
+      return Center(
+        child: Text(
+          AppLocalizations.of(context).noFertilizersFound,
+          style: AppTextStyles.bodyText.copyWith(
+            color: AppColors.textSecondary,
+          ),
+        ),
+      );
     }
     return ListView.separated(
       itemCount: items.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.md),
       itemBuilder: (context, index) {
         final f = items[index];
-        return Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: AppColors.greenCardFill,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
+        final color = AppColors.accentRotation[index % AppColors.accentRotation.length];
+        return AppCard(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                f.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15,
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.14),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.eco, size: 20, color: color),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(f.name, style: AppTextStyles.titleMedium),
+                    if (f.category.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        f.category.toUpperCase(),
+                        style: AppTextStyles.caption.copyWith(
+                          color: color,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.4,
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(f.instructions, style: AppTextStyles.bodyText),
+                  ],
                 ),
               ),
-              const SizedBox(height: 6),
-              Text(f.instructions, style: AppTextStyles.bodyText),
             ],
           ),
         );
@@ -244,11 +271,26 @@ class _FertilizerError extends StatelessWidget {
   Widget build(BuildContext context) {
     final message = error is ApiException
         ? (error as ApiException).message
-        : 'Could not reach the server. Is the backend running?';
+        : AppLocalizations.of(context).serverUnreachable;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(message, textAlign: TextAlign.center),
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.cloud_off_outlined,
+              size: 32,
+              color: AppColors.textSecondary,
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.bodyText,
+            ),
+          ],
+        ),
       ),
     );
   }

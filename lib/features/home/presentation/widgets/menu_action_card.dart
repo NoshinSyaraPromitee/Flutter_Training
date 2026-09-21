@@ -1,32 +1,61 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/widgets/app_button.dart';
+import '../../../../core/theme/app_shadows.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/app_text_styles.dart';
 
-/// An illustration with a label button underneath it, used for the
-/// Maintenance / Disease Detection / Shop tiles on the home screen.
+/// A bold color-block tile with a large icon and label — the primary tap
+/// target on the home grid.
 class MenuActionCard extends StatelessWidget {
   const MenuActionCard({
     super.key,
-    required this.imageAsset,
+    required this.icon,
     required this.label,
-    this.variant = AppButtonVariant.green,
+    required this.color,
     this.onTap,
   });
 
-  final String imageAsset;
+  final IconData icon;
   final String label;
-  final AppButtonVariant variant;
+  final Color color;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(height: 110, width: 130, child: Image.asset(imageAsset)),
-        const SizedBox(height: 8),
-        AppButton(label: label, variant: variant, onPressed: onTap),
-      ],
+    final radius = BorderRadius.circular(AppRadius.md);
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        boxShadow: AppShadows.tinted(color),
+      ),
+      child: Material(
+        color: color,
+        borderRadius: radius,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: radius,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.xl,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(icon, color: Colors.white, size: 32),
+                const SizedBox(height: AppSpacing.lg),
+                Text(
+                  label,
+                  style: AppTextStyles.titleMedium.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

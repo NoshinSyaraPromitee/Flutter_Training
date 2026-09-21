@@ -4,9 +4,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/network/api_exception.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/gradient_background.dart';
+import '../../../../core/widgets/app_card.dart';
+import '../../../../core/widgets/curved_header.dart';
+import '../../../../core/widgets/language_switcher.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/plant.dart';
 import '../providers/plant_providers.dart';
 
@@ -59,7 +63,7 @@ class _PlantCareScreenState extends ConsumerState<PlantCareScreen> {
     } catch (_) {
       if (!mounted) return;
       setState(
-        () => _errorMessage = 'Could not reach the server. Is the backend running?',
+        () => _errorMessage = AppLocalizations.of(context).serverUnreachable,
       );
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
@@ -69,53 +73,38 @@ class _PlantCareScreenState extends ConsumerState<PlantCareScreen> {
   @override
   Widget build(BuildContext context) {
     final plant = _plant;
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      body: GradientBackground(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Maintainance',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.heroTitle,
-                ),
-                const SizedBox(height: 16),
-                Center(
-                  child: Image.asset(
-                    'assets/images/maintenance_cactus.png',
-                    width: plant == null ? 170 : 120,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                if (plant == null)
-                  _PlantCareForm(
-                    nameController: _nameController,
-                    typeController: _typeController,
-                    ageController: _ageController,
-                    isSubmitting: _isSubmitting,
-                    errorMessage: _errorMessage,
-                    onSubmit: _createRoadmap,
-                  )
-                else
-                  _CareRoadmapView(
-                    plantName: plant.name,
-                    roadmap: plant.careRoadmap,
-                  ),
-                const SizedBox(height: 24),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: AppButton(
-                    label: 'Back',
-                    onPressed: () => context.go('/home'),
-                  ),
-                ),
-                const SizedBox(height: 16),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CurvedHeader(
+              title: l10n.maintainance,
+              subtitle: plant == null
+                  ? l10n.maintainanceHeaderSubtitleForm
+                  : l10n.maintainanceHeaderSubtitleResult,
+              color: AppColors.green,
+              onBack: () => context.go('/home'),
+              corner: const LanguageSwitcher(),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              child: plant == null
+                  ? _PlantCareForm(
+                      nameController: _nameController,
+                      typeController: _typeController,
+                      ageController: _ageController,
+                      isSubmitting: _isSubmitting,
+                      errorMessage: _errorMessage,
+                      onSubmit: _createRoadmap,
+                    )
+                  : _CareRoadmapView(
+                      plantName: plant.name,
+                      roadmap: plant.careRoadmap,
+                    ),
+            ),
+          ],
         ),
       ),
     );
@@ -141,42 +130,55 @@ class _PlantCareForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.formCardBg,
-        borderRadius: BorderRadius.circular(16),
-      ),
+    final l10n = AppLocalizations.of(context);
+    return AppCard(
+      padding: const EdgeInsets.all(AppSpacing.xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _FieldLabel('Name of the Plant'),
-          _FormTextField(controller: nameController, hint: 'Value'),
-          const SizedBox(height: 16),
-          _FieldLabel('Types of Plant'),
+          _FieldLabel(l10n.nameOfPlantLabel),
+          _FormTextField(
+            controller: nameController,
+            hint: l10n.nameFieldHint,
+            icon: Icons.eco_outlined,
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          _FieldLabel(l10n.typesOfPlantLabel),
           _FormTextField(
             controller: typeController,
-            hint: 'Water based, Maniplant etc',
+            hint: l10n.typesFieldHint,
+            icon: Icons.category_outlined,
           ),
-          const SizedBox(height: 16),
-          _FieldLabel("How are the plant's age ?"),
+          const SizedBox(height: AppSpacing.lg),
+          _FieldLabel(l10n.plantAgeLabel),
           _FormTextField(
             controller: ageController,
-            hint: 'Seed, Seedlings...',
+            hint: l10n.ageFieldHint,
+            icon: Icons.hourglass_bottom_outlined,
             maxLines: 3,
           ),
           if (errorMessage != null) ...[
-            const SizedBox(height: 12),
-            Text(
-              errorMessage!,
-              style: const TextStyle(color: Colors.red, fontSize: 13),
+            const SizedBox(height: AppSpacing.md),
+            Row(
+              children: [
+                const Icon(Icons.error_outline, color: AppColors.danger, size: 18),
+                const SizedBox(width: AppSpacing.xs),
+                Expanded(
+                  child: Text(
+                    errorMessage!,
+                    style: const TextStyle(color: AppColors.danger, fontSize: 13),
+                  ),
+                ),
+              ],
             ),
           ],
-          const SizedBox(height: 20),
+          const SizedBox(height: AppSpacing.xl),
           AppButton(
-            label: isSubmitting ? 'Creating...' : 'Create My Roadmap',
-            variant: AppButtonVariant.orange,
-            onPressed: isSubmitting ? null : onSubmit,
+            label: l10n.createRoadmapButton,
+            variant: AppButtonVariant.secondary,
+            isLoading: isSubmitting,
+            expand: true,
+            onPressed: onSubmit,
           ),
         ],
       ),
@@ -191,11 +193,8 @@ class _FieldLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: Text(
-        text,
-        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-      ),
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      child: Text(text, style: AppTextStyles.titleMedium.copyWith(fontSize: 14)),
     );
   }
 }
@@ -204,11 +203,13 @@ class _FormTextField extends StatelessWidget {
   const _FormTextField({
     required this.controller,
     required this.hint,
+    required this.icon,
     this.maxLines = 1,
   });
 
   final TextEditingController controller;
   final String hint;
+  final IconData icon;
   final int maxLines;
 
   @override
@@ -216,16 +217,21 @@ class _FormTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       maxLines: maxLines,
+      style: AppTextStyles.bodyText,
       decoration: InputDecoration(
         hintText: hint,
+        hintStyle: AppTextStyles.bodyText.copyWith(
+          color: AppColors.textSecondary,
+        ),
+        prefixIcon: Icon(icon, color: AppColors.green, size: 20),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppColors.background,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 12,
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.md,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(AppRadius.sm),
           borderSide: BorderSide.none,
         ),
       ),
@@ -241,35 +247,61 @@ class _CareRoadmapView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          width: double.infinity,
+          padding: const EdgeInsets.all(AppSpacing.lg),
           decoration: BoxDecoration(
-            color: const Color(0xFFEAF6E5),
-            borderRadius: BorderRadius.circular(12),
+            color: AppColors.green,
+            borderRadius: BorderRadius.circular(AppRadius.md),
           ),
-          child: Text(
-            "Your plant '$plantName' needs around ${roadmap.waterAmountMl} ml "
-            'water daily. Here is the time table you can water your plants',
-            style: AppTextStyles.bodyText.copyWith(fontSize: 15),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.water_drop, color: Colors.white),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Text(
+                  l10n.yourPlantNeeds(plantName, roadmap.waterAmountMl),
+                  style: AppTextStyles.bodyText.copyWith(
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.lg),
         Wrap(
-          spacing: 10,
-          runSpacing: 10,
+          spacing: AppSpacing.sm,
+          runSpacing: AppSpacing.sm,
           children: [
             for (final time in roadmap.wateringTimes) _TimeChip(label: time),
           ],
         ),
-        const SizedBox(height: 16),
-        AppButton(label: 'Set Alarm', onPressed: () {}),
-        const SizedBox(height: 20),
-        _InfoBox(text: 'Tips: ${roadmap.tips}'),
-        const SizedBox(height: 12),
-        _InfoBox(text: roadmap.fertilizerRecommendation),
+        const SizedBox(height: AppSpacing.lg),
+        AppButton(
+          label: l10n.setAlarmButton,
+          leadingIcon: Icons.alarm,
+          expand: true,
+          onPressed: () {},
+        ),
+        const SizedBox(height: AppSpacing.xl),
+        _InfoBox(
+          icon: Icons.lightbulb_outline,
+          text: l10n.tipsLabel(roadmap.tips),
+          color: AppColors.teal,
+        ),
+        const SizedBox(height: AppSpacing.md),
+        _InfoBox(
+          icon: Icons.spa_outlined,
+          text: roadmap.fertilizerRecommendation,
+          color: AppColors.orange,
+        ),
       ],
     );
   }
@@ -282,34 +314,51 @@ class _TimeChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      decoration: BoxDecoration(
-        color: AppColors.buttonOrange,
-        borderRadius: BorderRadius.circular(20),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.md,
       ),
-      child: Text(
-        label,
-        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+      decoration: BoxDecoration(
+        color: AppColors.orange,
+        borderRadius: BorderRadius.circular(AppRadius.button),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.schedule, size: 16, color: Colors.white),
+          const SizedBox(width: AppSpacing.xs),
+          Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class _InfoBox extends StatelessWidget {
-  const _InfoBox({required this.text});
+  const _InfoBox({required this.icon, required this.text, required this.color});
+  final IconData icon;
   final String text;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.greenCardFill.withValues(alpha: 0.5),
-        border: Border.all(color: AppColors.cureBoxGreen),
-        borderRadius: BorderRadius.circular(10),
+    return AppCard(
+      color: color.withValues(alpha: 0.1),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 20, color: color),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(child: Text(text, style: AppTextStyles.bodyText)),
+        ],
       ),
-      child: Text(text, style: AppTextStyles.bodyText),
     );
   }
 }

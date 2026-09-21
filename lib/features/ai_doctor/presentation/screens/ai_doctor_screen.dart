@@ -4,9 +4,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/network/api_exception.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_shadows.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/gradient_background.dart';
+import '../../../../core/widgets/curved_header.dart';
+import '../../../../core/widgets/language_switcher.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../../data/placeholder_photo.dart';
 import '../../domain/diagnosis.dart';
 import '../providers/diagnosis_providers.dart';
@@ -43,7 +47,7 @@ class _AiDoctorScreenState extends ConsumerState<AiDoctorScreen> {
     } catch (_) {
       if (!mounted) return;
       setState(
-        () => _errorMessage = 'Could not reach the server. Is the backend running?',
+        () => _errorMessage = AppLocalizations.of(context).serverUnreachable,
       );
     } finally {
       if (mounted) setState(() => _isAnalyzing = false);
@@ -53,91 +57,111 @@ class _AiDoctorScreenState extends ConsumerState<AiDoctorScreen> {
   @override
   Widget build(BuildContext context) {
     final diagnosis = _diagnosis;
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      body: GradientBackground(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Diseases Detection',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.screenTitle,
-                ),
-                const SizedBox(height: 12),
-                Center(
-                  child: Image.asset(
-                    'assets/images/disease_plant.png',
-                    width: 150,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                AppButton(
-                  label: _isAnalyzing
-                      ? 'Analyzing...'
-                      : "Upload your Plant's Photo",
-                  trailingIcon: Icons.add_circle_outline,
-                  onPressed: _isAnalyzing ? null : _analyze,
-                ),
-                const SizedBox(height: 12),
-                AppButton(
-                  label: _isAnalyzing
-                      ? 'Analyzing...'
-                      : 'Open Camera to take photo',
-                  trailingIcon: Icons.add_circle_outline,
-                  onPressed: _isAnalyzing ? null : _analyze,
-                ),
-                const SizedBox(height: 24),
-                if (_errorMessage != null)
-                  Text(
-                    _errorMessage!,
-                    style: const TextStyle(color: Colors.red, fontSize: 13),
-                  ),
-                if (diagnosis != null) ...[
-                  _ResultBox(
-                    text: diagnosis.issue,
-                    color: AppColors.dangerBoxRed,
-                  ),
-                  const SizedBox(height: 16),
-                  _ResultBox(
-                    text: 'cure : ${diagnosis.cure}',
-                    color: AppColors.cureBoxGreen,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    diagnosis.disclaimer,
-                    style: AppTextStyles.bodyText.copyWith(
-                      fontSize: 11,
-                      color: Colors.black54,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppButton(
-                        label: 'Add to Log',
-                        variant: AppButtonVariant.orange,
-                        onPressed: () {},
-                      ),
-                      AppButton(label: 'Buy Fertilizer', onPressed: () {}),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                ],
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: AppButton(
-                    label: 'Back',
-                    onPressed: () => context.go('/home'),
-                  ),
-                ),
-                const SizedBox(height: 16),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CurvedHeader(
+              title: l10n.diseasesDetectionHeader,
+              subtitle: l10n.diseasesDetectionSubtitle,
+              color: AppColors.teal,
+              onBack: () => context.go('/home'),
+              corner: const LanguageSwitcher(),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  AppButton(
+                    label: l10n.uploadPlantPhoto,
+                    leadingIcon: Icons.upload_file_outlined,
+                    isLoading: _isAnalyzing,
+                    expand: true,
+                    onPressed: _isAnalyzing ? null : _analyze,
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  AppButton(
+                    label: l10n.openCameraButton,
+                    leadingIcon: Icons.photo_camera_outlined,
+                    variant: AppButtonVariant.outline,
+                    isLoading: _isAnalyzing,
+                    expand: true,
+                    onPressed: _isAnalyzing ? null : _analyze,
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  if (_errorMessage != null)
+                    Row(
+                      children: [
+                        const Icon(Icons.error_outline, color: AppColors.danger, size: 18),
+                        const SizedBox(width: AppSpacing.xs),
+                        Expanded(
+                          child: Text(
+                            _errorMessage!,
+                            style: const TextStyle(color: AppColors.danger, fontSize: 13),
+                          ),
+                        ),
+                      ],
+                    ),
+                  if (diagnosis != null) ...[
+                    _ResultBox(
+                      icon: Icons.warning_amber_rounded,
+                      text: diagnosis.issue,
+                      color: AppColors.danger,
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                    _ResultBox(
+                      icon: Icons.healing_outlined,
+                      text: l10n.cureLabel(diagnosis.cure),
+                      color: AppColors.cure,
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          size: 15,
+                          color: AppColors.textSecondary,
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        Expanded(
+                          child: Text(
+                            diagnosis.disclaimer,
+                            style: AppTextStyles.caption,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: AppSpacing.xl),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: AppButton(
+                            label: l10n.addToLogButton,
+                            variant: AppButtonVariant.secondary,
+                            leadingIcon: Icons.bookmark_add_outlined,
+                            onPressed: () {},
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(
+                          child: AppButton(
+                            label: l10n.buyFertilizerButton,
+                            leadingIcon: Icons.storefront_outlined,
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -145,8 +169,9 @@ class _AiDoctorScreenState extends ConsumerState<AiDoctorScreen> {
 }
 
 class _ResultBox extends StatelessWidget {
-  const _ResultBox({required this.text, required this.color});
+  const _ResultBox({required this.icon, required this.text, required this.color});
 
+  final IconData icon;
   final String text;
   final Color color;
 
@@ -154,18 +179,29 @@ class _ResultBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
+        boxShadow: AppShadows.tinted(color),
       ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-          height: 1.4,
-        ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: Colors.white, size: 22),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 15.5,
+                height: 1.4,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
