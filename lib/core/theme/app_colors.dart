@@ -1,40 +1,30 @@
 import 'package:flutter/material.dart';
 
-/// Colors extracted from the MyPlantPal Figma design.
+/// A bold, vivid palette for MyPlantPal — a small set of saturated brand
+/// colors used as confident color blocks (headers, cards, buttons) against
+/// a neutral, mostly-white canvas, rather than a continuous pastel wash.
 class AppColors {
   AppColors._();
 
-  static const Color brownHeading = Color(0xFFB87914);
-  static const Color orangeAccent = Color(0xFFBC5E0C);
-  static const Color greenPrimary = Color(0xFF2F6D3E);
-  static const Color greenCardFill = Color(0xFF97DD70);
-  static const Color textDark = Colors.black;
+  // Brand
+  static const Color green = Color(0xFF1DAA5C);
+  static const Color greenDark = Color(0xFF0E7A3E);
+  static const Color orange = Color(0xFFFF7A1A);
+  static const Color orangeDark = Color(0xFFD9600A);
+  static const Color teal = Color(0xFF0E9C93);
+  static const Color plum = Color(0xFFB4489B);
 
-  static const Color buttonGreen = Color(0xFF2F6D3E);
-  static const Color buttonOrange = Color(0xFFF3A94C);
+  // Semantic
+  static const Color danger = Color(0xFFE0483C);
+  static const Color cure = Color(0xFF1DAA5C);
 
-  static const Color formCardBg = Color(0xFFF0C48A);
-  static const Color dangerBoxRed = Color(0xFFD95A5A);
-  static const Color cureBoxGreen = Color(0xFF5DA635);
+  // Neutrals
+  static const Color background = Color(0xFFF6F5F1);
+  static const Color surface = Colors.white;
+  static const Color textPrimary = Color(0xFF16201B);
+  static const Color textSecondary = Color(0xFF6B7368);
+  static const Color divider = Color(0x1416201B);
 
-  static const List<double> backgroundGradientStops = [
-    0.0296,
-    0.1565,
-    0.8416,
-    1.0,
-  ];
-
-  static const List<Color> backgroundGradientColors = [
-    Color(0xFFFBBB6C),
-    Color(0xFFDEF0D6),
-    Color(0xFFC8FFA9),
-    Color(0xFFFFB565),
-  ];
-
-  static const LinearGradient screenBackground = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: backgroundGradientStops,
-    colors: backgroundGradientColors,
-  );
+  /// Rotating accent palette for category chips / multi-item lists.
+  static const List<Color> accentRotation = [green, orange, teal, plum];
 }
