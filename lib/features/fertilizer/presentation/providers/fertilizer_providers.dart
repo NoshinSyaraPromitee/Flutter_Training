@@ -1,4 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+// Riverpod 3.0 moved StateProvider out of the main API into this dedicated
+// legacy import. Without it, StateProvider below is simply not found.
+import 'package:flutter_riverpod/legacy.dart';
 
 import '../../../../core/network/api_providers.dart';
 import '../../data/fertilizer_api_repository.dart';

@@ -26,6 +26,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>MyPlantPal needs camera access so you can photograph your plant for AI Doctor.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>MyPlantPal needs photo library access so you can pick a plant photo for AI Doctor.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

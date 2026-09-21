@@ -36,8 +36,19 @@ dependencies:
   cupertino_icons: ^1.0.8
   go_router: ^14.6.2
   google_fonts: ^6.2.1
-  flutter_riverpod: ^2.6.1
-  http: ^1.2.2
+
+  # State management for the diagnosis screen (loading / success / error)
+  flutter_riverpod: ^3.0.0
+  # Service locator - any feature can ask for a repository without manual wiring
+  get_it: ^7.7.0
+  # HTTP client, for the future real call to the Go backend
+  dio: ^5.7.0
+  # Camera/gallery access to get a plant photo from the user
+  image_picker: ^1.1.2
+  # REST client used by ApiClient (plants / fertilizer features). Was
+  # only present transitively via google_fonts; declared explicitly so the
+  # import is legal and the version can't shift underneath us.
+  http: ^1.6.0
 
 dev_dependencies:
   flutter_test:

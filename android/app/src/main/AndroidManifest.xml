@@ -1,8 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <application
         android:label="myplantpal"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
+        <!-- usesCleartextTraffic is here only so the app can reach the local
+             Go backend over plain http://10.0.2.2:8080 during development.
+             Android blocks cleartext HTTP by default from API 28 onward.
+             REMOVE this attribute (or narrow it to a network security config)
+             once the backend is served over HTTPS. -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

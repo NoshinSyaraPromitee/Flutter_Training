@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                     MenuActionCard(
                       imageAsset: 'assets/images/maintenance_cactus.png',
                       label: 'Maintainance',
-                      onTap: () => context.go('/plants/new'),
+                      onTap: () {},
                     ),
                     MenuActionCard(
                       imageAsset: 'assets/images/disease_plant.png',
