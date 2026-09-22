@@ -1,36 +1,67 @@
 {
   "@@locale": "en",
-  "appTitle": "PlantPal",
-  "myPlants": "My Plants",
-  "aiDoctor": "AI Doctor",
-  "fertilizerRecipes": "Fertilizer Recipes",
-  "maintenance": "Maintenance",
-  "shop": "Shop",
+
+  "appTitle": "MyPlantPal",
+
+  "splashTagline": "Grow with confidence",
+
+  "homeHeaderTitle": "Let's care for\nyour plants",
+  "homeHeaderSubtitle": "Diagnose, feed, and grow with confidence.",
   "uploadPlantPhoto": "Upload your Plant's Photo",
-  "noNewNotifications": "No new notifications.",
-  "navHome": "Home",
-  "navScan": "Scan",
-  "navShop": "Shop",
-  "navAiDoctor": "AI Doctor",
-  "navProfile": "Profile",
-  "settingsTitle": "Settings",
-  "settingsAppearance": "Appearance",
-  "settingsDarkMode": "Dark mode",
-  "settingsLanguage": "Language",
-  "settingsNotifications": "Notifications",
-  "settingsWateringReminders": "Watering reminders",
-  "settingsLogout": "Log out",
-  "landingTitle": "PlantPal",
-  "landingSubtitle": "Your Garden's best Friend",
-  "landingLogin": "Log In",
-  "landingRegister": "Create Account",
-  "loginTitle": "Welcome back",
-  "loginEmail": "Email",
-  "loginPassword": "Password",
-  "loginSubmit": "Log In",
-  "registerTitle": "Create your account",
-  "registerSubmit": "Sign Up",
-  "cancel": "Cancel",
-  "delete": "Delete",
-  "save": "Save"
+  "quickActionsLabel": "QUICK ACTIONS",
+  "myPlantsLabel": "My Plants",
+  "maintainance": "Maintainance",
+  "diseaseDetectionTile": "Disease Detection",
+  "fertilizerRecipesLabel": "Fertilizer Recipes",
+  "shopLabel": "Shop",
+  "chatWithExpertLabel": "Chat with expert",
+  "mainMenuButton": "MainMenu",
+
+  "fertilizerHeaderTitle": "Fertilizer Making",
+  "fertilizerHeaderSubtitle": "Homemade recipes for every growth stage.",
+  "addFertilizerButton": "Add a new Fertilizer",
+  "fertilizerNameFieldLabel": "Name",
+  "fertilizerCategoryFieldLabel": "Category",
+  "fertilizerInstructionsFieldLabel": "Instructions",
+  "cancelButton": "Cancel",
+  "saveButton": "Save",
+  "searchFertilizerHint": "Find your homemade fertilizer",
+  "noFertilizersFound": "No fertilizers found.",
+  "serverUnreachable": "Could not reach the server. Is the backend running?",
+
+  "maintainanceHeaderSubtitleForm": "Tell us about your plant to get a care plan.",
+  "maintainanceHeaderSubtitleResult": "Here’s the care plan for your plant.",
+  "nameOfPlantLabel": "Name of the Plant",
+  "nameFieldHint": "Value",
+  "typesOfPlantLabel": "Types of Plant",
+  "typesFieldHint": "Water based, Maniplant etc",
+  "plantAgeLabel": "How are the plant's age ?",
+  "ageFieldHint": "Seed, Seedlings...",
+  "createRoadmapButton": "Create My Roadmap",
+  "yourPlantNeeds": "Your plant '{plantName}' needs around {amount} ml water daily. Here is the time table you can water your plants",
+  "@yourPlantNeeds": {
+    "placeholders": {
+      "plantName": { "type": "String" },
+      "amount": { "type": "int" }
+    }
+  },
+  "setAlarmButton": "Set Alarm",
+  "tipsLabel": "Tips: {tips}",
+  "@tipsLabel": {
+    "placeholders": {
+      "tips": { "type": "String" }
+    }
+  },
+
+  "diseasesDetectionHeader": "Diseases\nDetection",
+  "diseasesDetectionSubtitle": "Snap a photo and get an instant assessment.",
+  "openCameraButton": "Open Camera to take photo",
+  "cureLabel": "Cure: {cure}",
+  "@cureLabel": {
+    "placeholders": {
+      "cure": { "type": "String" }
+    }
+  },
+  "addToLogButton": "Add to Log",
+  "buyFertilizerButton": "Buy Fertilizer"
 }

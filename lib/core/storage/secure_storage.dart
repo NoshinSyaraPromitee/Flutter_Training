@@ -1,19 +1,14 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+/// Thin wrapper around device secure storage, used to persist the
+/// (simulated, local-only) auth session across app restarts.
 class SecureStorage {
-  const SecureStorage([this._s = const FlutterSecureStorage()]);
-  final FlutterSecureStorage _s;
+  const SecureStorage();
 
-  Future<String?> readToken() => _s.read(key: 'authToken');
-  Future<String?> readUser() => _s.read(key: 'authUser');
+  static const _storage = FlutterSecureStorage();
 
-  Future<void> saveSession(String token, String userJson) async {
-    await _s.write(key: 'authToken', value: token);
-    await _s.write(key: 'authUser', value: userJson);
-  }
-
-  Future<void> clear() async {
-    await _s.delete(key: 'authToken');
-    await _s.delete(key: 'authUser');
-  }
+  Future<void> write(String key, String value) =>
+      _storage.write(key: key, value: value);
+  Future<String?> read(String key) => _storage.read(key: key);
+  Future<void> delete(String key) => _storage.delete(key: key);
 }

@@ -1,10 +1,34 @@
+<<<<<<< HEAD
 const _months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+=======
+const _months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+>>>>>>> origin/main
 
 /// 1250 -> ৳1,250 · 99.5 -> ৳99.50
 String taka(num v) {
   final fixed = v.toStringAsFixed(v == v.roundToDouble() ? 0 : 2);
   final parts = fixed.split('.');
+<<<<<<< HEAD
   final whole = parts[0].replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (_) => ',');
+=======
+  final whole = parts[0].replaceAllMapped(
+    RegExp(r'\B(?=(\d{3})+(?!\d))'),
+    (_) => ',',
+  );
+>>>>>>> origin/main
   return '৳$whole${parts.length > 1 ? '.${parts[1]}' : ''}';
 }
 
@@ -18,11 +42,23 @@ String shortDate(DateTime d) {
 String relativeDay(DateTime? d) {
   if (d == null) return 'Never';
   final now = DateTime.now();
+<<<<<<< HEAD
   final days = DateTime.utc(now.year, now.month, now.day).difference(DateTime.utc(d.year, d.month, d.day)).inDays;
+=======
+  final days = DateTime.utc(
+    now.year,
+    now.month,
+    now.day,
+  ).difference(DateTime.utc(d.year, d.month, d.day)).inDays;
+>>>>>>> origin/main
   if (days == 0) return 'Today';
   if (days == 1) return 'Yesterday';
   if (days == -1) return 'Tomorrow';
   if (days > 1 && days < 7) return '$days days ago';
   if (days < -1 && days > -7) return 'In ${-days} days';
   return shortDate(d);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main

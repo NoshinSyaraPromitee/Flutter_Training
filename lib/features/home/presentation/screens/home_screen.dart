@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/curved_header.dart';
+import '../../../../core/widgets/language_switcher.dart';
+import '../../../../l10n/generated/app_localizations.dart';
+import '../widgets/chat_avatar.dart';
+import '../widgets/quick_actions_grid.dart';
+import '../widgets/speech_bubble.dart';
+
+/// Main menu / dashboard screen shown after the splash screen.
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CurvedHeader(
+              title: l10n.homeHeaderTitle,
+              subtitle: l10n.homeHeaderSubtitle,
+              corner: const LanguageSwitcher(),
+              trailing: AppButton(
+                label: l10n.uploadPlantPhoto,
+                trailingIcon: Icons.add_circle_outline,
+                variant: AppButtonVariant.secondary,
+                expand: true,
+                onPressed: () => context.push('/scan'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 72,
+                        height: 72,
+                        child: Image.asset(
+                          'assets/images/splash_mascot.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: SpeechBubble(
+                          text: 'Your plants are waiting for you — check in on them!',
+                          onTap: () => context.push('/plants'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  Text('QUICK ACTIONS', style: AppTextStyles.sectionLabel),
+                  const SizedBox(height: AppSpacing.md),
+                  const QuickActionsGrid(),
+                  const SizedBox(height: AppSpacing.xxl),
+                  ChatAvatar(onTap: () => context.go('/ai-doctor')),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

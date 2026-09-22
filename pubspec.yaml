@@ -1,4 +1,4 @@
-name: plantpal
+name: myplantpal
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -36,20 +36,14 @@ dependencies:
   cupertino_icons: ^1.0.8
   go_router: ^14.6.2
   google_fonts: ^6.2.1
-  provider: ^6.1.2
-  flutter_riverpod: ^2.6.1
-  dio: ^5.7.0
-  flutter_secure_storage: ^9.2.2
-  image_picker: ^1.1.2
-  flutter_web_auth_2: ^4.1.0
-
-  # Localization (Bangla + English)
+  flutter_riverpod: ^3.1.0
+  riverpod_annotation: ^4.0.0
+  http: ^1.2.2
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.3
-
-  # Codegen for data models (see features/*/data/models/*.dart)
-  json_annotation: ^4.9.0
+  image_picker: ^1.1.2
+  flutter_secure_storage: ^11.2.0
 
 dev_dependencies:
   flutter_test:
@@ -61,11 +55,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-
-  # Codegen tooling: run `dart run build_runner build --delete-conflicting-outputs`
-  # after changing any @JsonSerializable model.
   build_runner: ^2.4.13
-  json_serializable: ^6.9.0
+  riverpod_generator: ^4.0.0+1
+  custom_lint: ^0.8.1
+  riverpod_lint: ^3.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -77,6 +70,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
