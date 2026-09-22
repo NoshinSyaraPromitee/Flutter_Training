@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+<<<<<<< Updated upstream
+=======
+import 'package:plantpal/core/theme/app_colors.dart';
+import 'package:plantpal/core/theme/app_text_styles.dart';
+import 'package:plantpal/core/widgets/app_button.dart';
+import 'package:plantpal/core/widgets/gradient_background.dart';
+import 'package:plantpal/core/widgets/net_image.dart';
+import 'package:plantpal/core/widgets/state_views.dart';
+import 'package:plantpal/features/fertilizer/domain/entities/fertilizer.dart';
+import 'package:plantpal/features/fertilizer/presentation/controllers/fertilizer_controller.dart';
+import 'package:plantpal/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+>>>>>>> Stashed changes
 
 import '../../../../core/network/api_exception.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -20,6 +33,7 @@ class FertilizerScreen extends ConsumerWidget {
   const FertilizerScreen({super.key});
 
   @override
+<<<<<<< Updated upstream
   Widget build(BuildContext context, WidgetRef ref) {
     final fertilizersAsync = ref.watch(fertilizerListProvider);
     final l10n = AppLocalizations.of(context);
@@ -44,6 +58,52 @@ class FertilizerScreen extends ConsumerWidget {
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (err, _) => _FertilizerError(error: err),
               ),
+=======
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final c = context.watch<FertilizerController>();
+    final list = c.filtered;
+
+    return Scaffold(
+      body: GradientBackground(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(l10n.fertilizerMakingTitle, textAlign: TextAlign.center, style: AppTextStyles.screenTitle),
+                const SizedBox(height: 12),
+                Center(child: Image.asset('assets/images/fertilizer_bag.png', width: 100, height: 100)),
+                const SizedBox(height: 20),
+                _FertilizerSearchBar(hint: l10n.fertilizerSearchSubtitle, onChanged: c.setQuery),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: c.loading
+                      ? const LoadingView()
+                      : list.isEmpty
+                          ? EmptyView(icon: Icons.science_outlined, title: l10n.noRecipesFoundTitle, subtitle: l10n.noRecipesFoundBody(c.query))
+                          : ListView.separated(
+                              itemCount: list.length,
+                              separatorBuilder: (_, __) => const SizedBox(height: 10),
+                              itemBuilder: (_, i) => _RecipeCard(item: list[i], nutrientLabel: l10n.nutrientLabel),
+                            ),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppButton(
+                      label: l10n.backButton,
+                      variant: AppButtonVariant.green,
+                      onPressed: () => context.canPop() ? context.pop() : context.go('/home'),
+                    ),
+                    AppButton(label: l10n.addFertilizerButton, variant: AppButtonVariant.orange, onPressed: () {}),
+                  ],
+                ),
+                const SizedBox(height: 16),
+              ],
+>>>>>>> Stashed changes
             ),
           ),
           Padding(
@@ -147,6 +207,7 @@ class FertilizerScreen extends ConsumerWidget {
   }
 }
 
+<<<<<<< Updated upstream
 class _FertilizerSearchBar extends ConsumerStatefulWidget {
   const _FertilizerSearchBar();
 
@@ -165,6 +226,12 @@ class _FertilizerSearchBarState extends ConsumerState<_FertilizerSearchBar> {
     _controller.dispose();
     super.dispose();
   }
+=======
+class _FertilizerSearchBar extends StatelessWidget {
+  const _FertilizerSearchBar({required this.hint, required this.onChanged});
+  final String hint;
+  final ValueChanged<String> onChanged;
+>>>>>>> Stashed changes
 
   @override
   Widget build(BuildContext context) {
@@ -174,6 +241,7 @@ class _FertilizerSearchBarState extends ConsumerState<_FertilizerSearchBar> {
         borderRadius: BorderRadius.circular(AppRadius.button),
       ),
       child: TextField(
+<<<<<<< Updated upstream
         controller: _controller,
         style: AppTextStyles.bodyText,
         onSubmitted: (value) =>
@@ -190,6 +258,13 @@ class _FertilizerSearchBarState extends ConsumerState<_FertilizerSearchBar> {
           hintStyle: AppTextStyles.bodyText.copyWith(
             color: AppColors.textSecondary,
           ),
+=======
+        onChanged: onChanged,
+        decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.menu),
+          suffixIcon: const Icon(Icons.search),
+          hintText: hint,
+>>>>>>> Stashed changes
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(vertical: 14),
         ),
@@ -198,6 +273,7 @@ class _FertilizerSearchBarState extends ConsumerState<_FertilizerSearchBar> {
   }
 }
 
+<<<<<<< Updated upstream
 class _FertilizerList extends StatelessWidget {
   const _FertilizerList({required this.items});
   final List<Fertilizer> items;
@@ -282,6 +358,32 @@ class _FertilizerError extends StatelessWidget {
               Icons.cloud_off_outlined,
               size: 32,
               color: AppColors.textSecondary,
+=======
+class _RecipeCard extends StatelessWidget {
+  const _RecipeCard({required this.item, required this.nutrientLabel});
+  final Fertilizer item;
+  final String Function(String) nutrientLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.greenCardFill,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () => context.push('/fertilizer/${item.id}'),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(children: [
+            NetImage(item.imageUrl, width: 64, height: 64, radius: 10),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(item.name, style: AppTextStyles.inter(14, w: FontWeight.w700)),
+                Text(item.purpose, style: AppTextStyles.bodyText),
+                Text(nutrientLabel(item.nutrient), style: AppTextStyles.inter(11, c: AppColors.greenPrimary, w: FontWeight.w600)),
+              ]),
+>>>>>>> Stashed changes
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(

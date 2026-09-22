@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-09-22",
+  "categories": [
+    { "id": "plants", "name": "Houseplants" },
+    { "id": "fertilizer", "name": "Plant Food & Fertilizer" },
+    { "id": "care", "name": "Plant Care & Pest Control" }
+  ],
+  "products": [
+    {
+      "id": "plant-golden-pothos",
+      "name": "Golden Pothos",
+      "scientificName": "Epipremnum aureum",
+      "categoryId": "plants",
+      "description": "An easy-care trailing vine that tolerates low light — a great first plant.",
+      "imageQuery": "golden pothos plant",
+      "price": 20.99,
+      "currency": "USD",
+      "vendor": "The Home Depot",
+      "buyUrl": "https://www.homedepot.com/p/Costa-Farms-Golden-Pothos-Indoor-Plant-in-6-in-Grower-Pot-Avg-Shipping-Height-1-2-ft-Tall-6GOLDPOTHOS/202674500",
+      "lastVerified": "2026-09-22"
+    },
+    {
+      "id": "plant-snake-plant",
+      "name": "Snake Plant",
+      "scientificName": "Dracaena trifasciata",
+      "categoryId": "plants",
+      "description": "Extremely low-maintenance and tolerant of neglect; thrives in low light.",
+      "imageQuery": "snake plant sansevieria",
+      "price": 21.10,
+      "currency": "USD",
+      "vendor": "The Home Depot",
+      "buyUrl": "https://www.homedepot.com/p/202676724",
+      "lastVerified": "2026-09-22"
+    },
+    {
+      "id": "plant-peace-lily",
+      "name": "Peace Lily",
+      "scientificName": "Spathiphyllum",
+      "categoryId": "plants",
+      "description": "Glossy leaves and white blooms; droops to tell you when it's thirsty.",
+      "imageQuery": "peace lily plant",
+      "price": 20.17,
+      "currency": "USD",
+      "vendor": "The Home Depot",
+      "buyUrl": "https://www.homedepot.com/p/Costa-Farms-Spathiphyllum-Peace-Lily-Indoor-Plant-in-6-in-Grower-Pot-Avg-Shipping-Height-1-2-ft-Tall-6SPATH/202204594",
+      "lastVerified": "2026-09-22"
+    },
+    {
+      "id": "plant-zz-plant",
+      "name": "ZZ Plant",
+      "scientificName": "Zamioculcas zamiifolia",
+      "categoryId": "plants",
+      "description": "Near-indestructible — its rhizomes store water, so it goes weeks between waterings.",
+      "imageQuery": "ZZ plant zamioculcas",
+      "price": 19.97,
+      "currency": "USD",
+      "vendor": "The Home Depot",
+      "buyUrl": "https://www.homedepot.com/p/Costa-Farms-ZZ-Plant-in-6-in-Grower-Pot-6ZZ/202204595",
+      "lastVerified": "2026-09-22"
+    },
+    {
+      "id": "plant-spider-plant",
+      "name": "Spider Plant",
+      "scientificName": "Chlorophytum comosum",
+      "categoryId": "plants",
+      "description": "Fast-growing, pet-safe, and easy to propagate — great for a hanging basket.",
+      "imageQuery": "spider plant hanging basket",
+      "price": 22.28,
+      "currency": "USD",
+      "vendor": "The Home Depot",
+      "buyUrl": "https://www.homedepot.com/p/Shop-Succulents-Spider-Plant-Live-Indoor-Plant-Easy-Care-Air-Purifying-Hanging-Houseplant-in-6-in-Grower-Pot-with-Hanger-1-SPIDER-6/331468560",
+      "lastVerified": "2026-09-22"
+    },
+    {
+      "id": "fert-miracle-gro-indoor",
+      "name": "Miracle-Gro Indoor Plant Food",
+      "categoryId": "fertilizer",
+      "description": "Pump-action liquid feed for all indoor houseplants — no mixing required.",
+      "imageQuery": "liquid plant food bottle",
+      "price": 10.99,
+      "currency": "USD",
+      "vendor": "Ace Hardware",
+      "buyUrl": "https://www.acehardware.com/p/7364797",
+      "lastVerified": "2026-09-22"
+    },
+    {
+      "id": "fert-osmocote-smart-release",
+      "name": "Osmocote Smart-Release Plant Food",
+      "categoryId": "fertilizer",
+      "description": "Slow-release granules that feed indoor and outdoor potted plants for up to 6 months.",
+      "imageQuery": "slow release plant food granules",
+      "price": 8.59,
+      "currency": "USD",
+      "vendor": "Ace Hardware",
+      "buyUrl": "https://www.acehardware.com/p/7364680",
+      "lastVerified": "2026-09-22"
+    },
+    {
+      "id": "care-neem-oil",
+      "name": "Neem Oil Spray",
+      "categoryId": "care",
+      "description": "Ready-to-use organic spray that controls common houseplant pests like mites and aphids.",
+      "imageQuery": "neem oil spray bottle plant",
+      "price": 11.97,
+      "currency": "USD",
+      "vendor": "The Home Depot",
+      "buyUrl": "https://www.homedepot.com/p/Bonide-32-oz-Neem-Oil-Fungicide-Miticide-and-Insecticide-Ready-To-Use-0226/203528194",
+      "lastVerified": "2026-09-22"
+    }
+  ]
+}

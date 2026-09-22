@@ -1,5 +1,6 @@
 {
   "@@locale": "en",
+<<<<<<< Updated upstream
 
   "appTitle": "MyPlantPal",
 
@@ -63,4 +64,565 @@
   },
   "addToLogButton": "Add to Log",
   "buyFertilizerButton": "Buy Fertilizer"
+=======
+  "appTagline": "Your Garden's best Friend",
+  "getStartedButton": "Get Started",
+  "cancelButton": "Cancel",
+  "deleteButton": "Delete",
+  "backButton": "Back",
+  "closeButton": "Close",
+  "continueShoppingButton": "Continue Shopping",
+  "addToCartButton": "Add to Cart",
+  "logOutButton": "Log Out",
+  "todayLabel": "Today",
+  "onLabel": "On",
+  "offLabel": "Off",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "fullNameLabel": "Full Name",
+  "locationLabel": "Location",
+  "loadingLabel": "Loading...",
+  "loginWelcomeBack": "Welcome Back!",
+  "loginSubtitle": "Missing your buddies?",
+  "loginButton": "Login",
+  "orDivider": "OR",
+  "noAccountPrompt": "Don't have an account?",
+  "registerLink": "Register",
+  "createAccountButton": "Create Account",
+  "emailSignInUnavailable": "Email sign-in isn't available yet. Please continue with Google.",
+  "signingInLabel": "Signing in...",
+  "continueWithGoogleButton": "Continue with Google",
+  "continueAsGuestButton": "Continue as guest (debug only)",
+  "careMetricWater": "Water",
+  "careMetricSunlight": "Sunlight",
+  "careMetricTemp": "Temp",
+  "careMetricFertilizer": "Fertilizer",
+  "careMetricHumidity": "Humidity",
+  "careGuideTitle": "Care Guide",
+  "careChallengeTitle": "Today's Care Challenge",
+  "careChallengeDoneMessage": "All done! Your plant is thriving today.",
+  "careEssentialsTitle": "Essentials",
+  "careProTipsTitle": "Pro Tips",
+  "careCommonProblemsTitle": "Common Problems",
+  "cartTitle": "My Cart",
+  "cartEmptyTitle": "Your cart is empty",
+  "proceedToCheckoutButton": "Proceed to Checkout",
+  "checkoutTitle": "Checkout",
+  "shippingInfoTitle": "Shipping Information",
+  "phoneNumberLabel": "Phone Number",
+  "shippingAddressLabel": "Shipping Address",
+  "deliveryMethodLabel": "Delivery Method",
+  "orderSummaryTitle": "Order Summary",
+  "continueToPaymentButton": "Continue to Payment",
+  "checkoutDeliveryEtaFee": "{eta} • {fee}",
+  "@checkoutDeliveryEtaFee": {
+    "description": "Auto-extracted UI string for checkoutDeliveryEtaFee",
+    "placeholders": {
+      "eta": {
+        "type": "String"
+      },
+      "fee": {
+        "type": "String"
+      }
+    }
+  },
+  "orderConfirmedTitle": "Order Confirmed!",
+  "orderConfirmedBody": "Thank you for shopping with PlantPal.\nYour order has been placed successfully.",
+  "orderIdLabel": "Order ID",
+  "orderIdValue": "#{orderId}",
+  "@orderIdValue": {
+    "description": "Auto-extracted UI string for orderIdValue",
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatedDeliveryLabel": "Estimated Delivery",
+  "statusLabel": "Status",
+  "statusProcessing": "Processing",
+  "backToHomeButton": "Back to Home",
+  "recipeTitle": "Recipe",
+  "recipeNotFoundMessage": "Recipe not found.",
+  "ingredientsTitle": "Ingredients",
+  "preparationTitle": "Preparation",
+  "applicationTitle": "Application",
+  "benefitsTitle": "Benefits",
+  "safetyTipsTitle": "Safety Tips",
+  "fertilizerMakingTitle": "Fertilizer Making",
+  "noRecipesFoundTitle": "No recipes found",
+  "noRecipesFoundBody": "Nothing matches \"{query}\".",
+  "@noRecipesFoundBody": {
+    "description": "Auto-extracted UI string for noRecipesFoundBody",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "addFertilizerButton": "Add a new Fertilizer",
+  "fertilizerSearchSubtitle": "Find your homemade fertilizer",
+  "nutrientLabel": "Nutrient: {nutrient}",
+  "@nutrientLabel": {
+    "description": "Auto-extracted UI string for nutrientLabel",
+    "placeholders": {
+      "nutrient": {
+        "type": "String"
+      }
+    }
+  },
+  "achievementsTitle": "Achievements",
+  "noNotificationsMessage": "No new notifications.",
+  "mascotThirstyMessage": "{mascotName} is thirsty, give him some water",
+  "@mascotThirstyMessage": {
+    "description": "Auto-extracted UI string for mascotThirstyMessage",
+    "placeholders": {
+      "mascotName": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadPlantPhotoPrompt": "Upload your Plant's Photo",
+  "myPlantsMenuLabel": "My Plants",
+  "aiDoctorMenuLabel": "AI Doctor",
+  "fertilizerRecipesMenuLabel": "Fertilizer Recipes",
+  "maintenanceMenuLabel": "Maintenance",
+  "shopMenuLabel": "Shop",
+  "cameraLabel": "Camera",
+  "chatWithExpertLabel": "Chat with expert",
+  "pointsBalanceLabel": "{points} points ( {taka} taka)",
+  "@pointsBalanceLabel": {
+    "description": "Auto-extracted UI string for pointsBalanceLabel",
+    "placeholders": {
+      "points": {
+        "type": "String"
+      },
+      "taka": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentSuccessTitle": "Payment Successful!",
+  "paymentSuccessBody": "Your payment of {amount} via {method} was completed. Your order has been placed.",
+  "@paymentSuccessBody": {
+    "description": "Auto-extracted UI string for paymentSuccessBody",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "method": {
+        "type": "String"
+      }
+    }
+  },
+  "viewOrderButton": "View Order",
+  "paymentFailedTitle": "Payment Failed",
+  "paymentFailedBody": "We could not process your payment. Please try again or choose a different payment method.",
+  "changePaymentMethodButton": "Change Payment Method",
+  "tryAgainButton": "Try Again",
+  "paymentTitle": "Payment",
+  "secureCheckoutTitle": "Secure Checkout",
+  "secureCheckoutBody": "Your payment information is encrypted and secure.",
+  "selectPaymentMethodTitle": "Select Payment Method",
+  "orderTotalLabel": "Order Total",
+  "processingLabel": "Processing...",
+  "payButtonLabel": "Pay {amount}",
+  "@payButtonLabel": {
+    "description": "Auto-extracted UI string for payButtonLabel",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "plantAddedSnackbar": "{name} has been added 🌱",
+  "@plantAddedSnackbar": {
+    "description": "Auto-extracted UI string for plantAddedSnackbar",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "addPlantTitle": "Add Plant",
+  "addPlantPhotoLabel": "Add Plant Photo",
+  "nicknameLabel": "Nickname",
+  "nicknameHint": "Bella",
+  "plantSpeciesLabel": "Plant Species",
+  "speciesHint": "Monstera Deliciosa",
+  "locationHint": "Living Room",
+  "sunlightMediumOption": "Medium",
+  "waterFrequencyLabel": "Water every (days)",
+  "wateredTodayCheckbox": "I watered it today",
+  "autoFillAiScanButton": "Auto Fill Using AI Scan",
+  "savingLabel": "Saving...",
+  "savePlantButton": "Save Plant",
+  "tomorrowLabel": "Tomorrow",
+  "laterThisWeekLabel": "Later This Week",
+  "careCalendarTitle": "Care Calendar",
+  "noCareTasksTitle": "No care tasks yet",
+  "noCareTasksBody": "Add a plant to see its watering schedule.",
+  "careTaskWater": "Water {name}",
+  "@careTaskWater": {
+    "description": "Auto-extracted UI string for careTaskWater",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "careTaskFertilize": "Fertilize {name}",
+  "@careTaskFertilize": {
+    "description": "Auto-extracted UI string for careTaskFertilize",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "allCaughtUpTitle": "All caught up!",
+  "allCaughtUpBody": "Your plants thank you.",
+  "myPlantsTitle": "My Green Family",
+  "searchPlantsHint": "Search plants...",
+  "statPlants": "Plants",
+  "statHealth": "Health",
+  "statWaterToday": "Water Today",
+  "noPlantsTitle": "No plants yet",
+  "noPlantsBody": "Tap + to add your first plant.",
+  "plantWateredSnackbar": "{name} marked as watered 💧",
+  "@plantWateredSnackbar": {
+    "description": "Auto-extracted UI string for plantWateredSnackbar",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deletePlantConfirmTitle": "Delete plant?",
+  "deletePlantConfirmBody": "{name} will be removed from your collection.",
+  "@deletePlantConfirmBody": {
+    "description": "Auto-extracted UI string for deletePlantConfirmBody",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "plantFallbackTitle": "Plant",
+  "plantNotFoundMessage": "Plant not found.",
+  "markAsWateredTooltip": "Mark as watered",
+  "deletePlantMenuItem": "Delete plant",
+  "todaysCareTitle": "Today's Care",
+  "plantWaterLevelLabel": "Water: {level}",
+  "@plantWaterLevelLabel": {
+    "description": "Auto-extracted UI string for plantWaterLevelLabel",
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "noFertilizerNoteMessage": "No fertilizer note yet",
+  "plantFertilizeNoteLabel": "Fertilize: {note}",
+  "@plantFertilizeNoteLabel": {
+    "description": "Auto-extracted UI string for plantFertilizeNoteLabel",
+    "placeholders": {
+      "note": {
+        "type": "String"
+      }
+    }
+  },
+  "plantLastScanLabel": "Last scan: {when}",
+  "@plantLastScanLabel": {
+    "description": "Auto-extracted UI string for plantLastScanLabel",
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "scanAgainButton": "Scan Again",
+  "askAiDoctorButton": "Ask AI Doctor",
+  "plantHistoryTitle": "Plant History",
+  "noActivityTitle": "No activity yet",
+  "noActivityBody": "Scan or water a plant to get started!",
+  "historyScanEntry": "AI Scan • {name}",
+  "@historyScanEntry": {
+    "description": "Auto-extracted UI string for historyScanEntry",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "historyWateredEntry": "Watered • {name}",
+  "@historyWateredEntry": {
+    "description": "Auto-extracted UI string for historyWateredEntry",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notScannedYetLabel": "Not scanned yet",
+  "healthCritical": "{percent}% • Critical",
+  "@healthCritical": {
+    "description": "Auto-extracted UI string for healthCritical",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "healthNeedsCare": "{percent}% • Needs Care",
+  "@healthNeedsCare": {
+    "description": "Auto-extracted UI string for healthNeedsCare",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "healthHealthy": "{percent}% • Healthy",
+  "@healthHealthy": {
+    "description": "Auto-extracted UI string for healthHealthy",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsMenuLabel": "Settings",
+  "profileTitle": "Profile",
+  "profileMemberSince": "Plant Parent since {year}",
+  "@profileMemberSince": {
+    "description": "Auto-extracted UI string for profileMemberSince",
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "statAvgHealth": "Avg Health",
+  "statBadges": "Badges",
+  "quickMenuTitle": "Quick Menu",
+  "chooseLanguageTitle": "Choose Language",
+  "aboutBody": "Version 1.0.0\n\nYour friendly AI gardening assistant — scan, track, and care for your plants with confidence.",
+  "notificationsSectionTitle": "Notifications",
+  "pushNotificationsLabel": "Push Notifications",
+  "pushNotificationsSubtitle": "General app updates and alerts",
+  "wateringRemindersLabel": "Watering Reminders",
+  "wateringRemindersSubtitle": "Get notified when a plant needs water",
+  "appearanceSectionTitle": "Appearance",
+  "darkModeLabel": "Dark Mode",
+  "generalSectionTitle": "General",
+  "languageLabel": "Language",
+  "aboutPlantPalLabel": "About PlantPal",
+  "accountSectionTitle": "Account",
+  "logoutConfirmBody": "Are you sure you want to log out?",
+  "reviewsSectionTitle": "Reviews",
+  "noReviewsMessage": "No reviews yet. Be the first to share your experience!",
+  "writeReviewTitle": "Write a Review",
+  "yourRatingLabel": "Your rating",
+  "reviewHintText": "Share your experience with this product...",
+  "submitReviewButton": "Submit Review",
+  "categoryAllLabel": "All",
+  "productFallbackTitle": "Product",
+  "productNotFoundMessage": "Product not found.",
+  "detailsSectionTitle": "Details",
+  "descriptionSectionTitle": "Description",
+  "quantitySectionTitle": "Quantity",
+  "productQuantityFormula": "= {qty} × {unit}",
+  "@productQuantityFormula": {
+    "description": "Auto-extracted UI string for productQuantityFormula",
+    "placeholders": {
+      "qty": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "buyNowButton": "Buy Now",
+  "productReviewsCount": "{count, plural, =0{No reviews} =1{1 review} other{{count} reviews}}",
+  "@productReviewsCount": {
+    "description": "Auto-extracted UI string for productReviewsCount",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "productInStock": "{count} in stock",
+  "@productInStock": {
+    "description": "Auto-extracted UI string for productInStock",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopSubtitle": "Find your necessary gardening equipment",
+  "searchProductsHint": "Search products...",
+  "noProductsFoundMessage": "No products found",
+  "productAddedToCartSnackbar": "{name} added to cart",
+  "@productAddedToCartSnackbar": {
+    "description": "Auto-extracted UI string for productAddedToCartSnackbar",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistTitle": "My Wishlist",
+  "wishlistEmptyTitle": "Your wishlist is empty",
+  "wishlistEmptyBody": "Tap the heart on any product to save it here.",
+  "browseShopButton": "Browse Shop",
+  "plantBotAnalyzingLabel": "PlantBot is analyzing...",
+  "scanPlantTitle": "Scan Your Plant",
+  "analyzingPlantLabel": "Analyzing your plant...",
+  "openCameraButton": "Open Camera",
+  "chooseFromGalleryButton": "Choose from Gallery",
+  "plantIdentifiedTitle": "Plant Identified",
+  "noScanYetTitle": "No scan yet",
+  "noScanYetBody": "Take or choose a plant photo first.",
+  "unknownPlantLabel": "Unknown plant",
+  "viewCareGuideButton": "View Care Guide",
+  "captionHint": "Add a caption (optional)...",
+  "chatInputHint": "Ask anything...",
+  "aiVisionAnalysisTitle": "AI Vision Analysis",
+  "diagnosisProblemLabel": "Problem: {issue}",
+  "@diagnosisProblemLabel": {
+    "description": "Auto-extracted UI string for diagnosisProblemLabel",
+    "placeholders": {
+      "issue": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosisConfidenceSeverity": "Confidence: {confidence} | Severity: {severity}",
+  "@diagnosisConfidenceSeverity": {
+    "description": "Auto-extracted UI string for diagnosisConfidenceSeverity",
+    "placeholders": {
+      "confidence": {
+        "type": "String"
+      },
+      "severity": {
+        "type": "String"
+      }
+    }
+  },
+  "treatmentLabel": "Treatment:",
+  "recommendedFertilizerLabel": "Recommended Fertilizer:",
+  "shopProductsLabel": "Shop Products:",
+  "bulletItem": "• {item}",
+  "@bulletItem": {
+    "description": "Auto-extracted UI string for bulletItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "aiDisclaimerText": "AI guidance only — not a guaranteed diagnosis. Check with a local plant expert for serious issues.",
+  "chatWelcomeMessage": "Hello! I'm PlantBot.\nHow can I help your plants today?",
+  "chatSuggestion1": "Why are my leaves yellow?",
+  "chatSuggestion2": "Homemade Banana Fertilizer",
+  "chatSuggestion3": "Treat Leaf Spot",
+  "chatRateLimitError": "Free-tier rate limit reached. Please wait 10 seconds and try again.",
+  "signInRequiredChatMessage": "Please sign in with Google to chat with PlantBot.",
+  "connectionErrorMessage": "I am having trouble connecting to my plant knowledge base. Please check your connection.",
+  "genericChatErrorMessage": "I had trouble with that request. Please try again!",
+  "scanRateLimitError": "Rate limit reached. Please wait 10 seconds and try again.",
+  "signInRequiredScanMessage": "Please sign in with Google to scan plants.",
+  "scanAnalysisErrorMessage": "I couldn't analyze that photo. Please try again.",
+
+  "plantDetailsTitle": "Plant Details",
+  "careSummaryTitle": "Care Summary",
+  "actionsTitle": "Actions",
+  "lastWateredLabel": "Last Watered",
+  "nextWaterLabel": "Next Watering",
+  "sunlightLabel": "Sunlight",
+  "neverWateredLabel": "Never",
+  "wateredTodayLabel": "Today",
+  "daysAgoLabel": "{days}d ago",
+  "@daysAgoLabel": {
+    "placeholders": { "days": { "type": "int" } }
+  },
+  "waterNowLabel": "Water now!",
+  "daysLeftLabel": "In {days}d",
+  "@daysLeftLabel": {
+    "placeholders": { "days": { "type": "int" } }
+  },
+  "unknownSpeciesLabel": "Unknown species",
+  "noNicknameLabel": "No nickname",
+  "markWateredButton": "Mark as Watered",
+  "editPlantButton": "Edit Plant",
+  "markedWateredSnackbar": "{name} has been watered \ud83d\udca7",
+  "@markedWateredSnackbar": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "needsWaterTooltip": "Needs water",
+  "emptyPlantsTitle": "No plants yet",
+  "emptyPlantsBody": "Tap + to add your first plant.",
+  "addFirstPlantButton": "Add your first plant",
+  "plantsGridHeader": "My Plants",
+
+  "editPlantTitle": "Edit Plant",
+  "plantSavedSnackbar": "Plant saved successfully.",
+  "deleteConfirmTitle": "Delete this plant?",
+  "deleteConfirmBody": "This action cannot be undone.",
+  "deletePlantButton": "Delete Plant",
+  "changePhotoLabel": "Change Photo",
+
+  "settingsSectionTitle": "Settings",
+  "notificationsLabel": "Notifications",
+  "helpLabel": "Help",
+  "aboutLabel": "About",
+  "profileStatPlants": "Plants",
+  "profileStatOrders": "Orders",
+  "profileStatPoints": "Points",
+
+  "shopTitle": "Shop",
+  "allCategoryLabel": "All",
+  "noProductsFoundTitle": "No products found",
+
+  "noScanResultTitle": "No scan yet",
+  "noScanResultBody": "Take or choose a plant photo first.",
+
+  "productReviewsCount": "{count, plural, =1{1 review} other{{count} reviews}}",
+  "@productReviewsCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "productInStock": "{count} in stock",
+  "@productInStock": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "myPlantsTitle": "My Green Family",
+  "searchPlantsHint": "Search plants...",
+  "statPlants": "Plants",
+  "statHealth": "Health",
+  "statWaterToday": "Water Today",
+  "noPlantsTitle": "No plants yet",
+  "noPlantsBody": "Tap + to add your first plant.",
+
+  "plantNotFoundMessage": "Plant not found.",
+  "savingLabel": "Saving...",
+  "savePlantButton": "Save Plant",
+  "cancelButton": "Cancel",
+  "deleteButton": "Delete",
+
+  "historyScanEntry": "{name} was scanned",
+  "@historyScanEntry": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "historyWateredEntry": "{name} was watered",
+  "@historyWateredEntry": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+
+  "defaultDisplayName": "Plant Parent"
+>>>>>>> Stashed changes
 }

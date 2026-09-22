@@ -1,0 +1,21 @@
+# This is NOT a full pubspec.yaml — it's just the bits to merge into the
+# one you already have in Flutter_Training-promitee_UI_Update.
+#
+# 1) Add these under your existing `dependencies:` block (keep your current
+#    entries, just add these three if you don't already have them):
+
+dependencies:
+  http: ^1.2.0
+  url_launcher: ^6.3.0
+  shared_preferences: ^2.3.0
+
+# 2) Make sure the data file is bundled as an asset. If you already have a
+#    `flutter: assets:` list, just add the one line; don't duplicate the
+#    `flutter:` key.
+
+flutter:
+  assets:
+    - assets/data/products.json
+
+# Then run:
+#   flutter pub get

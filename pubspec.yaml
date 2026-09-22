@@ -42,6 +42,11 @@ dependencies:
     sdk: flutter
   intl: ^0.20.3
 
+  # Internationalization
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -64,6 +69,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+<<<<<<< Updated upstream
+=======
+  # Generates AppLocalizations from lib/l10n/*.arb (see l10n.yaml).
+>>>>>>> Stashed changes
   generate: true
 
   # To add assets to your application, add an assets section, like this:
