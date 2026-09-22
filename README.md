@@ -246,10 +246,18 @@ cd backend
 gofmt -l .        # should print nothing
 go vet ./...
 go build ./...
+go test ./...             # add -v for per-test output, -race to check the
+                           # mutex-guarded in-memory repositories, -cover
+                           # for a coverage summary
 ```
 
-No automated widget/integration tests or Go unit tests exist yet — see
-[Known limitations](#known-limitations).
+The backend has real test coverage: domain logic (e.g. English/Bengali
+`Localized()` fallback behavior), usecases (validation, roadmap
+generation, localization), the in-memory repositories, and full-stack
+HTTP tests that exercise the real router → middleware → handler →
+usecase → repository chain via `httptest` (including
+`Accept-Language`-driven localization and CORS headers). No Flutter
+widget/integration tests exist yet.
 
 ## Known limitations
 

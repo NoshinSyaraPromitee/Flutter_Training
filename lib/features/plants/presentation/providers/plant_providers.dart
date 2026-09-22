@@ -1,9 +1,11 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/network/api_providers.dart';
-import '../../data/plant_api_repository.dart';
-import '../../domain/plant_repository.dart';
+import '../../repository/plant_api_repository.dart';
+import '../../repository/plant_repository.dart';
 
-final plantRepositoryProvider = Provider<PlantRepository>((ref) {
-  return PlantApiRepository(ref.watch(apiClientProvider));
-});
+part 'plant_providers.g.dart';
+
+@Riverpod(keepAlive: true)
+PlantRepository plantRepository(Ref ref) =>
+    PlantApiRepository(ref.watch(apiClientProvider));

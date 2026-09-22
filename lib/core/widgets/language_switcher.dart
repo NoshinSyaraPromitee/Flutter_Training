@@ -11,19 +11,15 @@ class LanguageSwitcher extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentLocale = ref.watch(localeProvider);
+    final currentLocale = ref.watch(appLocaleProvider);
 
     return PopupMenuButton<Locale>(
       initialValue: currentLocale,
       tooltip: 'Language',
-      onSelected: (locale) =>
-          ref.read(localeProvider.notifier).state = locale,
+      onSelected: (locale) => ref.read(appLocaleProvider.notifier).set(locale),
       itemBuilder: (context) => [
         for (final locale in supportedLocales)
-          PopupMenuItem(
-            value: locale,
-            child: Text(localeDisplayName(locale)),
-          ),
+          PopupMenuItem(value: locale, child: Text(localeDisplayName(locale))),
       ],
       child: Container(
         padding: const EdgeInsets.symmetric(

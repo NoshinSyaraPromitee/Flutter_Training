@@ -51,7 +51,9 @@ class ApiClient {
     }
 
     final message =
-        (decoded is Map<String, dynamic> ? decoded['error'] as String? : null) ??
+        (decoded is Map<String, dynamic>
+            ? decoded['error'] as String?
+            : null) ??
         'Request failed with status ${response.statusCode}';
     throw ApiException(response.statusCode, message);
   }

@@ -1,23 +1,31 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/network/api_providers.dart';
-import '../../data/fertilizer_api_repository.dart';
 import '../../domain/fertilizer.dart';
-import '../../domain/fertilizer_repository.dart';
+import '../../repository/fertilizer_api_repository.dart';
+import '../../repository/fertilizer_repository.dart';
 
-final fertilizerRepositoryProvider = Provider<FertilizerRepository>((ref) {
+part 'fertilizer_providers.g.dart';
+
+@Riverpod(keepAlive: true)
+FertilizerRepository fertilizerRepository(Ref ref) {
   return FertilizerApiRepository(ref.watch(apiClientProvider));
-});
+}
 
 /// The current text in the fertilizer search bar.
-final fertilizerSearchQueryProvider = StateProvider<String>((ref) => '');
+@Riverpod(keepAlive: true)
+class FertilizerSearchQuery extends _$FertilizerSearchQuery {
+  @override
+  String build() => '';
+
+  void set(String value) => state = value;
+}
 
 /// Fetches fertilizers matching [fertilizerSearchQueryProvider]. Re-runs
 /// automatically whenever the query changes.
-final fertilizerListProvider = FutureProvider.autoDispose<List<Fertilizer>>((
-  ref,
-) {
+@riverpod
+Future<List<Fertilizer>> fertilizerList(Ref ref) {
   final query = ref.watch(fertilizerSearchQueryProvider);
   final repo = ref.watch(fertilizerRepositoryProvider);
   return repo.search(query);
-});
+}

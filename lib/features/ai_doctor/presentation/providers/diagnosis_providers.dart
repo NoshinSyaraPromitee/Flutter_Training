@@ -1,9 +1,12 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/network/api_providers.dart';
-import '../../data/diagnosis_api_repository.dart';
-import '../../domain/diagnosis_repository.dart';
+import '../../repository/diagnosis_api_repository.dart';
+import '../../repository/diagnosis_repository.dart';
 
-final diagnosisRepositoryProvider = Provider<DiagnosisRepository>((ref) {
+part 'diagnosis_providers.g.dart';
+
+@Riverpod(keepAlive: true)
+DiagnosisRepository diagnosisRepository(Ref ref) {
   return DiagnosisApiRepository(ref.watch(apiClientProvider));
-});
+}

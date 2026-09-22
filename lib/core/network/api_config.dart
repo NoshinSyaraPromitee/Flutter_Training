@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'dart:io' show Platform;
 
 /// Resolves the MyPlantPal backend's base URL for the current platform.

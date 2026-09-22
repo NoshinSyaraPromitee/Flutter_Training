@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_text_styles.dart';
@@ -87,7 +88,11 @@ class AppButton extends StatelessWidget {
             Icon(leadingIcon, size: 18),
             const SizedBox(width: AppSpacing.sm),
           ],
-          Text(label, textAlign: TextAlign.center, style: AppTextStyles.buttonLabel),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.buttonLabel,
+          ),
           if (!isLoading && trailingIcon != null) ...[
             const SizedBox(width: AppSpacing.sm),
             Icon(trailingIcon, size: 18),
