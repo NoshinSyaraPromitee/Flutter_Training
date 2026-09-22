@@ -3,7 +3,7 @@ import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/app_card.dart';
 import 'package:plantpal/core/widgets/app_screen.dart';
-import 'package:plantpal/features/care_guide/domain/entities/care_guide.dart';
+import 'package:plantpal/features/care_guide/domain/model/care_guide.dart';
 import 'package:plantpal/features/care_guide/domain/repositories/care_guide_repository.dart';
 import 'package:plantpal/features/care_guide/presentation/widgets/care_guide_sections.dart';
 import 'package:plantpal/features/care_guide/presentation/widgets/care_guide_tips_problems.dart';

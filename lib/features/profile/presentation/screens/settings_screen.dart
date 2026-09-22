@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer;
 import 'package:plantpal/core/locale/locale_controller.dart';
 import 'package:plantpal/core/theme/app_colors.dart';
@@ -7,6 +7,7 @@ import 'package:plantpal/core/widgets/app_card.dart';
 import 'package:plantpal/core/widgets/app_screen.dart';
 import 'package:plantpal/features/profile/presentation/controllers/settings_controller.dart';
 import 'package:plantpal/features/profile/presentation/widgets/logout_dialog.dart';
+import 'package:plantpal/features/profile/presentation/widgets/clear_cache_tile.dart';
 import 'package:plantpal/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +52,7 @@ class SettingsScreen extends ConsumerWidget {
         builder: (ctx) => AlertDialog(
           icon: const Icon(Icons.local_florist, size: 40, color: AppColors.greenPrimary),
           title: const Text('PlantPal'),
-          content: const Text('Version 1.0.0\n\nYour friendly AI gardening assistant — scan, track, and care for your plants with confidence.'),
+          content: const Text('Version 1.0.0\n\nYour friendly AI gardening assistant â€” scan, track, and care for your plants with confidence.'),
           actions: [TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Close'))],
         ),
       );
@@ -99,6 +100,8 @@ class SettingsScreen extends ConsumerWidget {
               trailing: const Icon(Icons.chevron_right),
               onTap: () => _about(context),
             ),
+            const Divider(height: 1),
+            const ClearCacheTile(),
           ]),
         ),
         const SectionTitle('Account'),

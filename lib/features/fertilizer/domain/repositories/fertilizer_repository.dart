@@ -1,4 +1,4 @@
-import 'package:plantpal/features/fertilizer/domain/entities/fertilizer.dart';
+import 'package:plantpal/features/fertilizer/domain/model/fertilizer.dart';
 
 abstract class FertilizerRepository {
   Future<FertilizerCatalog> getCatalog();

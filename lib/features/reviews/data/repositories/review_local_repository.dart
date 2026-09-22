@@ -1,4 +1,4 @@
-import 'package:plantpal/features/reviews/domain/entities/review.dart';
+import 'package:plantpal/features/reviews/domain/model/review.dart';
 import 'package:plantpal/features/reviews/domain/repositories/review_repository.dart';
 
 /// In-memory reviews (seeded). New reviews live until the app restarts.

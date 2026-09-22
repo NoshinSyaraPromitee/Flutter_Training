@@ -1,4 +1,4 @@
-import 'package:plantpal/features/auth/domain/entities/auth_user.dart';
+import 'package:plantpal/features/auth/domain/model/auth_user.dart';
 
 abstract class AuthRepository {
   Future<AuthUser?> restoreSession();

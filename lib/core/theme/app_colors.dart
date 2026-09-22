@@ -45,4 +45,20 @@ class AppColors {
         stops: backgroundGradientStops,
         colors: backgroundGradientColors,
       );
+// Compatibility colors used by feature screens.
+  static Color get green => greenPrimary;
+  static Color get orange => orangeAccent;
+  static Color get teal => const Color(0xFF2A9D8F);
+  static Color get plum => const Color(0xFF7B4B7A);
+
+  static Color get background => isDark
+      ? const Color(0xFF10190F)
+      : const Color(0xFFFFF6DC);
+
+  static Color get textPrimary => textDark;
+  static Color get textSecondary => textMuted;
+
+  static Color get accentRotation => pinkAccent;
+
 }
+

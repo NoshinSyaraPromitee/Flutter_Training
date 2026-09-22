@@ -6,7 +6,7 @@ import 'package:plantpal/core/utils/formatters.dart';
 import 'package:plantpal/core/widgets/app_card.dart';
 import 'package:plantpal/core/widgets/net_image.dart';
 import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
-import 'package:plantpal/features/shop/domain/entities/product.dart';
+import 'package:plantpal/features/shop/domain/model/product.dart';
 import 'package:plantpal/features/wishlist/presentation/controllers/wishlist_controller.dart';
 import 'package:provider/provider.dart';
 

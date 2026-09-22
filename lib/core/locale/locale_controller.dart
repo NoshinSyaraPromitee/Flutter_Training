@@ -1,21 +1,18 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Riverpod-managed app locale (English / Bangla), persisted to secure
 /// storage so the choice survives an app restart.
-///
-/// Kept separate from [SettingsController] (Provider, theme/notifications)
-/// on purpose: this project uses Provider for feature-level state and
-/// Riverpod for this piece of cross-cutting app state, per the project
-/// requirements.
-class LocaleController extends StateNotifier<Locale> {
+class LocaleController extends Notifier<Locale> {
   LocaleController([FlutterSecureStorage? storage])
-      : _storage = storage ?? const FlutterSecureStorage(),
-        super(const Locale('en'));
+      : _storage = storage ?? const FlutterSecureStorage();
 
   final FlutterSecureStorage _storage;
   static const _key = 'settings_language';
+
+  @override
+  Locale build() => const Locale('en');
 
   /// Call once at startup to restore the saved language.
   Future<void> load() async {
@@ -33,6 +30,5 @@ class LocaleController extends StateNotifier<Locale> {
   bool get isBangla => state.languageCode == 'bn';
 }
 
-final localeControllerProvider = StateNotifierProvider<LocaleController, Locale>((ref) {
-  return LocaleController();
-});
+final localeControllerProvider =
+    NotifierProvider<LocaleController, Locale>(LocaleController.new);

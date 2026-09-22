@@ -1,4 +1,4 @@
-import 'package:plantpal/features/shop/domain/entities/product.dart';
+import 'package:plantpal/features/shop/domain/model/product.dart';
 import 'package:plantpal/features/shop/domain/repositories/product_repository.dart';
 
 /// Bundled catalogue. Prices must be re-validated server-side once a products API exists.

@@ -1,4 +1,4 @@
-import 'package:plantpal/features/fertilizer/domain/entities/fertilizer.dart';
+import 'package:plantpal/features/fertilizer/domain/model/fertilizer.dart';
 import 'package:plantpal/features/fertilizer/domain/repositories/fertilizer_repository.dart';
 
 /// Bundled recipes. Swap for a REST-backed repository later without touching the UI.

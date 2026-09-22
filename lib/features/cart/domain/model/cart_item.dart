@@ -1,4 +1,4 @@
-import 'package:plantpal/features/shop/domain/entities/product.dart';
+import 'package:plantpal/features/shop/domain/model/product.dart';
 
 class CartItem {
   const CartItem({required this.product, this.quantity = 1});

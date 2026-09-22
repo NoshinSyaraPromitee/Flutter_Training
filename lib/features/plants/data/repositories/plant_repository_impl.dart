@@ -2,7 +2,7 @@ import 'package:plantpal/core/cache/cache_manager.dart';
 import 'package:plantpal/core/network/failure.dart';
 import 'package:plantpal/features/plants/data/datasources/plant_remote_data_source.dart';
 import 'package:plantpal/features/plants/data/models/plant_dto.dart';
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
+import 'package:plantpal/features/plants/domain/model/plant.dart';
 import 'package:plantpal/features/plants/domain/repositories/plant_repository.dart';
 
 class PlantRepositoryImpl implements PlantRepository {

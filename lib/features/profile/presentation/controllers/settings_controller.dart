@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:plantpal/core/theme/app_colors.dart';
 
@@ -13,7 +12,7 @@ class SettingsController extends ChangeNotifier {
   bool darkMode = false;
   String language = 'en';
 
-  static const languages = {'en': 'English', 'bn': 'বাংলা (Bangla)'};
+  static const languages = {'en': 'English', 'bn': 'à¦¬à¦¾à¦‚à¦²à¦¾ (Bangla)'};
 
   /// Call once at startup to restore the saved theme.
   Future<void> load() async {

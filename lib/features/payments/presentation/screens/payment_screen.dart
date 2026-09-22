@@ -7,7 +7,7 @@ import 'package:plantpal/core/widgets/app_button.dart';
 import 'package:plantpal/core/widgets/app_card.dart';
 import 'package:plantpal/core/widgets/app_screen.dart';
 import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
-import 'package:plantpal/features/payments/domain/entities/payment_models.dart';
+import 'package:plantpal/features/payments/domain/model/payment_models.dart';
 import 'package:plantpal/features/payments/presentation/controllers/payment_controller.dart';
 import 'package:provider/provider.dart';
 

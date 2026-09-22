@@ -40,7 +40,7 @@ class PaymentMethodTile extends StatelessWidget {
               ),
             ),
           ),
-          if (selected) const Icon(Icons.check_circle, color: AppColors.green),
+          if (selected)  Icon(Icons.check_circle, color: AppColors.green),
         ],
       ),
     );

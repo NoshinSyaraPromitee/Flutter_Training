@@ -4,7 +4,7 @@ import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/app_card.dart';
 import 'package:plantpal/core/widgets/net_image.dart';
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
+import 'package:plantpal/features/plants/domain/model/plant.dart';
 import 'package:plantpal/features/plants/presentation/widgets/health_badge.dart';
 
 class PlantStatusCard extends StatelessWidget {

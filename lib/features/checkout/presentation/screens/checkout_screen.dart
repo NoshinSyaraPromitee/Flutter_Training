@@ -10,7 +10,7 @@ import 'package:plantpal/core/widgets/app_text_field.dart';
 import 'package:plantpal/core/widgets/price_summary.dart';
 import 'package:plantpal/core/widgets/state_views.dart';
 import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
-import 'package:plantpal/features/checkout/domain/entities/checkout_models.dart';
+import 'package:plantpal/features/checkout/domain/model/checkout_models.dart';
 import 'package:provider/provider.dart';
 
 class CheckoutScreen extends StatefulWidget {

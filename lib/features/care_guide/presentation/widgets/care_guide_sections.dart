@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/app_card.dart';
-import 'package:plantpal/features/care_guide/domain/entities/care_guide.dart';
+import 'package:plantpal/features/care_guide/domain/model/care_guide.dart';
 
 /// Today's checklist of daily tasks, with a "all done" celebration footer.
 class CareGuideChecklist extends StatelessWidget {

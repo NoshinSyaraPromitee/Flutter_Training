@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:plantpal/features/payments/domain/entities/payment_models.dart';
+import 'package:plantpal/features/payments/domain/model/payment_models.dart';
 import 'package:plantpal/features/payments/domain/repositories/payment_repository.dart';
 
 /// Demo payment (always succeeds). Replace with a real implementation later.

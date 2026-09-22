@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:plantpal/features/reviews/domain/entities/review.dart';
+import 'package:plantpal/features/reviews/domain/model/review.dart';
 import 'package:plantpal/features/reviews/domain/repositories/review_repository.dart';
 
 class ReviewsController extends ChangeNotifier {

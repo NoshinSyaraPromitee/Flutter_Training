@@ -1,4 +1,4 @@
-import 'package:plantpal/features/ai_doctor/domain/entities/chat_models.dart';
+import 'package:plantpal/features/ai_doctor/domain/model/chat_models.dart';
 
 abstract class AiDoctorRepository {
   Future<BotReply> chat(String text);

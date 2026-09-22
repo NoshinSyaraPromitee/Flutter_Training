@@ -1,5 +1,5 @@
 import 'package:plantpal/core/utils/formatters.dart';
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
+import 'package:plantpal/features/plants/domain/model/plant.dart';
 
 enum HistoryAction { scan, water }
 

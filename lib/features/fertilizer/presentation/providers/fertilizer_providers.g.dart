@@ -8,9 +8,14 @@ part of 'fertilizer_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Fertilizer data source. Bundled locally today; swap the
+/// implementation for a REST-backed repository without touching the UI.
 
 @ProviderFor(fertilizerRepository)
 final fertilizerRepositoryProvider = FertilizerRepositoryProvider._();
+
+/// Fertilizer data source. Bundled locally today; swap the
+/// implementation for a REST-backed repository without touching the UI.
 
 final class FertilizerRepositoryProvider
     extends
@@ -20,6 +25,8 @@ final class FertilizerRepositoryProvider
           FertilizerRepository
         >
     with $Provider<FertilizerRepository> {
+  /// Fertilizer data source. Bundled locally today; swap the
+  /// implementation for a REST-backed repository without touching the UI.
   FertilizerRepositoryProvider._()
     : super(
         from: null,
@@ -55,34 +62,85 @@ final class FertilizerRepositoryProvider
 }
 
 String _$fertilizerRepositoryHash() =>
-    r'a00738e8dc24d2d82bfb6b90ec36564209c92a29';
+    r'67f185f2f2639f13d712c08f223854a6a5f8a2ce';
 
-/// The current text in the fertilizer search bar.
+/// The full recipe catalog (bundled recipes + anything added this session).
 
-@ProviderFor(FertilizerSearchQuery)
-final fertilizerSearchQueryProvider = FertilizerSearchQueryProvider._();
+@ProviderFor(FertilizerRecipes)
+final fertilizerRecipesProvider = FertilizerRecipesProvider._();
 
-/// The current text in the fertilizer search bar.
-final class FertilizerSearchQueryProvider
-    extends $NotifierProvider<FertilizerSearchQuery, String> {
-  /// The current text in the fertilizer search bar.
-  FertilizerSearchQueryProvider._()
+/// The full recipe catalog (bundled recipes + anything added this session).
+final class FertilizerRecipesProvider
+    extends $AsyncNotifierProvider<FertilizerRecipes, FertilizerCatalog> {
+  /// The full recipe catalog (bundled recipes + anything added this session).
+  FertilizerRecipesProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'fertilizerSearchQueryProvider',
+        name: r'fertilizerRecipesProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$fertilizerSearchQueryHash();
+  String debugGetCreateSourceHash() => _$fertilizerRecipesHash();
 
   @$internal
   @override
-  FertilizerSearchQuery create() => FertilizerSearchQuery();
+  FertilizerRecipes create() => FertilizerRecipes();
+}
+
+String _$fertilizerRecipesHash() => r'f65ffcca73fff7812f2ff54e2d59fdecbe75f14b';
+
+/// The full recipe catalog (bundled recipes + anything added this session).
+
+abstract class _$FertilizerRecipes extends $AsyncNotifier<FertilizerCatalog> {
+  FutureOr<FertilizerCatalog> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<FertilizerCatalog>, FertilizerCatalog>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<FertilizerCatalog>, FertilizerCatalog>,
+              AsyncValue<FertilizerCatalog>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+/// Current search text for the fertilizer list.
+
+@ProviderFor(FertilizerQuery)
+final fertilizerQueryProvider = FertilizerQueryProvider._();
+
+/// Current search text for the fertilizer list.
+final class FertilizerQueryProvider
+    extends $NotifierProvider<FertilizerQuery, String> {
+  /// Current search text for the fertilizer list.
+  FertilizerQueryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'fertilizerQueryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$fertilizerQueryHash();
+
+  @$internal
+  @override
+  FertilizerQuery create() => FertilizerQuery();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(String value) {
@@ -93,12 +151,11 @@ final class FertilizerSearchQueryProvider
   }
 }
 
-String _$fertilizerSearchQueryHash() =>
-    r'8de6ff9f6ddd3165d42687529c270c899666fb5c';
+String _$fertilizerQueryHash() => r'0b592b9fc9944b52017ba1c683b61e9e388af15f';
 
-/// The current text in the fertilizer search bar.
+/// Current search text for the fertilizer list.
 
-abstract class _$FertilizerSearchQuery extends $Notifier<String> {
+abstract class _$FertilizerQuery extends $Notifier<String> {
   String build();
   @$mustCallSuper
   @override
@@ -116,49 +173,140 @@ abstract class _$FertilizerSearchQuery extends $Notifier<String> {
   }
 }
 
-/// Fetches fertilizers matching [fertilizerSearchQueryProvider]. Re-runs
-/// automatically whenever the query changes.
+/// Recipes matching the current search query.
 
-@ProviderFor(fertilizerList)
-final fertilizerListProvider = FertilizerListProvider._();
+@ProviderFor(filteredFertilizers)
+final filteredFertilizersProvider = FilteredFertilizersProvider._();
 
-/// Fetches fertilizers matching [fertilizerSearchQueryProvider]. Re-runs
-/// automatically whenever the query changes.
+/// Recipes matching the current search query.
 
-final class FertilizerListProvider
+final class FilteredFertilizersProvider
     extends
         $FunctionalProvider<
-          AsyncValue<List<Fertilizer>>,
           List<Fertilizer>,
-          FutureOr<List<Fertilizer>>
+          List<Fertilizer>,
+          List<Fertilizer>
         >
-    with $FutureModifier<List<Fertilizer>>, $FutureProvider<List<Fertilizer>> {
-  /// Fetches fertilizers matching [fertilizerSearchQueryProvider]. Re-runs
-  /// automatically whenever the query changes.
-  FertilizerListProvider._()
+    with $Provider<List<Fertilizer>> {
+  /// Recipes matching the current search query.
+  FilteredFertilizersProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'fertilizerListProvider',
+        name: r'filteredFertilizersProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$fertilizerListHash();
+  String debugGetCreateSourceHash() => _$filteredFertilizersHash();
 
   @$internal
   @override
-  $FutureProviderElement<List<Fertilizer>> $createElement(
-    $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
+  $ProviderElement<List<Fertilizer>> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
-  FutureOr<List<Fertilizer>> create(Ref ref) {
-    return fertilizerList(ref);
+  List<Fertilizer> create(Ref ref) {
+    return filteredFertilizers(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<Fertilizer> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<Fertilizer>>(value),
+    );
   }
 }
 
-String _$fertilizerListHash() => r'8147121d9195a9a2b48a43375bfa860bf916eb7c';
+String _$filteredFertilizersHash() =>
+    r'e842239c3d7ee50ec61a1224b178878d8e3da5d7';
+
+/// A single recipe by id, or null if not found / not loaded yet.
+
+@ProviderFor(fertilizerById)
+final fertilizerByIdProvider = FertilizerByIdFamily._();
+
+/// A single recipe by id, or null if not found / not loaded yet.
+
+final class FertilizerByIdProvider
+    extends $FunctionalProvider<Fertilizer?, Fertilizer?, Fertilizer?>
+    with $Provider<Fertilizer?> {
+  /// A single recipe by id, or null if not found / not loaded yet.
+  FertilizerByIdProvider._({
+    required FertilizerByIdFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'fertilizerByIdProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$fertilizerByIdHash();
+
+  @override
+  String toString() {
+    return r'fertilizerByIdProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $ProviderElement<Fertilizer?> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Fertilizer? create(Ref ref) {
+    final argument = this.argument as String;
+    return fertilizerById(ref, argument);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Fertilizer? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Fertilizer?>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FertilizerByIdProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$fertilizerByIdHash() => r'67a86e012baddb5c6a04121b504ce70f781887d2';
+
+/// A single recipe by id, or null if not found / not loaded yet.
+
+final class FertilizerByIdFamily extends $Family
+    with $FunctionalFamilyOverride<Fertilizer?, String> {
+  FertilizerByIdFamily._()
+    : super(
+        retry: null,
+        name: r'fertilizerByIdProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// A single recipe by id, or null if not found / not loaded yet.
+
+  FertilizerByIdProvider call(String id) =>
+      FertilizerByIdProvider._(argument: id, from: this);
+
+  @override
+  String toString() => r'fertilizerByIdProvider';
+}

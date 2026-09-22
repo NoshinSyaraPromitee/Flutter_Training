@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/net_image.dart';
-import 'package:plantpal/features/fertilizer/domain/entities/fertilizer.dart';
+import 'package:plantpal/features/fertilizer/domain/model/fertilizer.dart';
 
 class FertilizerSearchBar extends StatelessWidget {
   const FertilizerSearchBar({super.key, required this.onChanged, required this.hint});

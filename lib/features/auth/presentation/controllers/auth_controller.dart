@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:plantpal/core/network/failure.dart';
-import 'package:plantpal/features/auth/domain/entities/auth_user.dart';
+import 'package:plantpal/features/auth/domain/model/auth_user.dart';
 import 'package:plantpal/features/auth/domain/repositories/auth_repository.dart';
 
 enum AuthStatus { unknown, unauthenticated, authenticated, guest }

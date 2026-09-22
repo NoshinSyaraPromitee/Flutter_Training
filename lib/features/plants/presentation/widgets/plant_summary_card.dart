@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/app_card.dart';
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
+import 'package:plantpal/features/plants/domain/model/plant.dart';
 
 /// Compact row used for "Recent Plants" on Home.
 class PlantSummaryCard extends StatelessWidget {

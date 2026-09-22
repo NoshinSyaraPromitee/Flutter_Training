@@ -14,7 +14,7 @@ class SecureCheckoutBanner extends StatelessWidget {
     return AppCard(
       child: Row(
         children: [
-          const Icon(Icons.verified_user, size: 36, color: AppColors.green),
+           Icon(Icons.verified_user, size: 36, color: AppColors.green),
           const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(

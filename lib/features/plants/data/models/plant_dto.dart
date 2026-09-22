@@ -1,12 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
+import 'package:plantpal/features/plants/domain/model/plant.dart';
 
 part 'plant_dto.g.dart';
 
-/// Wire-format DTO for a plant, generated via json_serializable.
-///
-/// Run `dart run build_runner build --delete-conflicting-outputs` after
-/// editing this class to regenerate plant_dto.g.dart.
+
 @JsonSerializable()
 class PlantDto {
   PlantDto({

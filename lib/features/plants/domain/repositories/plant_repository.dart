@@ -1,4 +1,4 @@
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
+import 'package:plantpal/features/plants/domain/model/plant.dart';
 
 abstract class PlantRepository {
   Future<List<Plant>> getPlants({bool forceRefresh = false});

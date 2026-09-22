@@ -1,5 +1,5 @@
 import 'package:plantpal/core/network/failure.dart';
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
+import 'package:plantpal/features/plants/domain/model/plant.dart';
 import 'package:plantpal/features/plants/domain/repositories/plant_repository.dart';
 
 /// Validates, creates the plant, then attaches its photo (if any).

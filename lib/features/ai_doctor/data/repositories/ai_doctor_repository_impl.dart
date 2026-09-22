@@ -1,6 +1,6 @@
 import 'package:plantpal/core/network/failure.dart';
 import 'package:plantpal/features/ai_doctor/data/datasources/ai_doctor_remote_data_source.dart';
-import 'package:plantpal/features/ai_doctor/domain/entities/chat_models.dart';
+import 'package:plantpal/features/ai_doctor/domain/model/chat_models.dart';
 import 'package:plantpal/features/ai_doctor/domain/repositories/ai_doctor_repository.dart';
 
 class AiDoctorRepositoryImpl implements AiDoctorRepository {

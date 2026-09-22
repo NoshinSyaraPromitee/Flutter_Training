@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/widgets/app_card.dart';
-import 'package:plantpal/core/widgets/app_screen.dart';
-import 'package:plantpal/core/widgets/net_image.dart';
-import 'package:plantpal/core/widgets/state_views.dart';
-import 'package:plantpal/features/fertilizer/presentation/controllers/fertilizer_controller.dart';
-import 'package:provider/provider.dart';
+﻿import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:plantpal/core/theme/app_colors.dart";
+import "package:plantpal/core/theme/app_text_styles.dart";
+import "package:plantpal/core/widgets/app_card.dart";
+import "package:plantpal/core/widgets/app_screen.dart";
+import "package:plantpal/core/widgets/net_image.dart";
+import "package:plantpal/core/widgets/state_views.dart";
+import "package:plantpal/features/fertilizer/presentation/providers/fertilizer_providers.dart";
 
-class FertilizerDetailsScreen extends StatelessWidget {
+class FertilizerDetailsScreen extends ConsumerWidget {
   const FertilizerDetailsScreen({super.key, required this.id});
   final String id;
 
@@ -22,13 +22,14 @@ class FertilizerDetailsScreen extends StatelessWidget {
       );
 
   @override
-  Widget build(BuildContext context) {
-    final c = context.watch<FertilizerController>();
-    final f = c.byId(id);
-    if (f == null) return const AppScreen(title: 'Recipe', child: ErrorView(message: 'Recipe not found.'));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final f = ref.watch(fertilizerByIdProvider(id));
+    if (f == null) return const AppScreen(title: "Recipe", child: ErrorView(message: "Recipe not found."));
+
+    final safetyTips = ref.watch(fertilizerRecipesProvider).value?.safetyTips ?? const <String>[];
 
     return AppScreen(
-      title: 'Recipe',
+      title: "Recipe",
       child: ListView(padding: const EdgeInsets.only(bottom: 32), children: [
         NetImage(f.imageUrl, width: double.infinity, height: 200, radius: 20),
         const SizedBox(height: 14),
@@ -49,32 +50,33 @@ class FertilizerDetailsScreen extends StatelessWidget {
             Text(f.nutrient, style: AppTextStyles.inter(12, w: FontWeight.w600, c: const Color(0xFF558B2F))),
           ]),
         ),
-        const SectionTitle('Ingredients'),
+        const SectionTitle("Ingredients"),
         AppCard(child: Column(children: [for (final i in f.ingredients) _row(Icons.circle, const Color(0xFF43A047), i)])),
-        const SectionTitle('Preparation'),
+        const SectionTitle("Preparation"),
         AppCard(
           child: Column(children: [
             for (var i = 0; i < f.preparation.length; i++)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  CircleAvatar(radius: 11, backgroundColor: AppColors.greenPrimary, child: Text('${i + 1}', style: AppTextStyles.inter(11, w: FontWeight.w700, c: Colors.white))),
+                  CircleAvatar(radius: 11, backgroundColor: AppColors.greenPrimary, child: Text("${i + 1}", style: AppTextStyles.inter(11, w: FontWeight.w700, c: Colors.white))),
                   const SizedBox(width: 10),
                   Expanded(child: Text(f.preparation[i], style: AppTextStyles.inter(14, h: 1.4))),
                 ]),
               ),
           ]),
         ),
-        const SectionTitle('Application'),
+        const SectionTitle("Application"),
         AppCard(child: _row(Icons.water_drop_outlined, AppColors.waterBlue, f.application)),
-        const SectionTitle('Benefits'),
+        const SectionTitle("Benefits"),
         AppCard(child: Column(children: [for (final b in f.benefits) _row(Icons.check_circle, const Color(0xFF43A047), b)])),
-        const SectionTitle('Safety Tips'),
+        const SectionTitle("Safety Tips"),
         AppCard(
           color: const Color(0xFFFFF3E0),
-          child: Column(children: [for (final t in c.catalog.safetyTips) _row(Icons.warning_amber_rounded, const Color(0xFFFB8C00), t)]),
+          child: Column(children: [for (final t in safetyTips) _row(Icons.warning_amber_rounded, const Color(0xFFFB8C00), t)]),
         ),
       ]),
     );
   }
 }
+

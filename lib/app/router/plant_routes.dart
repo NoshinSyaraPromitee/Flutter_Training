@@ -1,5 +1,6 @@
-import 'package:go_router/go_router.dart';
+﻿import 'package:go_router/go_router.dart';
 import 'package:plantpal/features/care_guide/presentation/screens/care_guide_screen.dart';
+import 'package:plantpal/features/fertilizer/presentation/screens/add_fertilizer_screen.dart';
 import 'package:plantpal/features/fertilizer/presentation/screens/fertilizer_details_screen.dart';
 import 'package:plantpal/features/fertilizer/presentation/screens/fertilizer_screen.dart';
 import 'package:plantpal/features/plants/presentation/screens/add_plant_screen.dart';
@@ -31,6 +32,7 @@ final plantRoutes = <RouteBase>[
     path: '/fertilizer',
     builder: (c, s) => const FertilizerScreen(),
     routes: [
+      GoRoute(path: 'add', builder: (c, s) => const AddFertilizerScreen()),
       GoRoute(
         path: ':id',
         builder: (c, s) => FertilizerDetailsScreen(id: s.pathParameters['id']!),
@@ -38,3 +40,4 @@ final plantRoutes = <RouteBase>[
     ],
   ),
 ];
+

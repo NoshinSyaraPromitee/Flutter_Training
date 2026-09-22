@@ -1,4 +1,4 @@
-import 'package:plantpal/core/network/api_client.dart';
+﻿import 'package:plantpal/core/network/api_client.dart';
 import 'package:plantpal/core/storage/secure_storage.dart';
 import 'package:plantpal/features/ai_doctor/data/datasources/ai_doctor_remote_data_source.dart';
 import 'package:plantpal/features/ai_doctor/data/repositories/ai_doctor_repository_impl.dart';
@@ -10,8 +10,6 @@ import 'package:plantpal/features/auth/presentation/controllers/auth_controller.
 import 'package:plantpal/features/care_guide/data/repositories/care_guide_local_repository.dart';
 import 'package:plantpal/features/care_guide/domain/repositories/care_guide_repository.dart';
 import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
-import 'package:plantpal/features/fertilizer/data/repositories/fertilizer_local_repository.dart';
-import 'package:plantpal/features/fertilizer/presentation/controllers/fertilizer_controller.dart';
 import 'package:plantpal/features/gamification/data/repositories/achievement_local_repository.dart';
 import 'package:plantpal/features/gamification/domain/repositories/achievement_repository.dart';
 import 'package:plantpal/features/payments/data/repositories/simulated_payment_repository.dart';
@@ -35,11 +33,16 @@ class AppDependencies {
     final storage = const SecureStorage();
     final api = ApiClient(storage);
 
-    auth = AuthController(AuthRepositoryImpl(AuthRemoteDataSource(api), storage));
+    auth = AuthController(
+      AuthRepositoryImpl(AuthRemoteDataSource(api), storage),
+    );
     api.onUnauthorized = auth.logout; // expired/invalid token -> back to login
 
     final plantRepo = PlantRepositoryImpl(PlantRemoteDataSource(api));
-    plants = PlantsController(repository: plantRepo, addPlant: AddPlant(plantRepo));
+    plants = PlantsController(
+      repository: plantRepo,
+      addPlant: AddPlant(plantRepo),
+    );
 
     final aiRepo = AiDoctorRepositoryImpl(AiDoctorRemoteDataSource(api));
     chat = ChatController(aiRepo);
@@ -47,7 +50,6 @@ class AppDependencies {
 
     shop = ShopController(ProductLocalRepository())..load();
     reviews = ReviewsController(ReviewLocalRepository());
-    fertilizer = FertilizerController(FertilizerLocalRepository())..load();
     payment = PaymentController(SimulatedPaymentRepository());
   }
 
@@ -57,7 +59,6 @@ class AppDependencies {
   late final ScanController scan;
   late final ShopController shop;
   late final ReviewsController reviews;
-  late final FertilizerController fertilizer;
   late final PaymentController payment;
   final CartController cart = CartController();
   final WishlistController wishlist = WishlistController();
@@ -66,18 +67,18 @@ class AppDependencies {
   final AchievementRepository achievements = AchievementLocalRepository();
 
   List<SingleChildWidget> get providers => [
-        ChangeNotifierProvider<AuthController>.value(value: auth),
-        ChangeNotifierProvider<PlantsController>.value(value: plants),
-        ChangeNotifierProvider<ChatController>.value(value: chat),
-        ChangeNotifierProvider<ScanController>.value(value: scan),
-        ChangeNotifierProvider<ShopController>.value(value: shop),
-        ChangeNotifierProvider<CartController>.value(value: cart),
-        ChangeNotifierProvider<WishlistController>.value(value: wishlist),
-        ChangeNotifierProvider<ReviewsController>.value(value: reviews),
-        ChangeNotifierProvider<FertilizerController>.value(value: fertilizer),
-        ChangeNotifierProvider<PaymentController>.value(value: payment),
-        ChangeNotifierProvider<SettingsController>.value(value: settings),
-        Provider<CareGuideRepository>.value(value: careGuide),
-        Provider<AchievementRepository>.value(value: achievements),
-      ];
+    ChangeNotifierProvider<AuthController>.value(value: auth),
+    ChangeNotifierProvider<PlantsController>.value(value: plants),
+    ChangeNotifierProvider<ChatController>.value(value: chat),
+    ChangeNotifierProvider<ScanController>.value(value: scan),
+    ChangeNotifierProvider<ShopController>.value(value: shop),
+    ChangeNotifierProvider<CartController>.value(value: cart),
+    ChangeNotifierProvider<WishlistController>.value(value: wishlist),
+    ChangeNotifierProvider<ReviewsController>.value(value: reviews),
+    ChangeNotifierProvider<PaymentController>.value(value: payment),
+    ChangeNotifierProvider<SettingsController>.value(value: settings),
+    Provider<CareGuideRepository>.value(value: careGuide),
+    Provider<AchievementRepository>.value(value: achievements),
+  ];
 }
+

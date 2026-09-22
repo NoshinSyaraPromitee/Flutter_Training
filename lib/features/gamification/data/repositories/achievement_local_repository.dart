@@ -1,4 +1,4 @@
-import 'package:plantpal/features/gamification/domain/entities/achievement.dart';
+import 'package:plantpal/features/gamification/domain/model/achievement.dart';
 import 'package:plantpal/features/gamification/domain/repositories/achievement_repository.dart';
 
 /// Static badges for now.

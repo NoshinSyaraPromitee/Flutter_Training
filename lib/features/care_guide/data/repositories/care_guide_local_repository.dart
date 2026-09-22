@@ -1,6 +1,6 @@
-import 'package:plantpal/features/care_guide/domain/entities/care_guide.dart';
+import 'package:plantpal/features/care_guide/domain/model/care_guide.dart';
 import 'package:plantpal/features/care_guide/domain/repositories/care_guide_repository.dart';
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
+import 'package:plantpal/features/plants/domain/model/plant.dart';
 
 class CareGuideLocalRepository implements CareGuideRepository {
   static const _tips = [

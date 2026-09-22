@@ -12,7 +12,7 @@ class LogoutButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return OutlinedButton.icon(
-      onPressed: () => confirmLogout(context, ref),
+     onPressed: () => confirmLogout(context),
       icon: const Icon(Icons.logout, color: AppColors.danger),
       label: const Text('Log Out', style: TextStyle(color: AppColors.danger)),
       style: OutlinedButton.styleFrom(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 
@@ -46,7 +46,7 @@ class SectionTitle extends StatelessWidget {
         padding: const EdgeInsets.only(top: 20, bottom: 10),
         child: Row(children: [
           Expanded(child: Text(text, style: AppTextStyles.inter(17, w: FontWeight.w700, c: AppColors.greenPrimary))),
-          if (trailing != null) trailing!,
+          ?trailing,
         ]),
       );
 }
