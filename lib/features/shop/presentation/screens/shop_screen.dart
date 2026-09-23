@@ -5,10 +5,10 @@ import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/app_screen.dart';
 import 'package:plantpal/core/widgets/app_text_field.dart';
 import 'package:plantpal/core/widgets/state_views.dart';
-import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
-import 'package:plantpal/features/shop/presentation/controllers/shop_controller.dart';
+import 'package:plantpal/features/cart/presentation/providers/cart_provider.dart';
+import 'package:plantpal/features/shop/presentation/providers/shop_provider.dart';
 import 'package:plantpal/features/shop/presentation/widgets/product_card.dart';
-import 'package:plantpal/features/wishlist/presentation/controllers/wishlist_controller.dart';
+import 'package:plantpal/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
 class ShopScreen extends StatelessWidget {
@@ -35,7 +35,7 @@ class ShopScreen extends StatelessWidget {
               ? ErrorView(message: shop.error!, onRetry: shop.load)
               : Column(children: [
                   Row(children: [
-                    Expanded(child: Text('Find your necessary gardening equipment', style: AppTextStyles.inter(14, c: AppColors.textMuted))),
+
                     _iconBadge(Icons.favorite_border, wishCount, () => context.push('/wishlist')),
                     _iconBadge(Icons.shopping_cart_outlined, cartCount, () => context.push('/cart')),
                   ]),

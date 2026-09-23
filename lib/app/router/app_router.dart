@@ -5,7 +5,7 @@ import 'package:plantpal/app/shell/main_shell.dart';
 import 'package:plantpal/features/ai_doctor/presentation/screens/ai_chat_screen.dart';
 import 'package:plantpal/features/ai_doctor/presentation/screens/scan_plant_screen.dart';
 import 'package:plantpal/features/ai_doctor/presentation/screens/scan_result_screen.dart';
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:plantpal/features/auth/presentation/providers/auth_provider.dart';
 import 'package:plantpal/features/auth/presentation/screens/landing_screen.dart';
 import 'package:plantpal/features/auth/presentation/screens/login_screen.dart';
 import 'package:plantpal/features/auth/presentation/screens/register_screen.dart';

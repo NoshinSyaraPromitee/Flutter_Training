@@ -1,13 +1,13 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer;
 import 'package:plantpal/core/locale/locale_controller.dart';
 import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/app_card.dart';
 import 'package:plantpal/core/widgets/app_screen.dart';
-import 'package:plantpal/features/profile/presentation/controllers/settings_controller.dart';
+import 'package:plantpal/features/profile/presentation/providers/settings_provider.dart';
 import 'package:plantpal/features/profile/presentation/widgets/logout_dialog.dart';
-import 'package:plantpal/features/profile/presentation/widgets/clear_cache_tile.dart';
+
 import 'package:plantpal/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -101,7 +101,7 @@ class SettingsScreen extends ConsumerWidget {
               onTap: () => _about(context),
             ),
             const Divider(height: 1),
-            const ClearCacheTile(),
+            
           ]),
         ),
         const SectionTitle('Account'),

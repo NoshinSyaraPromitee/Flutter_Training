@@ -4,11 +4,11 @@ import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/app_card.dart';
 import 'package:plantpal/core/widgets/app_screen.dart';
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
+import 'package:plantpal/features/auth/presentation/providers/auth_provider.dart';
+import 'package:plantpal/features/cart/presentation/providers/cart_provider.dart';
 import 'package:plantpal/features/gamification/domain/repositories/achievement_repository.dart';
 import 'package:plantpal/features/gamification/presentation/widgets/achievements_section.dart';
-import 'package:plantpal/features/plants/presentation/controllers/plants_controller.dart';
+import 'package:plantpal/features/plants/presentation/providers/plants_provider.dart';
 import 'package:plantpal/features/profile/presentation/widgets/logout_dialog.dart';
 import 'package:provider/provider.dart';
 

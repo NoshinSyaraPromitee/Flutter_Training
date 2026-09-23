@@ -4,7 +4,7 @@ import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/app_button.dart';
 import 'package:plantpal/core/widgets/app_text_field.dart';
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:plantpal/features/auth/presentation/providers/auth_provider.dart';
 import 'package:plantpal/features/auth/presentation/widgets/auth_widgets.dart';
 import 'package:provider/provider.dart';
 

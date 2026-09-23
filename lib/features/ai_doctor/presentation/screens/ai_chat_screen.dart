@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/app_screen.dart';
-import 'package:plantpal/features/ai_doctor/presentation/controllers/chat_controller.dart';
+import 'package:plantpal/features/ai_doctor/presentation/providers/chat_provider.dart';
 import 'package:plantpal/features/ai_doctor/presentation/widgets/chat_bubble.dart';
 import 'package:plantpal/features/ai_doctor/presentation/widgets/chat_input.dart';
 import 'package:provider/provider.dart';

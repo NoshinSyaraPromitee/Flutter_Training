@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:plantpal/core/widgets/app_bottom_nav.dart';
-import 'package:plantpal/features/plants/presentation/controllers/plants_controller.dart';
+import 'package:plantpal/features/plants/presentation/providers/plants_provider.dart';
 import 'package:provider/provider.dart';
 
 /// Hosts the five shell tabs and the shared [AppBottomNav] beneath them.

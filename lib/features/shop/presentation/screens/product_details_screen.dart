@@ -9,11 +9,11 @@ import 'package:plantpal/core/widgets/app_screen.dart';
 import 'package:plantpal/core/widgets/net_image.dart';
 import 'package:plantpal/core/widgets/quantity_stepper.dart';
 import 'package:plantpal/core/widgets/state_views.dart';
-import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
-import 'package:plantpal/features/reviews/presentation/controllers/reviews_controller.dart';
+import 'package:plantpal/features/cart/presentation/providers/cart_provider.dart';
+import 'package:plantpal/features/reviews/presentation/providers/reviews_provider.dart';
 import 'package:plantpal/features/reviews/presentation/widgets/reviews_section.dart';
-import 'package:plantpal/features/shop/presentation/controllers/shop_controller.dart';
-import 'package:plantpal/features/wishlist/presentation/controllers/wishlist_controller.dart';
+import 'package:plantpal/features/shop/presentation/providers/shop_provider.dart';
+import 'package:plantpal/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {

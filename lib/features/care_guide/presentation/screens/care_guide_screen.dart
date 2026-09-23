@@ -7,7 +7,7 @@ import 'package:plantpal/features/care_guide/domain/model/care_guide.dart';
 import 'package:plantpal/features/care_guide/domain/repositories/care_guide_repository.dart';
 import 'package:plantpal/features/care_guide/presentation/widgets/care_guide_sections.dart';
 import 'package:plantpal/features/care_guide/presentation/widgets/care_guide_tips_problems.dart';
-import 'package:plantpal/features/plants/presentation/controllers/plants_controller.dart';
+import 'package:plantpal/features/plants/presentation/providers/plants_provider.dart';
 import 'package:provider/provider.dart';
 
 class CareGuideScreen extends StatefulWidget {

@@ -4,11 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer;
 import 'package:go_router/go_router.dart';
 import 'package:plantpal/app/di/app_dependencies.dart';
 import 'package:plantpal/app/router/app_router.dart';
-import 'package:plantpal/core/cache/cache_manager.dart';
 import 'package:plantpal/core/locale/locale_controller.dart';
 import 'package:plantpal/core/theme/app_theme.dart';
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:plantpal/features/profile/presentation/controllers/settings_controller.dart';
+import 'package:plantpal/features/auth/presentation/providers/auth_provider.dart';
+import 'package:plantpal/features/profile/presentation/providers/settings_provider.dart';
 import 'package:plantpal/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +35,7 @@ class _PlantPalAppState extends ConsumerState<PlantPalApp> {
       _deps.plants.clear();
       _deps.cart.clear();
       _deps.wishlist.clear();
-      CacheManager.instance.clear();
+     
     }
   }
 

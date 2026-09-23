@@ -8,7 +8,7 @@ import 'package:plantpal/core/widgets/app_screen.dart';
 import 'package:plantpal/core/widgets/net_image.dart';
 import 'package:plantpal/core/widgets/state_views.dart';
 import 'package:plantpal/features/plants/domain/usecases/plant_history.dart';
-import 'package:plantpal/features/plants/presentation/controllers/plants_controller.dart';
+import 'package:plantpal/features/plants/presentation/providers/plants_provider.dart';
 import 'package:provider/provider.dart';
 
 class PlantHistoryScreen extends StatefulWidget {

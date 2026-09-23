@@ -9,7 +9,7 @@ import 'package:plantpal/core/widgets/app_screen.dart';
 import 'package:plantpal/core/widgets/app_text_field.dart';
 import 'package:plantpal/core/widgets/photo_picker_sheet.dart';
 import 'package:plantpal/features/plants/domain/model/plant.dart';
-import 'package:plantpal/features/plants/presentation/controllers/plants_controller.dart';
+import 'package:plantpal/features/plants/presentation/providers/plants_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddPlantScreen extends StatefulWidget {

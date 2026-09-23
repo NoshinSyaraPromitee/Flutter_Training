@@ -7,7 +7,7 @@ import 'package:plantpal/core/widgets/app_button.dart';
 import 'package:plantpal/core/widgets/app_card.dart';
 import 'package:plantpal/core/widgets/app_screen.dart';
 import 'package:plantpal/core/widgets/state_views.dart';
-import 'package:plantpal/features/ai_doctor/presentation/controllers/scan_controller.dart';
+import 'package:plantpal/features/ai_doctor/presentation/providers/scan_provider.dart';
 import 'package:plantpal/features/ai_doctor/presentation/widgets/diagnosis_card.dart';
 import 'package:provider/provider.dart';
 

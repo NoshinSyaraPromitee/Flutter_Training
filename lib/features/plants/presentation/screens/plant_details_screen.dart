@@ -9,7 +9,7 @@ import 'package:plantpal/core/widgets/app_screen.dart';
 import 'package:plantpal/core/widgets/gradient_background.dart';
 import 'package:plantpal/core/widgets/state_views.dart';
 import 'package:plantpal/features/plants/domain/model/plant.dart';
-import 'package:plantpal/features/plants/presentation/controllers/plants_controller.dart';
+import 'package:plantpal/features/plants/presentation/providers/plants_provider.dart';
 import 'package:plantpal/features/plants/presentation/widgets/health_badge.dart';
 import 'package:plantpal/features/plants/presentation/widgets/plant_details_header.dart';
 import 'package:plantpal/features/plants/presentation/widgets/plant_stat_tiles.dart';

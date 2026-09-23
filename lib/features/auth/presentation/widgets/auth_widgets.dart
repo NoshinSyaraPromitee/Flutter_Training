@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:plantpal/core/theme/app_colors.dart';
 import 'package:plantpal/core/theme/app_text_styles.dart';
 import 'package:plantpal/core/widgets/gradient_background.dart';
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:plantpal/features/auth/presentation/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 const emailAuthNotice = "Email sign-in isn't available yet. Please continue with Google.";

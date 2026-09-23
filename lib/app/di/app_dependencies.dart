@@ -1,31 +1,32 @@
-﻿import 'package:plantpal/core/network/api_client.dart';
+import 'package:plantpal/core/network/api_client.dart';
 import 'package:plantpal/core/storage/secure_storage.dart';
 import 'package:plantpal/features/ai_doctor/data/datasources/ai_doctor_remote_data_source.dart';
 import 'package:plantpal/features/ai_doctor/data/repositories/ai_doctor_repository_impl.dart';
-import 'package:plantpal/features/ai_doctor/presentation/controllers/chat_controller.dart';
-import 'package:plantpal/features/ai_doctor/presentation/controllers/scan_controller.dart';
+import 'package:plantpal/features/ai_doctor/presentation/providers/chat_provider.dart';
+import 'package:plantpal/features/ai_doctor/presentation/providers/scan_provider.dart';
 import 'package:plantpal/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:plantpal/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:plantpal/features/auth/presentation/providers/auth_provider.dart';
 import 'package:plantpal/features/care_guide/data/repositories/care_guide_local_repository.dart';
 import 'package:plantpal/features/care_guide/domain/repositories/care_guide_repository.dart';
-import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
+import 'package:plantpal/features/cart/presentation/providers/cart_provider.dart';
 import 'package:plantpal/features/gamification/data/repositories/achievement_local_repository.dart';
 import 'package:plantpal/features/gamification/domain/repositories/achievement_repository.dart';
 import 'package:plantpal/features/payments/data/repositories/simulated_payment_repository.dart';
-import 'package:plantpal/features/payments/presentation/controllers/payment_controller.dart';
+import 'package:plantpal/features/payments/presentation/providers/payment_provider.dart';
 import 'package:plantpal/features/plants/data/datasources/plant_remote_data_source.dart';
 import 'package:plantpal/features/plants/data/repositories/plant_repository_impl.dart';
 import 'package:plantpal/features/plants/domain/usecases/add_plant.dart';
-import 'package:plantpal/features/plants/presentation/controllers/plants_controller.dart';
-import 'package:plantpal/features/profile/presentation/controllers/settings_controller.dart';
+import 'package:plantpal/features/plants/presentation/providers/plants_provider.dart';
+import 'package:plantpal/features/profile/presentation/providers/settings_provider.dart';
 import 'package:plantpal/features/reviews/data/repositories/review_local_repository.dart';
-import 'package:plantpal/features/reviews/presentation/controllers/reviews_controller.dart';
+import 'package:plantpal/features/reviews/presentation/providers/reviews_provider.dart';
 import 'package:plantpal/features/shop/data/repositories/product_local_repository.dart';
-import 'package:plantpal/features/shop/presentation/controllers/shop_controller.dart';
-import 'package:plantpal/features/wishlist/presentation/controllers/wishlist_controller.dart';
+import 'package:plantpal/features/shop/presentation/providers/shop_provider.dart';
+import 'package:plantpal/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:plantpal/features/gamification/presentation/providers/points_provider.dart';
 
 /// Composition root: the only place that knows which implementation backs which interface.
 class AppDependencies {
@@ -65,6 +66,7 @@ class AppDependencies {
   final SettingsController settings = SettingsController();
   final CareGuideRepository careGuide = CareGuideLocalRepository();
   final AchievementRepository achievements = AchievementLocalRepository();
+  final PointsController points = PointsController();
 
   List<SingleChildWidget> get providers => [
     ChangeNotifierProvider<AuthController>.value(value: auth),
@@ -77,8 +79,10 @@ class AppDependencies {
     ChangeNotifierProvider<ReviewsController>.value(value: reviews),
     ChangeNotifierProvider<PaymentController>.value(value: payment),
     ChangeNotifierProvider<SettingsController>.value(value: settings),
+    ChangeNotifierProvider<PointsController>.value(value: points),
     Provider<CareGuideRepository>.value(value: careGuide),
     Provider<AchievementRepository>.value(value: achievements),
+    
   ];
 }
 

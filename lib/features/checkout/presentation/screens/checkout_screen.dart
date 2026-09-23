@@ -9,7 +9,7 @@ import 'package:plantpal/core/widgets/app_screen.dart';
 import 'package:plantpal/core/widgets/app_text_field.dart';
 import 'package:plantpal/core/widgets/price_summary.dart';
 import 'package:plantpal/core/widgets/state_views.dart';
-import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
+import 'package:plantpal/features/cart/presentation/providers/cart_provider.dart';
 import 'package:plantpal/features/checkout/domain/model/checkout_models.dart';
 import 'package:provider/provider.dart';
 
