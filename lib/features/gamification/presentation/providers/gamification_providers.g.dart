@@ -104,11 +104,26 @@ final class AchievementsProvider
 
 String _$achievementsHash() => r'54f3dbf9504f9457169461254ab75f1331df5f0c';
 
-@ProviderFor(points)
+/// The user's earned-points balance — starts at whatever the unlocked
+/// achievements are worth, then grows as care tasks are completed (see
+/// [MyPlants.markWatered]). No points backend exists yet (see CLAUDE.md:
+/// point-balance changes must be validated server-side eventually), so
+/// this is an in-memory, session-local balance for now.
+
+@ProviderFor(Points)
 final pointsProvider = PointsProvider._();
 
-final class PointsProvider extends $FunctionalProvider<int, int, int>
-    with $Provider<int> {
+/// The user's earned-points balance — starts at whatever the unlocked
+/// achievements are worth, then grows as care tasks are completed (see
+/// [MyPlants.markWatered]). No points backend exists yet (see CLAUDE.md:
+/// point-balance changes must be validated server-side eventually), so
+/// this is an in-memory, session-local balance for now.
+final class PointsProvider extends $NotifierProvider<Points, int> {
+  /// The user's earned-points balance — starts at whatever the unlocked
+  /// achievements are worth, then grows as care tasks are completed (see
+  /// [MyPlants.markWatered]). No points backend exists yet (see CLAUDE.md:
+  /// point-balance changes must be validated server-side eventually), so
+  /// this is an in-memory, session-local balance for now.
   PointsProvider._()
     : super(
         from: null,
@@ -125,13 +140,7 @@ final class PointsProvider extends $FunctionalProvider<int, int, int>
 
   @$internal
   @override
-  $ProviderElement<int> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  int create(Ref ref) {
-    return points(ref);
-  }
+  Points create() => Points();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(int value) {
@@ -142,4 +151,28 @@ final class PointsProvider extends $FunctionalProvider<int, int, int>
   }
 }
 
-String _$pointsHash() => r'd5ccbdd3af75f25cf582206fb19387f406fef791';
+String _$pointsHash() => r'b857dc919ffed4ae7f3c844b02c2caa3441fb372';
+
+/// The user's earned-points balance — starts at whatever the unlocked
+/// achievements are worth, then grows as care tasks are completed (see
+/// [MyPlants.markWatered]). No points backend exists yet (see CLAUDE.md:
+/// point-balance changes must be validated server-side eventually), so
+/// this is an in-memory, session-local balance for now.
+
+abstract class _$Points extends $Notifier<int> {
+  int build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<int, int>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

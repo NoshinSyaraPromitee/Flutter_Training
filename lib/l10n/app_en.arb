@@ -7,6 +7,21 @@
 
   "homeHeaderTitle": "Let's care for\nyour plants",
   "homeHeaderSubtitle": "Diagnose, feed, and grow with confidence.",
+  "greetingMorning": "Good morning! ☀️ Ready to check on your plants?",
+  "greetingAfternoon": "Good afternoon! 🌤️ How are your plants doing?",
+  "greetingEvening": "Good evening! 🌆 Time for one last check-in.",
+  "greetingNight": "Still up? 🌙 Your plants are resting too.",
+  "greetingPlantThirsty": "🌱 One of your plants is thirsty today!",
+  "greetingWeatherRain": "It's rainy out there 🌧️ — skip watering outdoor plants today.",
+  "greetingWeatherThunderstorm": "Storms nearby ⛈️ — keep sensitive plants indoors.",
+  "greetingWeatherSnow": "It's snowing ❄️ — bring tender plants inside.",
+  "greetingWeatherFog": "Foggy morning 🌫️ — your plants love the extra humidity.",
+  "greetingWeatherHot": "It's {temperature}°C out 🔥 — your plants may need extra water.",
+  "@greetingWeatherHot": {
+    "placeholders": {
+      "temperature": { "type": "int" }
+    }
+  },
   "uploadPlantPhoto": "Upload your Plant's Photo",
   "quickActionsLabel": "QUICK ACTIONS",
   "myPlantsLabel": "My Plants",
@@ -52,6 +67,14 @@
       "tips": { "type": "String" }
     }
   },
+  "weatherTipHot": "It's too hot today 🔥 — give at least {waterMl} ml water today.",
+  "@weatherTipHot": {
+    "placeholders": {
+      "waterMl": { "type": "int" }
+    }
+  },
+  "weatherTipCold": "It's cold today ❄️ — water a little less to avoid root rot.",
+  "weatherTipWetOutside": "It's wet outside today 🌧️ — skip watering outdoor plants.",
 
   "diseasesDetectionHeader": "Diseases\nDetection",
   "diseasesDetectionSubtitle": "Snap a photo and get an instant assessment.",

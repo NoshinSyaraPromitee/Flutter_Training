@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -6,10 +7,12 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/plant.dart';
+import '../../domain/weather_tip.dart';
+import '../providers/weather_tip_providers.dart';
 import 'info_box.dart';
 import 'time_chip.dart';
 
-class CareRoadmapView extends StatelessWidget {
+class CareRoadmapView extends ConsumerWidget {
   const CareRoadmapView({
     super.key,
     required this.plantName,
@@ -20,8 +23,9 @@ class CareRoadmapView extends StatelessWidget {
   final CareRoadmap roadmap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final weatherTip = ref.watch(weatherTipProvider(roadmap.waterAmountMl));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -65,6 +69,14 @@ class CareRoadmapView extends StatelessWidget {
           onPressed: () {},
         ),
         const SizedBox(height: AppSpacing.xl),
+        if (weatherTip != null) ...[
+          InfoBox(
+            icon: _weatherTipIcon(weatherTip.kind),
+            text: _weatherTipText(l10n, weatherTip),
+            color: AppColors.danger,
+          ),
+          const SizedBox(height: AppSpacing.md),
+        ],
         InfoBox(
           icon: Icons.lightbulb_outline,
           text: l10n.tipsLabel(roadmap.tips),
@@ -78,5 +90,27 @@ class CareRoadmapView extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+IconData _weatherTipIcon(WeatherTipKind kind) {
+  switch (kind) {
+    case WeatherTipKind.hot:
+      return Icons.wb_sunny_outlined;
+    case WeatherTipKind.cold:
+      return Icons.ac_unit;
+    case WeatherTipKind.wetOutside:
+      return Icons.water_outlined;
+  }
+}
+
+String _weatherTipText(AppLocalizations l10n, WeatherTip tip) {
+  switch (tip.kind) {
+    case WeatherTipKind.hot:
+      return l10n.weatherTipHot(tip.suggestedWaterMl!);
+    case WeatherTipKind.cold:
+      return l10n.weatherTipCold;
+    case WeatherTipKind.wetOutside:
+      return l10n.weatherTipWetOutside;
   }
 }

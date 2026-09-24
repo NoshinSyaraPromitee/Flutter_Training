@@ -88,7 +88,7 @@ final class MyPlantsProvider extends $NotifierProvider<MyPlants, List<Plant>> {
   }
 }
 
-String _$myPlantsHash() => r'09bdd366bb9a9493765abb702a641c723e52dbd2';
+String _$myPlantsHash() => r'e13b5277d9c0ce148359abd8e2b462047d21501e';
 
 abstract class _$MyPlants extends $Notifier<List<Plant>> {
   List<Plant> build();

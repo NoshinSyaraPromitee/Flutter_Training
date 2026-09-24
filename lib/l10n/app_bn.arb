@@ -7,6 +7,21 @@
 
   "homeHeaderTitle": "আসুন যত্ন নেই\nআপনার গাছের",
   "homeHeaderSubtitle": "রোগ নির্ণয়, পুষ্টি জোগান, আত্মবিশ্বাসের সাথে বাড়ান।",
+  "greetingMorning": "শুভ সকাল! ☀️ আপনার গাছগুলো দেখে নিন?",
+  "greetingAfternoon": "শুভ অপরাহ্ন! 🌤️ আপনার গাছগুলো কেমন আছে?",
+  "greetingEvening": "শুভ সন্ধ্যা! 🌆 শেষবারের মতো একবার দেখে নিন।",
+  "greetingNight": "এখনও জেগে আছেন? 🌙 আপনার গাছগুলোও বিশ্রাম নিচ্ছে।",
+  "greetingPlantThirsty": "🌱 আপনার একটি গাছের আজ পানি দরকার!",
+  "greetingWeatherRain": "বাইরে বৃষ্টি হচ্ছে 🌧️ — আজ বাইরের গাছে পানি দেওয়ার দরকার নেই।",
+  "greetingWeatherThunderstorm": "কাছাকাছি ঝড় হচ্ছে ⛈️ — সংবেদনশীল গাছগুলো ঘরে রাখুন।",
+  "greetingWeatherSnow": "তুষারপাত হচ্ছে ❄️ — নরম গাছগুলো ঘরে নিয়ে আসুন।",
+  "greetingWeatherFog": "কুয়াশাচ্ছন্ন সকাল 🌫️ — আপনার গাছগুলো এই বাড়তি আর্দ্রতা পছন্দ করে।",
+  "greetingWeatherHot": "বাইরে {temperature}°সে তাপমাত্রা 🔥 — আপনার গাছের বাড়তি পানি লাগতে পারে।",
+  "@greetingWeatherHot": {
+    "placeholders": {
+      "temperature": { "type": "int" }
+    }
+  },
   "uploadPlantPhoto": "আপনার গাছের ছবি আপলোড করুন",
   "quickActionsLabel": "দ্রুত কার্যক্রম",
   "myPlantsLabel": "আমার গাছপালা",
@@ -52,6 +67,14 @@
       "tips": { "type": "String" }
     }
   },
+  "weatherTipHot": "আজ খুব গরম 🔥 — আজ অন্তত {waterMl} মিলি পানি দিন।",
+  "@weatherTipHot": {
+    "placeholders": {
+      "waterMl": { "type": "int" }
+    }
+  },
+  "weatherTipCold": "আজ ঠান্ডা ❄️ — মূল পচন এড়াতে একটু কম পানি দিন।",
+  "weatherTipWetOutside": "আজ বাইরে ভেজা আবহাওয়া 🌧️ — বাইরের গাছে পানি দেওয়ার দরকার নেই।",
 
   "diseasesDetectionHeader": "রোগ\nশনাক্তকরণ",
   "diseasesDetectionSubtitle": "একটি ছবি তুলুন এবং তাৎক্ষণিক মূল্যায়ন পান।",
