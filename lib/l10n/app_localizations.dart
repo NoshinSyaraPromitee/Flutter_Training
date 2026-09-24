@@ -3,9 +3,6 @@ import 'package:flutter/widgets.dart';
 
 import 'app_localizations_bn.dart';
 import 'app_localizations_en.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart'; // add this — for SynchronousFuture
 
 

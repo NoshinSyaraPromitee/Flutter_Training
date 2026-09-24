@@ -223,7 +223,7 @@ final class FilteredFertilizersProvider
 }
 
 String _$filteredFertilizersHash() =>
-    r'e842239c3d7ee50ec61a1224b178878d8e3da5d7';
+    r'b60913c360d01539537dc5cad52eb57e65439ae8';
 
 /// A single recipe by id, or null if not found / not loaded yet.
 
@@ -287,7 +287,7 @@ final class FertilizerByIdProvider
   }
 }
 
-String _$fertilizerByIdHash() => r'67a86e012baddb5c6a04121b504ce70f781887d2';
+String _$fertilizerByIdHash() => r'21d12d2546a60519738579b5036872756a0739fc';
 
 /// A single recipe by id, or null if not found / not loaded yet.
 

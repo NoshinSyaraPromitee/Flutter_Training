@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_spacing.dart';
@@ -7,17 +8,21 @@ import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/curved_header.dart';
 import '../../../../core/widgets/language_switcher.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../../domain/greeting.dart';
+import '../providers/greeting_providers.dart';
 import '../widgets/chat_avatar.dart';
+import '../widgets/points_badge.dart';
 import '../widgets/quick_actions_grid.dart';
 import '../widgets/speech_bubble.dart';
 
 /// Main menu / dashboard screen shown after the splash screen.
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final greeting = ref.watch(greetingMessageProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -26,7 +31,10 @@ class HomeScreen extends StatelessWidget {
             CurvedHeader(
               title: l10n.homeHeaderTitle,
               subtitle: l10n.homeHeaderSubtitle,
-              corner: const LanguageSwitcher(),
+              corner: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [PointsBadge(), SizedBox(width: AppSpacing.sm), LanguageSwitcher()],
+              ),
               trailing: AppButton(
                 label: l10n.uploadPlantPhoto,
                 trailingIcon: Icons.add_circle_outline,
@@ -53,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                       const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: SpeechBubble(
-                          text: 'Your plants are waiting for you — check in on them!',
+                          text: _greetingText(l10n, greeting),
                           onTap: () => context.push('/plants'),
                         ),
                       ),
@@ -72,5 +80,30 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+String _greetingText(AppLocalizations l10n, Greeting greeting) {
+  switch (greeting.kind) {
+    case GreetingKind.morning:
+      return l10n.greetingMorning;
+    case GreetingKind.afternoon:
+      return l10n.greetingAfternoon;
+    case GreetingKind.evening:
+      return l10n.greetingEvening;
+    case GreetingKind.night:
+      return l10n.greetingNight;
+    case GreetingKind.plantThirsty:
+      return l10n.greetingPlantThirsty;
+    case GreetingKind.weatherRain:
+      return l10n.greetingWeatherRain;
+    case GreetingKind.weatherThunderstorm:
+      return l10n.greetingWeatherThunderstorm;
+    case GreetingKind.weatherSnow:
+      return l10n.greetingWeatherSnow;
+    case GreetingKind.weatherFog:
+      return l10n.greetingWeatherFog;
+    case GreetingKind.weatherHot:
+      return l10n.greetingWeatherHot(greeting.temperatureC!);
   }
 }
