@@ -92,7 +92,6 @@ feature/
 
 ```
 Flutter UI → Feature Controller → Repository → REST API → Go Backend
-Flutter should use Riverpod provider for global state management.
 ```
 
 ## Backend (Go)

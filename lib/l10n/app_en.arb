@@ -1,70 +1,5 @@
 {
   "@@locale": "en",
-<<<<<<< Updated upstream
-
-  "appTitle": "MyPlantPal",
-
-  "splashTagline": "Grow with confidence",
-
-  "homeHeaderTitle": "Let's care for\nyour plants",
-  "homeHeaderSubtitle": "Diagnose, feed, and grow with confidence.",
-  "uploadPlantPhoto": "Upload your Plant's Photo",
-  "quickActionsLabel": "QUICK ACTIONS",
-  "maintainance": "Maintainance",
-  "diseaseDetectionTile": "Disease Detection",
-  "fertilizerRecipesLabel": "Fertilizer Recipes",
-  "shopLabel": "Shop",
-  "chatWithExpertLabel": "Chat with expert",
-  "mainMenuButton": "MainMenu",
-
-  "fertilizerHeaderTitle": "Fertilizer Making",
-  "fertilizerHeaderSubtitle": "Homemade recipes for every growth stage.",
-  "addFertilizerButton": "Add a new Fertilizer",
-  "fertilizerNameFieldLabel": "Name",
-  "fertilizerCategoryFieldLabel": "Category",
-  "fertilizerInstructionsFieldLabel": "Instructions",
-  "cancelButton": "Cancel",
-  "saveButton": "Save",
-  "searchFertilizerHint": "Find your homemade fertilizer",
-  "noFertilizersFound": "No fertilizers found.",
-  "serverUnreachable": "Could not reach the server. Is the backend running?",
-
-  "maintainanceHeaderSubtitleForm": "Tell us about your plant to get a care plan.",
-  "maintainanceHeaderSubtitleResult": "Here’s the care plan for your plant.",
-  "nameOfPlantLabel": "Name of the Plant",
-  "nameFieldHint": "Value",
-  "typesOfPlantLabel": "Types of Plant",
-  "typesFieldHint": "Water based, Maniplant etc",
-  "plantAgeLabel": "How are the plant's age ?",
-  "ageFieldHint": "Seed, Seedlings...",
-  "createRoadmapButton": "Create My Roadmap",
-  "yourPlantNeeds": "Your plant '{plantName}' needs around {amount} ml water daily. Here is the time table you can water your plants",
-  "@yourPlantNeeds": {
-    "placeholders": {
-      "plantName": { "type": "String" },
-      "amount": { "type": "int" }
-    }
-  },
-  "setAlarmButton": "Set Alarm",
-  "tipsLabel": "Tips: {tips}",
-  "@tipsLabel": {
-    "placeholders": {
-      "tips": { "type": "String" }
-    }
-  },
-
-  "diseasesDetectionHeader": "Diseases\nDetection",
-  "diseasesDetectionSubtitle": "Snap a photo and get an instant assessment.",
-  "openCameraButton": "Open Camera to take photo",
-  "cureLabel": "Cure: {cure}",
-  "@cureLabel": {
-    "placeholders": {
-      "cure": { "type": "String" }
-    }
-  },
-  "addToLogButton": "Add to Log",
-  "buyFertilizerButton": "Buy Fertilizer"
-=======
   "appTagline": "Your Garden's best Friend",
   "getStartedButton": "Get Started",
   "cancelButton": "Cancel",
@@ -488,6 +423,7 @@
   "noScanYetTitle": "No scan yet",
   "noScanYetBody": "Take or choose a plant photo first.",
   "unknownPlantLabel": "Unknown plant",
+  "aiHardcodedLabel": "Hardcoded",
   "viewCareGuideButton": "View Care Guide",
   "captionHint": "Add a caption (optional)...",
   "chatInputHint": "Ask anything...",
@@ -623,6 +559,26 @@
     "placeholders": { "name": { "type": "String" } }
   },
 
-  "defaultDisplayName": "Plant Parent"
->>>>>>> Stashed changes
+  "defaultDisplayName": "Plant Parent",
+
+  "refreshPriceButton": "Refresh Price via AI",
+  "checkingPriceLabel": "Checking live price...",
+  "aiPriceRefreshedLabel": "AI Price Check",
+  "priceCheckedAgoLabel": "Checked {timeAgo}",
+  "@priceCheckedAgoLabel": {
+    "placeholders": { "timeAgo": { "type": "String" } }
+  },
+  "possiblyOutOfStockLabel": "May be out of stock",
+  "priceRefreshFailedLabel": "Couldn't fetch live price",
+  "refreshAgainLabel": "Refresh again",
+  "retryLabel": "Retry",
+  "justNowLabel": "just now",
+  "minutesAgoLabel": "{count} min ago",
+  "@minutesAgoLabel": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "hoursAgoLabel": "{count}h ago",
+  "@hoursAgoLabel": {
+    "placeholders": { "count": { "type": "int" } }
+  }
 }

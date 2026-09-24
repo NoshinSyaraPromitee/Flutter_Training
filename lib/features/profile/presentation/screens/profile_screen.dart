@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/widgets/app_card.dart';
-import 'package:plantpal/core/widgets/app_screen.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/app_card.dart';
+import '../../../../core/widgets/app_screen.dart';
 
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:plantpal/features/plants/presentation/controllers/plants_controller.dart';
-import 'package:plantpal/features/profile/presentation/controllers/settings_controller.dart';
-import 'package:plantpal/features/profile/presentation/widgets/logout_dialog.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../auth/presentation/controllers/auth_controller.dart';
+import '../../../plants/presentation/controllers/plants_controller.dart';
+import '../controllers/settings_controller.dart';
+import '../widgets/logout_dialog.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {

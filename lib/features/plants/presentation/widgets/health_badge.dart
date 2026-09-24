@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class HealthBadge extends StatelessWidget {
   const HealthBadge({super.key, this.health});

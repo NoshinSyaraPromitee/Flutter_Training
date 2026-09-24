@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/widgets/app_card.dart';
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/app_card.dart';
+import '../../domain/entities/plant.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Compact row used for "Recent Plants" on Home.
 class PlantSummaryCard extends StatelessWidget {

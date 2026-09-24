@@ -1,101 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_colors.dart';
-import '../theme/app_spacing.dart';
-import '../theme/app_text_styles.dart';
 
-enum AppButtonVariant { primary, secondary, outline }
+enum AppButtonVariant { orange, green }
 
-/// A bold, rounded-rectangle button — the primary action shape across the
-/// app. [AppButtonVariant.primary] and [.secondary] are solid color
-/// blocks; [.outline] is for lower-emphasis actions on light backgrounds.
+/// Pill-shaped button matching the "Button" / "Button Danger" components
+/// from the MyPlantPal Figma design system.
 class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
     required this.label,
     this.onPressed,
-    this.variant = AppButtonVariant.primary,
+    this.variant = AppButtonVariant.green,
     this.trailingIcon,
-    this.leadingIcon,
-    this.isLoading = false,
-    this.expand = false,
   });
 
   final String label;
   final VoidCallback? onPressed;
   final AppButtonVariant variant;
   final IconData? trailingIcon;
-  final IconData? leadingIcon;
-  final bool isLoading;
-  final bool expand;
 
   @override
   Widget build(BuildContext context) {
-    final isEnabled = onPressed != null && !isLoading;
+    final backgroundColor = variant == AppButtonVariant.orange
+        ? AppColors.buttonOrange
+        : AppColors.buttonGreen;
+    final foregroundColor =
+        variant == AppButtonVariant.orange ? Colors.black87 : Colors.white;
 
-    final Color background;
-    final Color foreground;
-    final BorderSide? border;
-    switch (variant) {
-      case AppButtonVariant.primary:
-        background = AppColors.green;
-        foreground = Colors.white;
-        border = null;
-      case AppButtonVariant.secondary:
-        background = AppColors.orange;
-        foreground = Colors.white;
-        border = null;
-      case AppButtonVariant.outline:
-        background = Colors.transparent;
-        foreground = AppColors.textPrimary;
-        border = BorderSide(color: AppColors.divider, width: 1.5);
-    }
-
-    final button = ElevatedButton(
-      onPressed: isEnabled ? onPressed : null,
+    return ElevatedButton(
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: background,
-        foregroundColor: foreground,
-        disabledBackgroundColor: variant == AppButtonVariant.outline
-            ? Colors.transparent
-            : background.withValues(alpha: 0.4),
-        disabledForegroundColor: foreground.withValues(alpha: 0.6),
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md,
-        ),
+        backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.button),
-          side: border ?? BorderSide.none,
+          borderRadius: BorderRadius.circular(20),
         ),
         elevation: 0,
       ),
       child: Row(
-        mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          if (isLoading) ...[
-            SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation(foreground),
-              ),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
             ),
-            const SizedBox(width: AppSpacing.sm),
-          ] else if (leadingIcon != null) ...[
-            Icon(leadingIcon, size: 18),
-            const SizedBox(width: AppSpacing.sm),
-          ],
-          Text(label, textAlign: TextAlign.center, style: AppTextStyles.buttonLabel),
-          if (!isLoading && trailingIcon != null) ...[
-            const SizedBox(width: AppSpacing.sm),
+          ),
+          if (trailingIcon != null) ...[
+            const SizedBox(width: 8),
             Icon(trailingIcon, size: 18),
           ],
         ],
       ),
     );
-
-    return expand ? SizedBox(width: double.infinity, child: button) : button;
   }
 }

@@ -1,70 +1,5 @@
 {
   "@@locale": "bn",
-<<<<<<< Updated upstream
-
-  "appTitle": "MyPlantPal",
-
-  "splashTagline": "আত্মবিশ্বাসের সাথে বেড়ে উঠুন",
-
-  "homeHeaderTitle": "আসুন যত্ন নেই\nআপনার গাছের",
-  "homeHeaderSubtitle": "রোগ নির্ণয়, পুষ্টি জোগান, আত্মবিশ্বাসের সাথে বাড়ান।",
-  "uploadPlantPhoto": "আপনার গাছের ছবি আপলোড করুন",
-  "quickActionsLabel": "দ্রুত কার্যক্রম",
-  "maintainance": "রক্ষণাবেক্ষণ",
-  "diseaseDetectionTile": "রোগ শনাক্তকরণ",
-  "fertilizerRecipesLabel": "সার তৈরির রেসিপি",
-  "shopLabel": "দোকান",
-  "chatWithExpertLabel": "বিশেষজ্ঞের সাথে চ্যাট করুন",
-  "mainMenuButton": "প্রধান মেনু",
-
-  "fertilizerHeaderTitle": "সার তৈরি",
-  "fertilizerHeaderSubtitle": "প্রতিটি বৃদ্ধির ধাপের জন্য ঘরে তৈরি রেসিপি।",
-  "addFertilizerButton": "নতুন সার যোগ করুন",
-  "fertilizerNameFieldLabel": "নাম",
-  "fertilizerCategoryFieldLabel": "বিভাগ",
-  "fertilizerInstructionsFieldLabel": "নির্দেশাবলী",
-  "cancelButton": "বাতিল",
-  "saveButton": "সংরক্ষণ করুন",
-  "searchFertilizerHint": "আপনার ঘরে তৈরি সার খুঁজুন",
-  "noFertilizersFound": "কোনো সার পাওয়া যায়নি।",
-  "serverUnreachable": "সার্ভারে পৌঁছানো যায়নি। ব্যাকএন্ড কি চলছে?",
-
-  "maintainanceHeaderSubtitleForm": "যত্নের পরিকল্পনা পেতে আপনার গাছ সম্পর্কে জানান।",
-  "maintainanceHeaderSubtitleResult": "এই দেখুন আপনার গাছের যত্নের পরিকল্পনা।",
-  "nameOfPlantLabel": "গাছের নাম",
-  "nameFieldHint": "মান লিখুন",
-  "typesOfPlantLabel": "গাছের ধরন",
-  "typesFieldHint": "জল ভিত্তিক, মানিপ্ল্যান্ট ইত্যাদি",
-  "plantAgeLabel": "গাছের বয়স কেমন?",
-  "ageFieldHint": "বীজ, চারা...",
-  "createRoadmapButton": "আমার পরিকল্পনা তৈরি করুন",
-  "yourPlantNeeds": "আপনার '{plantName}' গাছের প্রতিদিন প্রায় {amount} মিলি পানি প্রয়োজন। এখানে পানি দেওয়ার সময়সূচী দেওয়া হলো",
-  "@yourPlantNeeds": {
-    "placeholders": {
-      "plantName": { "type": "String" },
-      "amount": { "type": "int" }
-    }
-  },
-  "setAlarmButton": "অ্যালার্ম সেট করুন",
-  "tipsLabel": "পরামর্শ: {tips}",
-  "@tipsLabel": {
-    "placeholders": {
-      "tips": { "type": "String" }
-    }
-  },
-
-  "diseasesDetectionHeader": "রোগ\nশনাক্তকরণ",
-  "diseasesDetectionSubtitle": "একটি ছবি তুলুন এবং তাৎক্ষণিক মূল্যায়ন পান।",
-  "openCameraButton": "ছবি তুলতে ক্যামেরা খুলুন",
-  "cureLabel": "প্রতিকার: {cure}",
-  "@cureLabel": {
-    "placeholders": {
-      "cure": { "type": "String" }
-    }
-  },
-  "addToLogButton": "লগে যোগ করুন",
-  "buyFertilizerButton": "সার কিনুন"
-=======
   "appTagline": "আপনার বাগানের সেরা বন্ধু",
   "getStartedButton": "শুরু করুন",
   "cancelButton": "বাতিল",
@@ -268,6 +203,7 @@
   "noScanYetTitle": "এখনো স্ক্যান করা হয়নি",
   "noScanYetBody": "প্রথমে একটি গাছের ছবি তুলুন বা বেছে নিন।",
   "unknownPlantLabel": "অজানা গাছ",
+  "aiHardcodedLabel": "পূর্বনির্ধারিত উত্তর",
   "viewCareGuideButton": "পরিচর্যা গাইড দেখুন",
   "captionHint": "ক্যাপশন যোগ করুন (ঐচ্ছিক)...",
   "chatInputHint": "যেকোনো কিছু জিজ্ঞাসা করুন...",
@@ -290,5 +226,4 @@
   "scanRateLimitError": "সীমা শেষ হয়ে গেছে। অনুগ্রহ করে ১০ সেকেন্ড অপেক্ষা করে আবার চেষ্টা করুন।",
   "signInRequiredScanMessage": "গাছ স্ক্যান করতে Google দিয়ে সাইন ইন করুন।",
   "scanAnalysisErrorMessage": "এই ছবিটি বিশ্লেষণ করা যায়নি। আবার চেষ্টা করুন।"
->>>>>>> Stashed changes
 }

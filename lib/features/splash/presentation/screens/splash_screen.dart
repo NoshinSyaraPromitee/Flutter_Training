@@ -2,17 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-<<<<<<< Updated upstream
-
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../l10n/generated/app_localizations.dart';
-=======
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/widgets/gradient_background.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
->>>>>>> Stashed changes
+import '../../../../core/widgets/gradient_background.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Launch/loading screen shown while the app initializes.
 class SplashScreen extends StatefulWidget {
@@ -22,86 +14,55 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late final _entrance = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 700),
-  );
-  late final _fade = CurvedAnimation(parent: _entrance, curve: Curves.easeOut);
-  late final _scale = Tween(
-    begin: 0.92,
-    end: 1.0,
-  ).animate(CurvedAnimation(parent: _entrance, curve: Curves.easeOutCubic));
-
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _entrance.forward();
     Timer(const Duration(seconds: 2), () {
       if (mounted) context.go('/home');
     });
   }
 
   @override
-  void dispose() {
-    _entrance.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: AppColors.green,
-      body: SafeArea(
-        child: Center(
-          child: FadeTransition(
-            opacity: _fade,
-            child: ScaleTransition(
-              scale: _scale,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.eco, color: Colors.white, size: 40),
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    AppLocalizations.of(context).appTitle,
-                    style: AppTextStyles.displayLarge.copyWith(fontSize: 38),
+      body: GradientBackground(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final w = constraints.maxWidth;
+            final h = constraints.maxHeight;
+
+            return Stack(
+              children: [
+                // Small blob, left side
+                Positioned(
+                  left: w * 0.03,
+                  top: h * 0.74,
+                  width: w * 0.10,
+                  child: Image.asset('assets/images/blob2.png'),
+                ),
+
+                // Small faded blob, right of the plant
+                Positioned(
+                  left: w * 0.72,
+                  top: h * 0.57,
+                  width: w * 0.09,
+                  child: Opacity(
+                    opacity: 0.5,
+                    child: Image.asset('assets/images/blob2.png'),
                   ),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    AppLocalizations.of(context).splashTagline,
-                    style: AppTextStyles.bodyText.copyWith(
-                      color: Colors.white.withValues(alpha: 0.85),
-                    ),
+                ),
+
+                // Pale blob behind the bottom-right fern
+                Positioned(
+                  right: -w * 0.08,
+                  bottom: -h * 0.03,
+                  width: w * 0.36,
+                  child: Opacity(
+                    opacity: 0.55,
+                    child: Image.asset('assets/images/blob2.png'),
                   ),
-<<<<<<< Updated upstream
-                  const SizedBox(height: AppSpacing.xxl),
-                  Container(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset(
-                      'assets/images/splash_mascot.png',
-                      width: 140,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.xxl),
-                  SizedBox(
-                    width: 140,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: LinearProgressIndicator(
-                        minHeight: 6,
-                        backgroundColor: Colors.white.withValues(alpha: 0.25),
-                        valueColor: const AlwaysStoppedAnimation(
-                          AppColors.orange,
-                        ),
-                      ),
-=======
                 ),
 
                 // Small fern above the loading bar
@@ -186,13 +147,12 @@ class _SplashScreenState extends State<SplashScreen>
                         Text(l10n.loadingLabel, style: AppTextStyles.loadingCaption),
                         SizedBox(height: h * 0.08),
                       ],
->>>>>>> Stashed changes
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
+import '../../../../core/theme/app_text_styles.dart';
 
 /// Gold coin + dark pill: label passed from parent (already formatted via l10n).
 class PointsPill extends StatelessWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plantpal/core/widgets/app_button.dart';
-import 'package:plantpal/core/widgets/app_text_field.dart';
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:plantpal/features/auth/presentation/widgets/auth_widgets.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/app_text_field.dart';
+import '../controllers/auth_controller.dart';
+import '../widgets/auth_widgets.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -27,15 +27,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  // TEMP (testing): any name/email/password works.
-  void _create() {
-    context.read<AuthController>().signInLocal(email: _email.text, name: _name.text);
-    context.go('/home');
+  Future<void> _create() async {
+    final email = _email.text.trim();
+    final password = _password.text;
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter your email and password.')));
+      return;
+    }
+    if (password.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Password must be at least 8 characters.')));
+      return;
+    }
+    final auth = context.read<AuthController>();
+    final ok = await auth.registerWithEmail(
+      email: email,
+      password: password,
+      name: _name.text.trim().isEmpty ? null : _name.text.trim(),
+    );
+    if (!mounted) return;
+    if (ok) {
+      context.go('/home');
+    } else if (auth.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(auth.error!)));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final busy = context.watch<AuthController>().busy;
     return AuthScaffold(
       title: l10n.createAccountButton,
       children: [
@@ -54,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         const SizedBox(height: 24),
-        SizedBox(width: double.infinity, child: AppButton(label: l10n.createAccountButton, onPressed: _create)),
+        SizedBox(width: double.infinity, child: AppButton(label: l10n.createAccountButton, onPressed: busy ? null : _create)),
         const SizedBox(height: 16),
         const GoogleSignInButton(),
       ],

@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/utils/formatters.dart';
-import 'package:plantpal/core/widgets/app_button.dart';
-import 'package:plantpal/core/widgets/app_card.dart';
-import 'package:plantpal/core/widgets/app_screen.dart';
-import 'package:plantpal/core/widgets/net_image.dart';
-import 'package:plantpal/core/widgets/quantity_stepper.dart';
-import 'package:plantpal/core/widgets/state_views.dart';
-import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
-import 'package:plantpal/features/reviews/presentation/controllers/reviews_controller.dart';
-import 'package:plantpal/features/reviews/presentation/widgets/reviews_section.dart';
-import 'package:plantpal/features/shop/presentation/controllers/shop_controller.dart';
-import 'package:plantpal/features/wishlist/presentation/controllers/wishlist_controller.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/formatters.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/app_card.dart';
+import '../../../../core/widgets/app_screen.dart';
+import '../../../../core/widgets/net_image.dart';
+import '../../../../core/widgets/quantity_stepper.dart';
+import '../../../../core/widgets/state_views.dart';
+import '../../../cart/presentation/controllers/cart_controller.dart';
+import '../../../reviews/presentation/controllers/reviews_controller.dart';
+import '../../../reviews/presentation/widgets/reviews_section.dart';
+import '../../data/repositories/price_refresh_repository.dart';
+import '../controllers/shop_controller.dart';
+import '../widgets/price_refresh_button.dart';
+import '../../../wishlist/presentation/controllers/wishlist_controller.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -162,6 +164,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               },
             ),
           ),
+          const SizedBox(height: 16),
+          // AI-powered live price check (calls backend → Groq Compound)
+          PriceRefreshButton(
+            product: product,
+            repository: context.read<PriceRefreshRepository>(),
+          ),
+          const SizedBox(height: 4),
           ReviewsSection(productId: product.id),
         ],
       ),

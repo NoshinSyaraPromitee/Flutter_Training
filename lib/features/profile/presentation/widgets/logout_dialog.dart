@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../auth/presentation/controllers/auth_controller.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 Future<void> confirmLogout(BuildContext context) async {

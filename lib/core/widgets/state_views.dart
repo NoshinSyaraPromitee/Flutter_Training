@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/widgets/app_button.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
+import 'app_button.dart';
+import '../../l10n/app_localizations.dart';
 
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});

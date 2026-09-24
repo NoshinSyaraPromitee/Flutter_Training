@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/utils/formatters.dart';
-import 'package:plantpal/core/widgets/app_card.dart';
-import 'package:plantpal/core/widgets/app_screen.dart';
-import 'package:plantpal/core/widgets/net_image.dart';
-import 'package:plantpal/core/widgets/quantity_stepper.dart';
-import 'package:plantpal/core/widgets/state_views.dart';
-import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
-import 'package:plantpal/features/shop/domain/entities/product.dart';
-import 'package:plantpal/features/shop/presentation/controllers/shop_controller.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/formatters.dart';
+import '../../../../core/widgets/app_card.dart';
+import '../../../../core/widgets/app_screen.dart';
+import '../../../../core/widgets/net_image.dart';
+import '../../../../core/widgets/quantity_stepper.dart';
+import '../../../../core/widgets/state_views.dart';
+import '../../../cart/presentation/controllers/cart_controller.dart';
+import '../../domain/entities/product.dart';
+import '../controllers/shop_controller.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class ShopScreen extends StatelessWidget {
@@ -22,6 +22,7 @@ class ShopScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final shop = context.watch<ShopController>();
     final cart = context.watch<CartController>();
+    final filteredProducts = shop.filtered;
 
     return AppScreen(
       title: l10n.shopTitle,
@@ -66,11 +67,11 @@ class ShopScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: ChoiceChip(
-                    label: Text(cat.toString()),
-                    selected: shop.category == cat.toString(),
-                    onSelected: (_) => shop.selectCategory(cat.toString()),
+                    label: Text(cat.name),
+                    selected: shop.category == cat.name,
+                    onSelected: (_) => shop.selectCategory(cat.name),
                     selectedColor: AppColors.greenPrimary,
-                    labelStyle: AppTextStyles.inter(13, c: shop.category == cat.toString() ? Colors.white : AppColors.textDark, w: FontWeight.w600),
+                    labelStyle: AppTextStyles.inter(13, c: shop.category == cat.name ? Colors.white : AppColors.textDark, w: FontWeight.w600),
                   ),
                 ),
             ],
@@ -80,13 +81,13 @@ class ShopScreen extends StatelessWidget {
         Expanded(
           child: shop.loading
               ? const LoadingView()
-              : shop.products.isEmpty
+              : filteredProducts.isEmpty
                   ? EmptyView(icon: Icons.storefront, title: l10n.noProductsFoundTitle)
                   : GridView.builder(
                       padding: const EdgeInsets.only(bottom: 24),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 12, mainAxisSpacing: 12, childAspectRatio: 0.72),
-                      itemCount: shop.products.length,
-                      itemBuilder: (_, i) => _ProductCard(product: shop.products[i]),
+                      itemCount: filteredProducts.length,
+                      itemBuilder: (_, i) => _ProductCard(product: filteredProducts[i]),
                     ),
         ),
       ]),

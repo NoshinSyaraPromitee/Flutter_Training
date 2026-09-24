@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/widgets/app_card.dart';
-import 'package:plantpal/core/widgets/app_screen.dart';
-import 'package:plantpal/core/widgets/state_views.dart';
-import 'package:plantpal/features/plants/domain/usecases/care_tasks.dart';
-import 'package:plantpal/features/plants/presentation/controllers/plants_controller.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/app_card.dart';
+import '../../../../core/widgets/app_screen.dart';
+import '../../../../core/widgets/state_views.dart';
+import '../../domain/usecases/care_tasks.dart';
+import '../controllers/plants_controller.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class CareCalendarScreen extends StatefulWidget {

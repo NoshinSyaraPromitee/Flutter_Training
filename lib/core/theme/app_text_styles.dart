@@ -2,63 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
-/// Type system for MyPlantPal: Sora for bold display headlines, Inter for
-/// everything else. Large, heavy display weights are the point — that's
-/// what reads as a current, confident app rather than a soft/dated one.
+/// Text styles extracted from the PlantPal Figma design.
 class AppTextStyles {
   AppTextStyles._();
 
-  static TextStyle displayLarge = GoogleFonts.sora(
-    fontSize: 32,
-    fontWeight: FontWeight.w800,
-    letterSpacing: -0.5,
-    height: 1.1,
-    color: Colors.white,
+  static TextStyle heroTitle = GoogleFonts.shadowsIntoLight(
+    fontSize: 60,
+    color: AppColors.brownHeading,
+    letterSpacing: 0.4,
   );
 
-  static TextStyle displayMedium = GoogleFonts.sora(
-    fontSize: 24,
-    fontWeight: FontWeight.w800,
-    letterSpacing: -0.3,
-    height: 1.15,
-    color: Colors.white,
+  static TextStyle screenTitle = GoogleFonts.shadowsIntoLight(
+    fontSize: 36,
+    color: AppColors.brownHeading,
+    letterSpacing: 0.4,
   );
 
-  static TextStyle titleLarge = GoogleFonts.sora(
-    fontSize: 19,
-    fontWeight: FontWeight.w700,
-    color: AppColors.textPrimary,
-  );
-
-  static TextStyle titleMedium = GoogleFonts.sora(
-    fontSize: 16,
-    fontWeight: FontWeight.w700,
-    color: AppColors.textPrimary,
-  );
-
-  static TextStyle sectionLabel = GoogleFonts.inter(
+  static TextStyle loadingCaption = GoogleFonts.inter(
     fontSize: 12,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 0.6,
-    color: AppColors.textSecondary,
+    color: AppColors.orangeAccent,
   );
 
-  static TextStyle buttonLabel = GoogleFonts.inter(
-    fontSize: 15,
-    fontWeight: FontWeight.w700,
+  static TextStyle chatLabel = GoogleFonts.inter(
+    fontSize: 11,
+    color: AppColors.greenPrimary,
   );
 
   static TextStyle bodyText = GoogleFonts.inter(
-    fontSize: 14,
+    fontSize: 13,
     height: 1.5,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textPrimary,
+    color: AppColors.textDark,
   );
 
-  static TextStyle caption = GoogleFonts.inter(
-    fontSize: 12,
-    height: 1.4,
-    fontWeight: FontWeight.w500,
-    color: AppColors.textSecondary,
-  );
+  static TextStyle inter(double size,
+          {FontWeight w = FontWeight.w500, Color c = AppColors.textDark, double? h}) =>
+      GoogleFonts.inter(fontSize: size, fontWeight: w, color: c, height: h);
 }

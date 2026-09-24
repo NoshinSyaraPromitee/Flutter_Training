@@ -1,45 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-<<<<<<< Updated upstream
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-=======
 import 'package:go_router/go_router.dart';
-import 'package:plantpal/app/di/app_dependencies.dart';
-import 'package:plantpal/app/router/app_router.dart';
-import 'package:plantpal/core/theme/app_theme.dart';
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:plantpal/features/profile/presentation/controllers/settings_controller.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
->>>>>>> Stashed changes
-
-import '../core/providers/locale_provider.dart';
-import '../core/theme/app_theme.dart';
-import '../l10n/generated/app_localizations.dart';
+import 'di/app_dependencies.dart';
 import 'router/app_router.dart';
+import '../core/theme/app_theme.dart';
+import '../features/auth/presentation/controllers/auth_controller.dart';
+import '../features/profile/presentation/controllers/settings_controller.dart';
+import '../l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
-class MyPlantPalApp extends ConsumerWidget {
-  const MyPlantPalApp({super.key});
+class PlantPalApp extends StatefulWidget {
+  const PlantPalApp({super.key});
+  @override
+  State<PlantPalApp> createState() => _PlantPalAppState();
+}
+
+class _PlantPalAppState extends State<PlantPalApp> {
+  final AppDependencies _deps = AppDependencies();
+  late final GoRouter _router = AppRouter.create(_deps.auth);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final locale = ref.watch(localeProvider);
+  void initState() {
+    super.initState();
+    _deps.auth.addListener(_onAuthChanged);
+    _deps.auth.init(); // restore saved session
+  }
 
-<<<<<<< Updated upstream
-    return MaterialApp.router(
-      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      routerConfig: AppRouter.router,
-      locale: locale,
-      supportedLocales: supportedLocales,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-=======
   /// Drop per-user state when the session ends.
   void _onAuthChanged() {
     if (_deps.auth.status == AuthStatus.unauthenticated) {
@@ -76,7 +62,6 @@ class MyPlantPalApp extends ConsumerWidget {
           supportedLocales: AppLocalizations.supportedLocales,
         ),
       ),
->>>>>>> Stashed changes
     );
   }
 }

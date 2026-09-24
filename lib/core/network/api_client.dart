@@ -1,58 +1,72 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
+import '../config/app_config.dart';
+import '../storage/secure_storage.dart';
 
-import 'package:http/http.dart' as http;
-
-import 'api_config.dart';
-import 'api_exception.dart';
-
-/// Thin REST client shared by every feature's data layer. Unwraps the
-/// backend's `{"data": ...}` / `{"error": ...}` JSON envelope and throws
-/// [ApiException] for non-2xx responses.
+/// The only door from the Flutter app to the REST API.
 class ApiClient {
-  ApiClient({http.Client? client, String? baseUrl, this.languageCode = 'en'})
-    : _client = client ?? http.Client(),
-      baseUrl = baseUrl ?? ApiConfig.baseUrl;
-
-  final http.Client _client;
-  final String baseUrl;
-  final String languageCode;
-
-  Map<String, String> get _headers => {
-    'Content-Type': 'application/json',
-    // Lets the backend return localized text (fertilizer recipes,
-    // diagnosis results, care tips) for seeded/generated content.
-    'Accept-Language': languageCode,
-  };
-
-  Future<dynamic> get(String path, {Map<String, String>? query}) async {
-    var uri = Uri.parse('$baseUrl$path');
-    if (query != null && query.isNotEmpty) {
-      uri = uri.replace(queryParameters: query);
-    }
-    final response = await _client.get(uri, headers: _headers);
-    return _decode(response);
+  ApiClient(this._storage) {
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        final token = await _storage.readToken();
+        if (token != null) options.headers['Authorization'] = 'Bearer $token';
+        handler.next(options);
+      },
+      onResponse: (response, handler) {
+        // Every successful backend response is wrapped as {"data": <payload>}.
+        // Unwrap it here once so every data source can work with the raw payload.
+        final data = response.data;
+        if (data is Map && data.containsKey('data')) {
+          response.data = data['data'];
+        }
+        handler.next(response);
+      },
+      onError: (e, handler) async {
+        final isAuthEndpoint = e.requestOptions.path.contains('/auth/');
+        if (e.response?.statusCode == 401 &&
+            e.requestOptions.headers.containsKey('Authorization') &&
+            !isAuthEndpoint) {
+          final retried = await _retryWithRefreshedToken(e.requestOptions);
+          if (retried != null) return handler.resolve(retried);
+          onUnauthorized?.call();
+        }
+        handler.next(e);
+      },
+    ));
   }
 
-  Future<dynamic> post(String path, {Object? body}) async {
-    final uri = Uri.parse('$baseUrl$path');
-    final response = await _client.post(
-      uri,
-      headers: _headers,
-      body: body == null ? null : jsonEncode(body),
-    );
-    return _decode(response);
+  final SecureStorage _storage;
+  final Dio dio = Dio(BaseOptions(
+    baseUrl: AppConfig.apiBaseUrl,
+    connectTimeout: const Duration(seconds: 15),
+    receiveTimeout: const Duration(seconds: 60),
+  ));
+
+  /// Called when the server rejects our token (expired/invalid).
+  void Function()? onUnauthorized;
+  Future<void>? _refreshInFlight;
+
+  Future<Response<dynamic>?> _retryWithRefreshedToken(RequestOptions failed) async {
+    try {
+      _refreshInFlight ??= _refresh();
+      await _refreshInFlight;
+    } catch (_) {
+      return null;
+    } finally {
+      _refreshInFlight = null;
+    }
+    final token = await _storage.readToken();
+    if (token == null) return null;
+    failed.headers['Authorization'] = 'Bearer $token';
+    return dio.fetch(failed);
   }
 
-  dynamic _decode(http.Response response) {
-    final decoded = response.body.isEmpty ? null : jsonDecode(response.body);
-
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      return decoded is Map<String, dynamic> ? decoded['data'] : decoded;
+  Future<void> _refresh() async {
+    final refreshToken = await _storage.readRefreshToken();
+    if (refreshToken == null) {
+      throw DioException(requestOptions: RequestOptions(path: '/api/v1/auth/refresh'));
     }
-
-    final message =
-        (decoded is Map<String, dynamic> ? decoded['error'] as String? : null) ??
-        'Request failed with status ${response.statusCode}';
-    throw ApiException(response.statusCode, message);
+    final res = await dio.post('/api/v1/auth/refresh', data: {'refreshToken': refreshToken});
+    final json = res.data as Map<String, dynamic>;
+    await _storage.saveTokens(json['accessToken'] as String, json['refreshToken'] as String);
   }
 }

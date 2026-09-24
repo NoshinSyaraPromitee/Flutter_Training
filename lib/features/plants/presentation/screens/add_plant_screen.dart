@@ -1,16 +1,16 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/widgets/app_button.dart';
-import 'package:plantpal/core/widgets/app_screen.dart';
-import 'package:plantpal/core/widgets/app_text_field.dart';
-import 'package:plantpal/core/widgets/photo_picker_sheet.dart';
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
-import 'package:plantpal/features/plants/presentation/controllers/plants_controller.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/app_screen.dart';
+import '../../../../core/widgets/app_text_field.dart';
+import '../../../../core/widgets/photo_picker_sheet.dart';
+import '../../domain/entities/plant.dart';
+import '../controllers/plants_controller.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class AddPlantScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
   final _location = TextEditingController();
   final _sunlight = TextEditingController();
   final _days = TextEditingController(text: '7');
-  String? _image;
+  Uint8List? _imageBytes;
   bool _wateredToday = true;
   bool _saving = false;
 
@@ -46,67 +46,124 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
       sunlight: _sunlight.text,
       wateringFrequencyDays: int.tryParse(_days.text.trim()) ?? 7,
       lastWatered: _wateredToday ? DateTime.now() : null,
-      imagePath: _image,
+      imageBytes: _imageBytes,
     );
     setState(() => _saving = true);
     final err = await context.read<PlantsController>().add(plant);
     if (!mounted) return;
     setState(() => _saving = false);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err ?? l10n.plantAddedSnackbar(plant.nickname.trim()))));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(err ?? l10n.plantAddedSnackbar(plant.nickname.trim())),
+      ),
+    );
     if (err == null) context.pop();
   }
 
   Widget _label(String t) => Padding(
-        padding: const EdgeInsets.only(bottom: 6, top: 14),
-        child: Text(t, style: AppTextStyles.inter(15, w: FontWeight.w700, c: AppColors.greenPrimary)),
-      );
+    padding: const EdgeInsets.only(bottom: 6, top: 14),
+    child: Text(
+      t,
+      style: AppTextStyles.inter(
+        15,
+        w: FontWeight.w700,
+        c: AppColors.greenPrimary,
+      ),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return AppScreen(
       title: l10n.addPlantTitle,
-      child: ListView(padding: const EdgeInsets.only(bottom: 32), children: [
-        GestureDetector(
-          onTap: () async {
-            final p = await pickPhoto(context);
-            if (p != null) setState(() => _image = p);
-          },
-          child: Container(
-            height: 180,
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(25)),
-            clipBehavior: Clip.antiAlias,
-            child: _image != null
-                ? Image.file(File(_image!), fit: BoxFit.cover, width: double.infinity)
-                : Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    const Icon(Icons.add_a_photo, size: 56, color: AppColors.greenPrimary),
-                    const SizedBox(height: 10),
-                    Text(l10n.addPlantPhotoLabel, style: AppTextStyles.inter(16, w: FontWeight.w700, c: AppColors.greenPrimary)),
-                  ]),
+      child: ListView(
+        padding: const EdgeInsets.only(bottom: 32),
+        children: [
+          GestureDetector(
+            onTap: () async {
+              final p = await pickPhoto(context);
+              if (p != null) setState(() => _imageBytes = p);
+            },
+            child: Container(
+              height: 180,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: _imageBytes != null
+                  ? Image.memory(
+                      _imageBytes!,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.add_a_photo,
+                          size: 56,
+                          color: AppColors.greenPrimary,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          l10n.addPlantPhotoLabel,
+                          style: AppTextStyles.inter(
+                            16,
+                            w: FontWeight.w700,
+                            c: AppColors.greenPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
           ),
-        ),
-        _label(l10n.nicknameLabel),
-        AppTextField(controller: _nickname, hint: l10n.nicknameHint),
-        _label(l10n.plantSpeciesLabel),
-        AppTextField(controller: _species, hint: l10n.speciesHint),
-        _label(l10n.locationLabel),
-        AppTextField(controller: _location, hint: l10n.locationHint),
-        _label(l10n.careMetricSunlight),
-        AppTextField(controller: _sunlight, hint: l10n.sunlightMediumOption),
-        _label(l10n.waterFrequencyLabel),
-        AppTextField(controller: _days, hint: '3', keyboardType: TextInputType.number),
-        SwitchListTile(
-          contentPadding: EdgeInsets.zero,
-          activeThumbColor: AppColors.greenPrimary,
-          title: Text(l10n.wateredTodayCheckbox, style: AppTextStyles.inter(14, w: FontWeight.w600)),
-          value: _wateredToday,
-          onChanged: (v) => setState(() => _wateredToday = v),
-        ),
-        const SizedBox(height: 8),
-        SizedBox(width: double.infinity, child: AppButton(label: l10n.autoFillAiScanButton, variant: AppButtonVariant.orange, trailingIcon: Icons.smart_toy, onPressed: () => context.go('/scan'))),
-        const SizedBox(height: 12),
-        SizedBox(width: double.infinity, child: AppButton(label: _saving ? l10n.savingLabel : l10n.savePlantButton, trailingIcon: Icons.save, onPressed: _saving ? null : _save)),
-      ]),
+          _label(l10n.nicknameLabel),
+          AppTextField(controller: _nickname, hint: l10n.nicknameHint),
+          _label(l10n.plantSpeciesLabel),
+          AppTextField(controller: _species, hint: l10n.speciesHint),
+          _label(l10n.locationLabel),
+          AppTextField(controller: _location, hint: l10n.locationHint),
+          _label(l10n.careMetricSunlight),
+          AppTextField(controller: _sunlight, hint: l10n.sunlightMediumOption),
+          _label(l10n.waterFrequencyLabel),
+          AppTextField(
+            controller: _days,
+            hint: '3',
+            keyboardType: TextInputType.number,
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            activeThumbColor: AppColors.greenPrimary,
+            title: Text(
+              l10n.wateredTodayCheckbox,
+              style: AppTextStyles.inter(14, w: FontWeight.w600),
+            ),
+            value: _wateredToday,
+            onChanged: (v) => setState(() => _wateredToday = v),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: AppButton(
+              label: l10n.autoFillAiScanButton,
+              variant: AppButtonVariant.orange,
+              trailingIcon: Icons.smart_toy,
+              onPressed: () => context.go('/scan'),
+            ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: AppButton(
+              label: _saving ? l10n.savingLabel : l10n.savePlantButton,
+              trailingIcon: Icons.save,
+              onPressed: _saving ? null : _save,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

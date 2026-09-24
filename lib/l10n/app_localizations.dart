@@ -1316,6 +1316,12 @@ abstract class AppLocalizations {
   /// **'Unknown plant'**
   String get unknownPlantLabel;
 
+  /// No description provided for @aiHardcodedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hardcoded'**
+  String get aiHardcodedLabel;
+
   /// No description provided for @viewCareGuideButton.
   ///
   /// In en, this message translates to:
@@ -1687,6 +1693,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Plant Parent'**
   String get defaultDisplayName;
+
+  /// No description provided for @refreshPriceButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh Price via AI'**
+  String get refreshPriceButton;
+
+  /// No description provided for @checkingPriceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking live price...'**
+  String get checkingPriceLabel;
+
+  /// No description provided for @aiPriceRefreshedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Price Check'**
+  String get aiPriceRefreshedLabel;
+
+  /// No description provided for @priceCheckedAgoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked {timeAgo}'**
+  String priceCheckedAgoLabel(String timeAgo);
+
+  /// No description provided for @possiblyOutOfStockLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'May be out of stock'**
+  String get possiblyOutOfStockLabel;
+
+  /// No description provided for @priceRefreshFailedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t fetch live price'**
+  String get priceRefreshFailedLabel;
+
+  /// No description provided for @refreshAgainLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh again'**
+  String get refreshAgainLabel;
+
+  /// No description provided for @retryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryLabel;
+
+  /// No description provided for @justNowLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get justNowLabel;
+
+  /// No description provided for @minutesAgoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min ago'**
+  String minutesAgoLabel(int count);
+
+  /// No description provided for @hoursAgoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}h ago'**
+  String hoursAgoLabel(int count);
 }
 
 class _AppLocalizationsDelegate

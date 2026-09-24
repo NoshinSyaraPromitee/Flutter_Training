@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/markdown_text.dart';
+import '../../domain/entities/chat_models.dart';
+import 'ai_provider_badge.dart';
+import '../../../../l10n/app_localizations.dart';
+
+class DiagnosisCard extends StatelessWidget {
+  const DiagnosisCard({super.key, required this.diagnosis});
+  final Diagnosis diagnosis;
+
+  @override
+  Widget build(BuildContext context) {
+    final d = diagnosis;
+    final l10n = AppLocalizations.of(context);
+    Widget head(String t) => Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Text(t, style: AppTextStyles.inter(12, w: FontWeight.w700)),
+        );
+    return Container(
+      margin: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(color: const Color(0xFFE8F3DE), borderRadius: BorderRadius.circular(12)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          const Icon(Icons.eco, size: 16, color: AppColors.greenPrimary),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(l10n.aiVisionAnalysisTitle,
+                style: AppTextStyles.inter(13, w: FontWeight.w700, c: AppColors.greenPrimary)),
+          ),
+          AiProviderBadge(provider: d.provider),
+        ]),
+        const SizedBox(height: 4),
+        Text(l10n.diagnosisProblemLabel(d.issue),
+          style: AppTextStyles.inter(13, w: FontWeight.w700, c: AppColors.danger)),
+        head('Cure:'),
+        MarkdownText(d.cure, style: AppTextStyles.inter(12)),
+        const SizedBox(height: 8),
+        Text(d.disclaimer, style: AppTextStyles.inter(10, c: AppColors.textMuted)),
+      ]),
+    );
+  }
+}

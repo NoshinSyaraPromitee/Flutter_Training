@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/utils/formatters.dart';
-import 'package:plantpal/core/widgets/app_card.dart';
-import 'package:plantpal/core/widgets/app_screen.dart';
-import 'package:plantpal/core/widgets/net_image.dart';
-import 'package:plantpal/core/widgets/state_views.dart';
-import 'package:plantpal/features/cart/presentation/controllers/cart_controller.dart';
-import 'package:plantpal/features/wishlist/presentation/controllers/wishlist_controller.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/formatters.dart';
+import '../../../../core/widgets/app_card.dart';
+import '../../../../core/widgets/app_screen.dart';
+import '../../../../core/widgets/net_image.dart';
+import '../../../../core/widgets/state_views.dart';
+import '../../../cart/presentation/controllers/cart_controller.dart';
+import '../controllers/wishlist_controller.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class WishlistScreen extends StatelessWidget {

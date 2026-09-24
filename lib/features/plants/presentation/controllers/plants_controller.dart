@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:plantpal/core/network/failure.dart';
-import 'package:plantpal/features/plants/domain/entities/plant.dart';
-import 'package:plantpal/features/plants/domain/repositories/plant_repository.dart';
-import 'package:plantpal/features/plants/domain/usecases/add_plant.dart';
+import '../../../../core/network/failure.dart';
+import '../../domain/entities/plant.dart';
+import '../../domain/repositories/plant_repository.dart';
+import '../../domain/usecases/add_plant.dart';
 
 class PlantsController extends ChangeNotifier {
   PlantsController({required PlantRepository repository, required AddPlant addPlant})

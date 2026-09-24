@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plantpal/core/theme/app_colors.dart';
-import 'package:plantpal/core/theme/app_text_styles.dart';
-import 'package:plantpal/core/widgets/app_button.dart';
-import 'package:plantpal/core/widgets/app_text_field.dart';
-import 'package:plantpal/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:plantpal/features/auth/presentation/widgets/auth_widgets.dart';
-import 'package:plantpal/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/app_text_field.dart';
+import '../controllers/auth_controller.dart';
+import '../widgets/auth_widgets.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -27,15 +27,27 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  // TEMP (testing): any email/password works.
-  void _emailLogin() {
-    context.read<AuthController>().signInLocal(email: _email.text);
-    context.go('/home');
+  Future<void> _emailLogin() async {
+    final email = _email.text.trim();
+    final password = _password.text;
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter your email and password.')));
+      return;
+    }
+    final auth = context.read<AuthController>();
+    final ok = await auth.loginWithEmail(email: email, password: password);
+    if (!mounted) return;
+    if (ok) {
+      context.go('/home');
+    } else if (auth.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(auth.error!)));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final busy = context.watch<AuthController>().busy;
     return AuthScaffold(
       title: l10n.loginWelcomeBack,
       subtitle: l10n.loginSubtitle,
@@ -53,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         const SizedBox(height: 24),
-        SizedBox(width: double.infinity, child: AppButton(label: l10n.loginButton, onPressed: _emailLogin)),
+        SizedBox(width: double.infinity, child: AppButton(label: l10n.loginButton, onPressed: busy ? null : _emailLogin)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 22),
           child: Row(children: [

@@ -684,6 +684,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get unknownPlantLabel => 'অজানা গাছ';
 
   @override
+  String get aiHardcodedLabel => 'পূর্বনির্ধারিত উত্তর';
+
+  @override
   String get viewCareGuideButton => 'পরিচর্যা গাইড দেখুন';
 
   @override
@@ -889,4 +892,43 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get defaultDisplayName => 'Plant Parent';
+
+  @override
+  String get refreshPriceButton => 'Refresh Price via AI';
+
+  @override
+  String get checkingPriceLabel => 'Checking live price...';
+
+  @override
+  String get aiPriceRefreshedLabel => 'AI Price Check';
+
+  @override
+  String priceCheckedAgoLabel(String timeAgo) {
+    return 'Checked $timeAgo';
+  }
+
+  @override
+  String get possiblyOutOfStockLabel => 'May be out of stock';
+
+  @override
+  String get priceRefreshFailedLabel => 'Couldn\'t fetch live price';
+
+  @override
+  String get refreshAgainLabel => 'Refresh again';
+
+  @override
+  String get retryLabel => 'Retry';
+
+  @override
+  String get justNowLabel => 'just now';
+
+  @override
+  String minutesAgoLabel(int count) {
+    return '$count min ago';
+  }
+
+  @override
+  String hoursAgoLabel(int count) {
+    return '${count}h ago';
+  }
 }
