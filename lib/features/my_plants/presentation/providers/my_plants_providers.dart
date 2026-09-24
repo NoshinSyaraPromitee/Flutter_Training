@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../gamification/presentation/providers/gamification_providers.dart';
 import '../../domain/plant.dart';
 import '../../repository/local_my_plants_repository.dart';
 import '../../repository/my_plants_repository.dart';
@@ -48,6 +49,7 @@ class MyPlants extends _$MyPlants {
         else
           p,
     ];
+    ref.read(pointsProvider.notifier).add(10);
   }
 
   void remove(String id) {
