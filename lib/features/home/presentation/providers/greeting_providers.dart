@@ -2,24 +2,15 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/providers/weather_providers.dart';
 import '../../../../core/weather/weather.dart';
-import '../../../my_plants/domain/plant.dart';
-import '../../../my_plants/presentation/providers/my_plants_providers.dart';
 import '../../domain/greeting.dart';
 
 part 'greeting_providers.g.dart';
 
-/// What the mascot's speech bubble should say: prioritizes an actionable
-/// plant-care nudge, falls back to a notable weather condition, and
-/// otherwise greets by time of day. Returns structured data rather than a
-/// localized string — the widget resolves that against [AppLocalizations].
+/// What the mascot's speech bubble should say.
 @riverpod
 Greeting greetingMessage(Ref ref) {
-  final tasks = ref.watch(careTasksProvider);
-  if (tasks.any((t) => t.group == CareTaskGroup.today)) {
-    return const Greeting(GreetingKind.plantThirsty);
-  }
-
   final weather = ref.watch(weatherCacheProvider).value;
+
   if (weather != null) {
     final weatherGreeting = _weatherGreeting(weather);
     if (weatherGreeting != null) return weatherGreeting;

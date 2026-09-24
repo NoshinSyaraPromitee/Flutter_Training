@@ -8,20 +8,17 @@ part of 'api_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Rebuilds whenever the app's language changes, so every repository
-/// downstream picks up a client that sends the current Accept-Language.
+/// Provides the shared API client used by repositories.
 
 @ProviderFor(apiClient)
 final apiClientProvider = ApiClientProvider._();
 
-/// Rebuilds whenever the app's language changes, so every repository
-/// downstream picks up a client that sends the current Accept-Language.
+/// Provides the shared API client used by repositories.
 
 final class ApiClientProvider
     extends $FunctionalProvider<ApiClient, ApiClient, ApiClient>
     with $Provider<ApiClient> {
-  /// Rebuilds whenever the app's language changes, so every repository
-  /// downstream picks up a client that sends the current Accept-Language.
+  /// Provides the shared API client used by repositories.
   ApiClientProvider._()
     : super(
         from: null,
@@ -55,4 +52,4 @@ final class ApiClientProvider
   }
 }
 
-String _$apiClientHash() => r'2ba80d588d6ec3ac324234cf3956a7dd65467e63';
+String _$apiClientHash() => r'3d8e2a3bab69578d7887e619fee070bc4f2b2d2a';

@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:plantpal/core/theme/app_colors.dart';
+import 'package:plantpal/core/theme/app_text_styles.dart';
+import 'package:plantpal/core/widgets/app_button.dart';
+import 'package:plantpal/core/widgets/app_text_field.dart';
+import 'package:plantpal/features/auth/presentation/providers/auth_provider.dart';
+import 'package:plantpal/features/auth/presentation/widgets/auth_widgets.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/app_text_field.dart';
-import '../providers/auth_providers.dart';
-import '../widgets/auth_scaffold.dart';
-
-/// Sign-in screen. There's no auth backend yet, so any email/password
-/// signs in locally — see [AuthController.signIn].
-class LoginScreen extends ConsumerStatefulWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
   @override
-  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
-  bool _hidePassword = true;
+  bool _hide = true;
 
   @override
   void dispose() {
@@ -31,70 +26,44 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _login() async {
-    await ref.read(authControllerProvider.notifier).signIn(email: _email.text);
-    if (mounted) context.go('/home');
-  }
-
-  void _continueAsGuest() {
-    ref.read(authControllerProvider.notifier).continueAsGuest();
+  // TEMP (testing): any email/password works.
+  void _emailLogin() {
+    context.read<AuthController>().signInLocal(email: _email.text);
     context.go('/home');
   }
 
   @override
-  Widget build(BuildContext context) {
-    return AuthScaffold(
-      title: 'Welcome Back!',
-      subtitle: 'Missing your buddies?',
-      children: [
-        AppTextField(
-          controller: _email,
-          hint: 'Email',
-          icon: Icons.mail_outline,
-          keyboardType: TextInputType.emailAddress,
-        ),
-        const SizedBox(height: AppSpacing.md),
-        AppTextField(
-          controller: _password,
-          hint: 'Password',
-          icon: Icons.lock_outline,
-          obscure: _hidePassword,
-          suffix: IconButton(
-            icon: Icon(
-              _hidePassword
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
+  Widget build(BuildContext context) => AuthScaffold(
+        title: 'Welcome Back!',
+        subtitle: 'Missing your buddies?',
+        children: [
+          AppTextField(controller: _email, hint: 'Email', icon: Icons.mail_outline, keyboardType: TextInputType.emailAddress),
+          const SizedBox(height: 14),
+          AppTextField(
+            controller: _password,
+            hint: 'Password',
+            icon: Icons.lock_outline,
+            obscure: _hide,
+            suffix: IconButton(
+              icon: Icon(_hide ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+              onPressed: () => setState(() => _hide = !_hide),
             ),
-            onPressed: () => setState(() => _hidePassword = !_hidePassword),
           ),
-        ),
-        const SizedBox(height: AppSpacing.xl),
-        AppButton(label: 'Login', expand: true, onPressed: _login),
-        const SizedBox(height: AppSpacing.md),
-        AppButton(
-          label: 'Continue as Guest',
-          variant: AppButtonVariant.outline,
-          expand: true,
-          onPressed: _continueAsGuest,
-        ),
-        const SizedBox(height: AppSpacing.xl),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Don't have an account?", style: AppTextStyles.bodyText),
+          const SizedBox(height: 24),
+          SizedBox(width: double.infinity, child: AppButton(label: 'Login', onPressed: _emailLogin)),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 22),
+            child: Row(children: [Expanded(child: Divider()), Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: Text('OR')), Expanded(child: Divider())]),
+          ),
+          const GoogleSignInButton(),
+          const SizedBox(height: 24),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text("Don't have an account?", style: AppTextStyles.inter(14)),
             TextButton(
               onPressed: () => context.push('/register'),
-              child: Text(
-                'Register',
-                style: AppTextStyles.bodyText.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.green,
-                ),
-              ),
+              child: Text('Register', style: AppTextStyles.inter(14, w: FontWeight.w700, c: AppColors.greenPrimary)),
             ),
-          ],
-        ),
-      ],
-    );
-  }
+          ]),
+        ],
+      );
 }

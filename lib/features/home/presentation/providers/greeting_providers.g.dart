@@ -8,26 +8,17 @@ part of 'greeting_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// What the mascot's speech bubble should say: prioritizes an actionable
-/// plant-care nudge, falls back to a notable weather condition, and
-/// otherwise greets by time of day. Returns structured data rather than a
-/// localized string — the widget resolves that against [AppLocalizations].
+/// What the mascot's speech bubble should say.
 
 @ProviderFor(greetingMessage)
 final greetingMessageProvider = GreetingMessageProvider._();
 
-/// What the mascot's speech bubble should say: prioritizes an actionable
-/// plant-care nudge, falls back to a notable weather condition, and
-/// otherwise greets by time of day. Returns structured data rather than a
-/// localized string — the widget resolves that against [AppLocalizations].
+/// What the mascot's speech bubble should say.
 
 final class GreetingMessageProvider
     extends $FunctionalProvider<Greeting, Greeting, Greeting>
     with $Provider<Greeting> {
-  /// What the mascot's speech bubble should say: prioritizes an actionable
-  /// plant-care nudge, falls back to a notable weather condition, and
-  /// otherwise greets by time of day. Returns structured data rather than a
-  /// localized string — the widget resolves that against [AppLocalizations].
+  /// What the mascot's speech bubble should say.
   GreetingMessageProvider._()
     : super(
         from: null,
@@ -61,4 +52,4 @@ final class GreetingMessageProvider
   }
 }
 
-String _$greetingMessageHash() => r'284fc30d083e75807875cebbbad813167a2cfa05';
+String _$greetingMessageHash() => r'f5c51a1abd5a1fb355f0c709f6039a48ab4d6028';

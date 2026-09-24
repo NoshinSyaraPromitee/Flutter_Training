@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:plantpal/core/theme/app_colors.dart';
+import 'package:plantpal/core/theme/app_text_styles.dart';
+import 'package:plantpal/core/utils/formatters.dart';
+import 'package:plantpal/core/widgets/app_button.dart';
+import 'package:plantpal/core/widgets/app_card.dart';
+import 'package:plantpal/core/widgets/app_screen.dart';
+import 'package:plantpal/core/widgets/app_text_field.dart';
+import 'package:plantpal/core/widgets/price_summary.dart';
+import 'package:plantpal/core/widgets/state_views.dart';
+import 'package:plantpal/features/cart/presentation/providers/cart_provider.dart';
+import 'package:plantpal/features/checkout/domain/model/checkout_models.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/curved_header.dart';
-import '../../../../core/widgets/price_summary.dart';
-import '../../../../core/widgets/state_views.dart';
-import '../../../cart/presentation/providers/cart_providers.dart';
-import '../../domain/delivery_option.dart';
-import '../widgets/delivery_option_tile.dart';
-import '../widgets/shipping_form.dart';
-
-class CheckoutScreen extends ConsumerStatefulWidget {
+class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
-
   @override
-  ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
-class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
+class _CheckoutScreenState extends State<CheckoutScreen> {
   final _name = TextEditingController();
   final _phone = TextEditingController();
   final _address = TextEditingController();
@@ -35,103 +33,59 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     super.dispose();
   }
 
-  void _continue(OrderSummary summary) {
-    if (_name.text.trim().isEmpty ||
-        _phone.text.trim().isEmpty ||
-        _address.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fill in your name, phone, and address.'),
-        ),
-      );
+  void _continue(OrderSummary s) {
+    final err = ShippingInfo(name: _name.text, phone: _phone.text, address: _address.text).validate();
+    if (err != null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
       return;
     }
-    context.push(
-      Uri(
-        path: '/payment',
-        queryParameters: {
-          'total': summary.total.toStringAsFixed(2),
-          'eta': _delivery.eta,
-        },
-      ).toString(),
-    );
+    context.push(Uri(path: '/payment', queryParameters: {
+      'total': s.total.toStringAsFixed(2),
+      'eta': _delivery.eta,
+    }).toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    final subtotal = ref.watch(cartSubtotalProvider);
-
-    if (subtotal == 0) {
-      return Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CurvedHeader(
-              title: 'Checkout',
-              color: AppColors.orange,
-              onBack: () => context.pop(),
-            ),
-            Expanded(
-              child: EmptyView(
-                icon: Icons.shopping_cart_outlined,
-                title: 'Your cart is empty',
-                actionLabel: 'Continue Shopping',
-                onAction: () => context.go('/shop'),
-              ),
-            ),
-          ],
-        ),
+    final cart = context.watch<CartController>();
+    if (cart.isEmpty) {
+      return AppScreen(
+        title: 'Checkout',
+        child: EmptyView(icon: Icons.shopping_cart_outlined, title: 'Your cart is empty', actionLabel: 'Continue Shopping', onAction: () => context.go('/shop')),
       );
     }
+    final s = const CalculateOrderSummary()(cart.subtotal, _delivery);
 
-    final summary = calculateOrderSummary(subtotal, _delivery);
-
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          CurvedHeader(
-            title: 'Checkout',
-            color: AppColors.orange,
-            onBack: () => context.pop(),
+    return AppScreen(
+      title: 'Checkout',
+      child: ListView(padding: const EdgeInsets.only(bottom: 32), children: [
+        const SectionTitle('Shipping Information'),
+        AppTextField(controller: _name, hint: 'Full Name', icon: Icons.person_outline),
+        const SizedBox(height: 12),
+        AppTextField(controller: _phone, hint: 'Phone Number', icon: Icons.phone_outlined, keyboardType: TextInputType.phone),
+        const SizedBox(height: 12),
+        AppTextField(controller: _address, hint: 'Shipping Address', icon: Icons.location_on_outlined, maxLines: 3),
+        const SectionTitle('Delivery Method'),
+        for (final d in DeliveryOption.all)
+          AppCard(
+            margin: const EdgeInsets.only(bottom: 10),
+            color: _delivery == d ? AppColors.surfaceGreen : Colors.white,
+            onTap: () => setState(() => _delivery = d),
+            child: Row(children: [
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(d.title, style: AppTextStyles.inter(15, w: FontWeight.w700)),
+                  Text('${d.eta} • ${taka(d.fee)}', style: AppTextStyles.inter(13, c: AppColors.textMuted)),
+                ]),
+              ),
+              if (_delivery == d) const Icon(Icons.check_circle, color: AppColors.greenPrimary),
+            ]),
           ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(AppSpacing.xl),
-              children: [
-                Text('Shipping Information', style: AppTextStyles.titleLarge),
-                const SizedBox(height: AppSpacing.sm),
-                ShippingForm(name: _name, phone: _phone, address: _address),
-                const SizedBox(height: AppSpacing.lg),
-                Text('Delivery Method', style: AppTextStyles.titleLarge),
-                const SizedBox(height: AppSpacing.sm),
-                for (final option in DeliveryOption.all) ...[
-                  DeliveryOptionTile(
-                    option: option,
-                    selected: _delivery.id == option.id,
-                    onTap: () => setState(() => _delivery = option),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                ],
-                const SizedBox(height: AppSpacing.md),
-                Text('Order Summary', style: AppTextStyles.titleLarge),
-                const SizedBox(height: AppSpacing.sm),
-                PriceSummary(
-                  subtotal: summary.subtotal,
-                  shipping: summary.shipping,
-                  tax: summary.tax,
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                AppButton(
-                  label: 'Continue to Payment',
-                  expand: true,
-                  onPressed: () => _continue(summary),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        const SectionTitle('Order Summary'),
+        PriceSummary(subtotal: s.subtotal, shipping: s.shipping, tax: s.tax),
+        const SizedBox(height: 16),
+        SizedBox(width: double.infinity, child: AppButton(label: 'Continue to Payment', onPressed: () => _continue(s))),
+      ]),
     );
   }
 }

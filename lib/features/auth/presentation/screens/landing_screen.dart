@@ -1,70 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:plantpal/core/theme/app_text_styles.dart';
+import 'package:plantpal/core/widgets/app_button.dart';
+import 'package:plantpal/core/widgets/gradient_background.dart';
+import 'package:plantpal/features/auth/presentation/widgets/landing_decor.dart';
+import 'package:plantpal/features/auth/presentation/widgets/landing_mascot.dart';
+import 'package:plantpal/l10n/app_localizations.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/app_button.dart';
-
-/// Pre-login landing page: brand moment + "Get Started" / guest entry.
+/// First screen shown after the splash loader — same blob/mascot/fern
+/// artwork as SplashScreen, with a "Get Started" call to action.
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: AppColors.green,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.xl,
-            vertical: AppSpacing.xxl,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
+      body: GradientBackground(
+        child: LandingDecor(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final w = constraints.maxWidth;
+              final h = constraints.maxHeight;
+              return Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset(
-                      'assets/images/Hello.gif',
-                      width: 160,
-                      height: 160,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
+                  SizedBox(height: h * 0.06),
+                  Text(t.landingTitle, textAlign: TextAlign.center, style: AppTextStyles.heroTitle),
+                  const SizedBox(height: 10),
                   Text(
-                    'MyPlantPal',
-                    style: AppTextStyles.displayLarge.copyWith(fontSize: 38),
+                    t.landingSubtitle,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF6B5300)),
                   ),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    "Your garden's best friend",
-                    style: AppTextStyles.bodyText.copyWith(
-                      color: Colors.white.withValues(alpha: 0.85),
+                  const Spacer(),
+                  LandingMascot(width: w * 0.85),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: AppButton(
+                        label: 'Get Started',
+                        trailingIcon: Icons.arrow_circle_right_outlined,
+                        onPressed: () => context.go('/login'),
+                      ),
                     ),
                   ),
+                  SizedBox(height: h * 0.08),
                 ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AppButton(
-                    label: 'Get Started',
-                    variant: AppButtonVariant.secondary,
-                    trailingIcon: Icons.arrow_circle_right_outlined,
-                    expand: true,
-                    onPressed: () => context.go('/login'),
-                  ),
-                ],
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),

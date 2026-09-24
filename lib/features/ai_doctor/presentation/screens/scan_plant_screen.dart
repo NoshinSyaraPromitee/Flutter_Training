@@ -1,127 +1,54 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:plantpal/core/theme/app_colors.dart';
+import 'package:plantpal/core/theme/app_text_styles.dart';
+import 'package:plantpal/core/widgets/app_button.dart';
+import 'package:plantpal/core/widgets/app_screen.dart';
+import 'package:plantpal/core/widgets/photo_picker_sheet.dart';
+import 'package:plantpal/features/ai_doctor/presentation/providers/scan_provider.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../core/network/api_exception.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/utils/photo_picker.dart';
-import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/curved_header.dart';
-import '../../../../core/widgets/language_switcher.dart';
-import '../../../../l10n/generated/app_localizations.dart';
-import '../providers/diagnosis_providers.dart';
-
-/// "Diseases Detection" entry screen (bottom tab, route `/scan`): pick a
-/// real photo, submit it to the backend, then push the result screen.
-class ScanPlantScreen extends ConsumerStatefulWidget {
+class ScanPlantScreen extends StatelessWidget {
   const ScanPlantScreen({super.key});
 
-  @override
-  ConsumerState<ScanPlantScreen> createState() => _ScanPlantScreenState();
-}
-
-class _ScanPlantScreenState extends ConsumerState<ScanPlantScreen> {
-  bool _isAnalyzing = false;
-  String? _errorMessage;
-
-  Future<void> _scan(ImageSource source) async {
+  Future<void> _scan(BuildContext context, ImageSource source) async {
     final path = await pickPhoto(context, source: source);
-    if (path == null) return; // user cancelled
-
-    setState(() {
-      _isAnalyzing = true;
-      _errorMessage = null;
-    });
-    try {
-      final bytes = await File(path).readAsBytes();
-      final diagnosis = await ref
-          .read(diagnosisRepositoryProvider)
-          .analyze(bytes);
-      if (!mounted) return;
-      context.push('/scan-result', extra: diagnosis);
-    } on ApiException catch (e) {
-      if (!mounted) return;
-      setState(() => _errorMessage = e.message);
-    } catch (_) {
-      if (!mounted) return;
-      setState(
-        () => _errorMessage = AppLocalizations.of(context).serverUnreachable,
-      );
-    } finally {
-      if (mounted) setState(() => _isAnalyzing = false);
-    }
+    if (path == null || !context.mounted) return;
+    final ok = await context.read<ScanController>().analyze(path);
+    if (ok && context.mounted) context.push('/scan-result');
   }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CurvedHeader(
-              title: l10n.diseasesDetectionHeader,
-              subtitle: l10n.diseasesDetectionSubtitle,
-              color: AppColors.teal,
-              corner: const LanguageSwitcher(),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.xl),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AppButton(
-                    label: l10n.uploadPlantPhoto,
-                    leadingIcon: Icons.upload_file_outlined,
-                    isLoading: _isAnalyzing,
-                    expand: true,
-                    onPressed: _isAnalyzing
-                        ? null
-                        : () => _scan(ImageSource.gallery),
+    final scan = context.watch<ScanController>();
+    return AppScreen(
+      title: 'Scan Your Plant',
+      showBack: false,
+      child: Center(
+        child: scan.loading
+            ? Column(mainAxisSize: MainAxisSize.min, children: [
+                const CircularProgressIndicator(color: AppColors.greenPrimary),
+                const SizedBox(height: 16),
+                Text('Analyzing your plant...', style: AppTextStyles.inter(15, w: FontWeight.w600)),
+              ])
+            : Column(mainAxisSize: MainAxisSize.min, children: [
+                Container(
+                  width: 200,
+                  height: 200,
+                  decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                  child: const Icon(Icons.photo_camera, size: 84, color: AppColors.greenPrimary),
+                ),
+                if (scan.error != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Text(scan.error!, textAlign: TextAlign.center, style: AppTextStyles.inter(13, c: AppColors.danger)),
                   ),
-                  const SizedBox(height: AppSpacing.md),
-                  AppButton(
-                    label: l10n.openCameraButton,
-                    leadingIcon: Icons.photo_camera_outlined,
-                    variant: AppButtonVariant.outline,
-                    isLoading: _isAnalyzing,
-                    expand: true,
-                    onPressed: _isAnalyzing
-                        ? null
-                        : () => _scan(ImageSource.camera),
-                  ),
-                  if (_errorMessage != null) ...[
-                    const SizedBox(height: AppSpacing.xl),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.error_outline,
-                          color: AppColors.danger,
-                          size: 18,
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
-                        Expanded(
-                          child: Text(
-                            _errorMessage!,
-                            style: const TextStyle(
-                              color: AppColors.danger,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ],
-        ),
+                const SizedBox(height: 32),
+                AppButton(label: 'Open Camera', trailingIcon: Icons.photo_camera, onPressed: () => _scan(context, ImageSource.camera)),
+                const SizedBox(height: 12),
+                AppButton(label: 'Choose from Gallery', variant: AppButtonVariant.orange, trailingIcon: Icons.photo_library_outlined, onPressed: () => _scan(context, ImageSource.gallery)),
+              ]),
       ),
     );
   }

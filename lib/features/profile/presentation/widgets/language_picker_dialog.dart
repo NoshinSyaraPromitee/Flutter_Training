@@ -20,7 +20,7 @@ Future<void> pickLanguage(BuildContext context, WidgetRef ref) =>
                 children: [
                   Expanded(child: Text(localeDisplayName(locale))),
                   if (ref.read(appLocaleProvider) == locale)
-                    const Icon(
+                     Icon(
                       Icons.check_circle,
                       size: 20,
                       color: AppColors.green,

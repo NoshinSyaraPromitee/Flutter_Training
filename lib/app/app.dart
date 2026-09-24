@@ -1,46 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer;
+import 'package:go_router/go_router.dart';
+import 'package:plantpal/app/di/app_dependencies.dart';
+import 'package:plantpal/app/router/app_router.dart';
+import 'package:plantpal/core/locale/locale_controller.dart';
+import 'package:plantpal/core/theme/app_theme.dart';
+import 'package:plantpal/features/auth/presentation/providers/auth_provider.dart';
+import 'package:plantpal/features/profile/presentation/providers/settings_provider.dart';
+import 'package:plantpal/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
-import '../core/providers/locale_provider.dart';
-import '../core/theme/app_theme.dart';
-import '../features/auth/presentation/providers/auth_providers.dart';
-import '../l10n/generated/app_localizations.dart';
-import 'router/app_router.dart';
-
-class MyPlantPalApp extends ConsumerStatefulWidget {
-  const MyPlantPalApp({super.key});
-
+class PlantPalApp extends ConsumerStatefulWidget {
+  const PlantPalApp({super.key});
   @override
-  ConsumerState<MyPlantPalApp> createState() => _MyPlantPalAppState();
+  ConsumerState<PlantPalApp> createState() => _PlantPalAppState();
 }
 
-class _MyPlantPalAppState extends ConsumerState<MyPlantPalApp> {
+class _PlantPalAppState extends ConsumerState<PlantPalApp> {
+  final AppDependencies _deps = AppDependencies();
+  late final GoRouter _router = AppRouter.create(_deps.auth);
+
   @override
   void initState() {
     super.initState();
-    // Restore a previously-signed-in (simulated, local-only) session.
-    Future.microtask(() => ref.read(authControllerProvider.notifier).restore());
+    _deps.auth.addListener(_onAuthChanged);
+    _deps.auth.init();
+    _deps.settings.load(); // restore saved theme (Provider)
+    ref.read(localeControllerProvider.notifier).load(); // restore saved language (Riverpod)
+  }
+
+  void _onAuthChanged() {
+    if (_deps.auth.status == AuthStatus.unauthenticated) {
+      _deps.plants.clear();
+      _deps.cart.clear();
+      _deps.wishlist.clear();
+     
+    }
+  }
+
+  @override
+  void dispose() {
+    _deps.auth.removeListener(_onAuthChanged);
+    _router.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final locale = ref.watch(appLocaleProvider);
-    final router = ref.watch(routerProvider);
+    final locale = ref.watch(localeControllerProvider);
 
-    return MaterialApp.router(
-      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      routerConfig: router,
-      locale: locale,
-      supportedLocales: supportedLocales,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+    return MultiProvider(
+      providers: _deps.providers,
+      child: Consumer<SettingsController>(
+        builder: (context, settings, _) => MaterialApp.router(
+          key: ValueKey('${settings.darkMode}_${locale.languageCode}'), // full rebuild on theme/language toggle
+          title: 'PlantPal',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: settings.themeMode,
+          locale: locale,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          routerConfig: _router,
+        ),
+      ),
     );
   }
 }

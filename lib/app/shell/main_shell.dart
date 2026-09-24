@@ -1,55 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:plantpal/core/widgets/app_bottom_nav.dart';
+import 'package:plantpal/features/plants/presentation/providers/plants_provider.dart';
+import 'package:provider/provider.dart';
 
-import '../../core/theme/app_colors.dart';
-
-/// Bottom navigation shell: Home, Scan (AI Doctor diagnosis), Shop,
-/// AI Chat, Profile.
-class MainShell extends StatelessWidget {
+/// Hosts the five shell tabs and the shared [AppBottomNav] beneath them.
+class MainShell extends StatefulWidget {
   const MainShell({super.key, required this.shell});
-
   final StatefulNavigationShell shell;
+  @override
+  State<MainShell> createState() => _MainShellState();
+}
+
+class _MainShellState extends State<MainShell> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => context.read<PlantsController>().load());
+  }
 
   @override
   Widget build(BuildContext context) {
     final keyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
     return Scaffold(
-      body: shell,
+      body: widget.shell,
       bottomNavigationBar: keyboardOpen
           ? null
-          : NavigationBar(
-              backgroundColor: Colors.white,
-              indicatorColor: AppColors.green.withValues(alpha: 0.15),
-              selectedIndex: shell.currentIndex,
-              onDestinationSelected: (i) =>
-                  shell.goBranch(i, initialLocation: i == shell.currentIndex),
-              destinations: const [
-                NavigationDestination(
-                  icon: Icon(Icons.home_outlined),
-                  selectedIcon: Icon(Icons.home),
-                  label: 'Home',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.photo_camera_outlined),
-                  selectedIcon: Icon(Icons.photo_camera),
-                  label: 'Scan',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.shopping_bag_outlined),
-                  selectedIcon: Icon(Icons.shopping_bag),
-                  label: 'Shop',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.smart_toy_outlined),
-                  selectedIcon: Icon(Icons.smart_toy),
-                  label: 'AI Doctor',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.person_outline),
-                  selectedIcon: Icon(Icons.person),
-                  label: 'Profile',
-                ),
-              ],
+          : AppBottomNav(
+              selectedIndex: widget.shell.currentIndex,
+              onDestinationSelected: (i) => widget.shell.goBranch(i, initialLocation: i == widget.shell.currentIndex),
             ),
     );
   }

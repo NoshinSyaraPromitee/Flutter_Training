@@ -1,105 +1,44 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:plantpal/core/theme/app_text_styles.dart';
+import 'package:plantpal/core/widgets/app_button.dart';
+import 'package:plantpal/core/widgets/app_card.dart';
+import 'package:plantpal/core/widgets/app_screen.dart';
+import 'package:plantpal/core/widgets/state_views.dart';
+import 'package:plantpal/features/ai_doctor/presentation/providers/scan_provider.dart';
+import 'package:plantpal/features/ai_doctor/presentation/widgets/diagnosis_card.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/curved_header.dart';
-import '../../../../l10n/generated/app_localizations.dart';
-import '../../domain/diagnosis.dart';
-import '../widgets/diagnosis_card.dart';
-
-/// Shows the result of a photo submitted on [ScanPlantScreen] (route
-/// `/scan-result`, pushed with `extra: diagnosis`).
 class ScanResultScreen extends StatelessWidget {
-  const ScanResultScreen({super.key, required this.diagnosis});
-
-  final Diagnosis diagnosis;
+  const ScanResultScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CurvedHeader(
-              title: l10n.diseasesDetectionHeader,
-              color: AppColors.teal,
-              onBack: () =>
-                  context.canPop() ? context.pop() : context.go('/scan'),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.xl),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  DiagnosisResultBox(
-                    icon: Icons.warning_amber_rounded,
-                    text: diagnosis.issue,
-                    color: AppColors.danger,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  DiagnosisResultBox(
-                    icon: Icons.healing_outlined,
-                    text: l10n.cureLabel(diagnosis.cure),
-                    color: AppColors.cure,
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.info_outline,
-                        size: 15,
-                        color: AppColors.textSecondary,
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                      Expanded(
-                        child: Text(
-                          diagnosis.disclaimer,
-                          style: AppTextStyles.caption,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppSpacing.xl),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: AppButton(
-                          label: l10n.addToLogButton,
-                          variant: AppButtonVariant.secondary,
-                          leadingIcon: Icons.bookmark_add_outlined,
-                          onPressed: () {},
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: AppButton(
-                          label: l10n.buyFertilizerButton,
-                          leadingIcon: Icons.storefront_outlined,
-                          onPressed: () {},
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  AppButton(
-                    label: 'Scan Another Photo',
-                    variant: AppButtonVariant.outline,
-                    expand: true,
-                    onPressed: () => context.go('/scan'),
-                  ),
-                ],
+    final scan = context.watch<ScanController>();
+    final r = scan.result;
+    return AppScreen(
+      title: 'Plant Identified',
+      child: r == null
+          ? const EmptyView(icon: Icons.photo_camera, title: 'No scan yet', subtitle: 'Take or choose a plant photo first.')
+          : ListView(padding: const EdgeInsets.only(bottom: 32), children: [
+              if (scan.imagePath != null)
+                ClipRRect(borderRadius: BorderRadius.circular(20), child: Image.file(File(scan.imagePath!), height: 220, fit: BoxFit.cover)),
+              const SizedBox(height: 14),
+              AppCard(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(r.plantName ?? 'Unknown plant', style: AppTextStyles.inter(22, w: FontWeight.w700)),
+                  const SizedBox(height: 8),
+                  Text(r.text, style: AppTextStyles.inter(14, h: 1.4)),
+                  if (r.diagnosis != null) DiagnosisCard(diagnosis: r.diagnosis!),
+                ]),
               ),
-            ),
-          ],
-        ),
-      ),
+              const SizedBox(height: 20),
+              SizedBox(width: double.infinity, child: AppButton(label: 'View Care Guide', trailingIcon: Icons.eco, onPressed: () => context.push('/care-guide'))),
+              const SizedBox(height: 10),
+              SizedBox(width: double.infinity, child: AppButton(label: 'Ask AI Doctor', variant: AppButtonVariant.orange, trailingIcon: Icons.smart_toy, onPressed: () => context.go('/ai-doctor'))),
+            ]),
     );
   }
 }

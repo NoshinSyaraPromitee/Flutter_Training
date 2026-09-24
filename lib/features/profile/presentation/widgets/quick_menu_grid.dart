@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -14,7 +14,7 @@ class _MenuItem {
   final Color color;
 }
 
-const _menu = [
+final _menu = [
   _MenuItem(Icons.local_florist, 'My Plants', '/plants', AppColors.green),
   _MenuItem(
     Icons.event_available,
@@ -60,7 +60,11 @@ class QuickMenuGrid extends StatelessWidget {
                 CircleAvatar(
                   radius: 18,
                   backgroundColor: item.color.withValues(alpha: 0.14),
-                  child: Icon(item.icon, size: 18, color: item.color),
+                  child: Icon(
+                    item.icon,
+                    size: 18,
+                    color: item.color,
+                  ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
@@ -68,7 +72,9 @@ class QuickMenuGrid extends StatelessWidget {
                     item.label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.titleMedium.copyWith(fontSize: 13),
+                    style: AppTextStyles.titleMedium.copyWith(
+                      fontSize: 13,
+                    ),
                   ),
                 ),
               ],

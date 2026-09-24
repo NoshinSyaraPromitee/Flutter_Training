@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../core/theme/app_spacing.dart';
-import '../../../gamification/presentation/providers/gamification_providers.dart';
+import '../../../gamification/presentation/providers/points_provider.dart';
 
-/// A small coin pill showing the user's points balance, meant for a
-/// [CurvedHeader]'s `corner` slot.
-class PointsBadge extends ConsumerWidget {
+class PointsBadge extends StatelessWidget {
   const PointsBadge({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final points = ref.watch(pointsProvider);
+  Widget build(BuildContext context) {
+    final points = context.watch<PointsController>().balance;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.monetization_on, color: Colors.amberAccent, size: 16),
-          const SizedBox(width: 4),
+          const Icon(Icons.stars_rounded, size: 20),
+          const SizedBox(width: 6),
           Text(
-            '$points',
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12),
+            '$points pts',
+            style: const TextStyle(fontWeight: FontWeight.w600),
           ),
         ],
       ),

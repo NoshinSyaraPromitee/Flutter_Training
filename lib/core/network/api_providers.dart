@@ -1,14 +1,12 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+﻿import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../providers/locale_provider.dart';
+import '../storage/secure_storage.dart';
 import 'api_client.dart';
 
 part 'api_providers.g.dart';
 
-/// Rebuilds whenever the app's language changes, so every repository
-/// downstream picks up a client that sends the current Accept-Language.
+/// Provides the shared API client used by repositories.
 @Riverpod(keepAlive: true)
 ApiClient apiClient(Ref ref) {
-  final locale = ref.watch(appLocaleProvider);
-  return ApiClient(languageCode: locale.languageCode);
+  return ApiClient(const SecureStorage());
 }

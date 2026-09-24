@@ -9,8 +9,9 @@ import 'app_button.dart';
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});
   @override
+  @override
   Widget build(BuildContext context) =>
-      const Center(child: CircularProgressIndicator(color: AppColors.green));
+      Center(child: CircularProgressIndicator(color: AppColors.green));
 }
 
 class ErrorView extends StatelessWidget {

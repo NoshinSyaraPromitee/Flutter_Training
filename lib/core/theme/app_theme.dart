@@ -1,43 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'app_colors.dart';
-import 'app_spacing.dart';
 
 class AppTheme {
   AppTheme._();
 
-  /// Inter/Sora (the app's Latin display fonts) don't cover Bengali
-  /// glyphs, so every text style falls back to a Bengali-capable font —
-  /// applied once here rather than on each TextStyle, so it covers ad hoc
-  /// `TextStyle(...)` literals across the app too (they inherit
-  /// fontFamilyFallback from the ambient theme when they don't set their
-  /// own).
-  static final String _bengaliFallbackFont =
-      GoogleFonts.notoSansBengali().fontFamily!;
+  static ThemeData get light => ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: const Color(0xFFFFF6DC),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.greenPrimary),
+        textTheme: GoogleFonts.interTextTheme(),
+        elevatedButtonTheme: _buttonTheme,
+      );
 
-  static ThemeData get light {
-    return ThemeData(
-      useMaterial3: true,
-      scaffoldBackgroundColor: AppColors.background,
-      colorScheme: ColorScheme.fromSeed(seedColor: AppColors.green),
-      textTheme: GoogleFonts.interTextTheme().apply(
-        fontFamilyFallback: [_bengaliFallbackFont],
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
+  static ThemeData get dark => ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF141F17),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.greenPrimary, brightness: Brightness.dark),
+        textTheme: GoogleFonts.interTextTheme(ThemeData(brightness: Brightness.dark).textTheme),
+        elevatedButtonTheme: _buttonTheme,
+      );
+
+  static ElevatedButtonThemeData get _buttonTheme => ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.green,
+          backgroundColor: AppColors.greenPrimary,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppRadius.button),
-          ),
-          textStyle: GoogleFonts.inter(
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          textStyle: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w600),
         ),
-      ),
-    );
-  }
+      );
 }

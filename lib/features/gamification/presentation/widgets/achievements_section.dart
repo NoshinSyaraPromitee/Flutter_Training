@@ -1,105 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:plantpal/core/theme/app_colors.dart';
+import 'package:plantpal/core/theme/app_text_styles.dart';
+import 'package:plantpal/core/widgets/app_card.dart';
+import 'package:plantpal/features/gamification/domain/repositories/achievement_repository.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../providers/gamification_providers.dart';
-
-/// Points summary + achievement badge grid, embedded on Profile.
-class AchievementsSection extends ConsumerWidget {
+class AchievementsSection extends StatelessWidget {
   const AchievementsSection({super.key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final achievements = ref.watch(achievementsProvider);
-    final points = ref.watch(pointsProvider);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text('ACHIEVEMENTS', style: AppTextStyles.sectionLabel),
-            const Spacer(),
-            Icon(Icons.stars_rounded, size: 16, color: AppColors.orange),
-            const SizedBox(width: AppSpacing.xs),
-            Text(
-              '$points pts',
-              style: AppTextStyles.bodyText.copyWith(
-                fontWeight: FontWeight.w700,
-                color: AppColors.orange,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: AppSpacing.md),
-        Wrap(
-          spacing: AppSpacing.sm,
-          runSpacing: AppSpacing.sm,
-          children: [
-            for (final (i, achievement) in achievements.indexed)
-              _AchievementBadge(
-                title: achievement.title,
-                icon: achievement.icon,
-                unlocked: achievement.unlocked,
-                color: AppColors
-                    .accentRotation[i % AppColors.accentRotation.length],
-              ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _AchievementBadge extends StatelessWidget {
-  const _AchievementBadge({
-    required this.title,
-    required this.icon,
-    required this.unlocked,
-    required this.color,
-  });
-
-  final String title;
-  final IconData icon;
-  final bool unlocked;
-  final Color color;
+  static const _icons = {
+    'seed': Icons.grain,
+    'water': Icons.water_drop,
+    'leaf': Icons.eco,
+    'camera': Icons.photo_camera,
+    'trophy': Icons.emoji_events,
+  };
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 76,
-      child: Column(
-        children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: unlocked
-                  ? color.withValues(alpha: 0.14)
-                  : AppColors.textSecondary.withValues(alpha: 0.1),
-            ),
-            child: Icon(
-              unlocked ? icon : Icons.lock_outline,
-              size: 22,
-              color: unlocked ? color : AppColors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: AppTextStyles.caption.copyWith(
-              fontWeight: FontWeight.w600,
-              color: unlocked ? AppColors.textPrimary : AppColors.textSecondary,
+    final badges = context.read<AchievementRepository>().getAchievements();
+    final w = (MediaQuery.of(context).size.width - 40 - 30) / 4;
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SectionTitle('Achievements'),
+      Wrap(spacing: 10, runSpacing: 10, children: [
+        for (final b in badges)
+          SizedBox(
+            width: w,
+            child: AppCard(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+              radius: 16,
+              child: Column(children: [
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: b.unlocked ? AppColors.surfaceGreen : const Color(0xFFF0F0F0),
+                  child: Icon(b.unlocked ? _icons[b.key] : Icons.lock, size: 22, color: b.unlocked ? AppColors.greenPrimary : Colors.black26),
+                ),
+                const SizedBox(height: 6),
+                Text(b.label, textAlign: TextAlign.center, maxLines: 2, style: AppTextStyles.inter(10, w: FontWeight.w600, c: b.unlocked ? AppColors.textDark : Colors.black38)),
+              ]),
             ),
           ),
-        ],
-      ),
-    );
+      ]),
+    ]);
   }
 }
