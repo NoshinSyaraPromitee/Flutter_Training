@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../auth/presentation/controllers/auth_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
 Future<void> confirmLogout(BuildContext context) async {
   final l10n = AppLocalizations.of(context);
@@ -28,6 +28,6 @@ Future<void> confirmLogout(BuildContext context) async {
     ),
   );
   if (ok != true || !context.mounted) return;
-  await context.read<AuthController>().logout();
+  await ProviderScope.containerOf(context, listen: false).read(authControllerProvider).logout();
   if (context.mounted) context.go('/landing');
 }

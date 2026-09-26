@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import 'di/app_dependencies.dart';
+import 'riverpod_providers.dart';
 import 'router/app_router.dart';
 import '../core/theme/app_theme.dart';
 import '../features/auth/presentation/controllers/auth_controller.dart';
-import '../features/profile/presentation/controllers/settings_controller.dart';
 import '../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 class PlantPalApp extends StatefulWidget {
   const PlantPalApp({super.key});
@@ -44,24 +45,51 @@ class _PlantPalAppState extends State<PlantPalApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: _deps.providers,
-      child: Consumer<SettingsController>(
-        builder: (context, settings, _) => MaterialApp.router(
-          title: 'PlantPal',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light,
-          routerConfig: _router,
-          locale: Locale(settings.language),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-        ),
-      ),
+    return ProviderScope(
+      overrides: [
+        secureStorageProvider.overrideWith((ref) => _deps.storage),
+        apiClientProvider.overrideWith((ref) => _deps.api),
+        authControllerProvider.overrideWith((ref) => _deps.auth),
+        plantsControllerProvider.overrideWith((ref) => _deps.plants),
+        chatControllerProvider.overrideWith((ref) => _deps.chat),
+        scanControllerProvider.overrideWith((ref) => _deps.scan),
+        shopControllerProvider.overrideWith((ref) => _deps.shop),
+        cartControllerProvider.overrideWith((ref) => _deps.cart),
+        wishlistControllerProvider.overrideWith((ref) => _deps.wishlist),
+        reviewsControllerProvider.overrideWith((ref) => _deps.reviews),
+        fertilizerControllerProvider.overrideWith((ref) => _deps.fertilizer),
+        paymentControllerProvider.overrideWith((ref) => _deps.payment),
+        settingsControllerProvider.overrideWith((ref) => _deps.settings),
+        careGuideRepositoryProvider.overrideWith((ref) => _deps.careGuide),
+        achievementRepositoryProvider.overrideWith((ref) => _deps.achievements),
+        priceRefreshRepositoryProvider.overrideWith((ref) => _deps.priceRefresh),
+      ],
+      child: _LocalizedApp(router: _router),
+    );
+  }
+}
+
+class _LocalizedApp extends ConsumerWidget {
+  const _LocalizedApp({required this.router});
+
+  final GoRouter router;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(settingsControllerProvider);
+    return MaterialApp.router(
+      title: 'PlantPal',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light,
+      routerConfig: router,
+      locale: Locale(settings.language),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }

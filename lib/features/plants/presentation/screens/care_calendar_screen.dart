@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/state_views.dart';
 import '../../domain/usecases/care_tasks.dart';
-import '../controllers/plants_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class CareCalendarScreen extends StatefulWidget {
+class CareCalendarScreen extends ConsumerStatefulWidget {
   const CareCalendarScreen({super.key});
   @override
-  State<CareCalendarScreen> createState() => _CareCalendarScreenState();
+  ConsumerState<CareCalendarScreen> createState() => _CareCalendarScreenState();
 }
 
-class _CareCalendarScreenState extends State<CareCalendarScreen> {
+class _CareCalendarScreenState extends ConsumerState<CareCalendarScreen> {
   final _done = <String>{};
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => context.read<PlantsController>().load());
+    WidgetsBinding.instance.addPostFrameCallback((_) => ref.read(plantsControllerProvider).load());
   }
 
   @override
@@ -32,7 +32,7 @@ class _CareCalendarScreenState extends State<CareCalendarScreen> {
       CareTaskGroup.tomorrow: l10n.tomorrowLabel,
       CareTaskGroup.later: l10n.laterThisWeekLabel,
     };
-    final tasks = const BuildCareTasks()(context.watch<PlantsController>().plants);
+    final tasks = const BuildCareTasks()(ref.watch(plantsControllerProvider).plants);
     final allDone = tasks.isNotEmpty && tasks.every((t) => _done.contains(t.id));
 
     return AppScreen(

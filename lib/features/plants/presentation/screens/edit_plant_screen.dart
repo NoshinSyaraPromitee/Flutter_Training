@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -7,18 +8,17 @@ import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/state_views.dart';
-import '../controllers/plants_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class EditPlantScreen extends StatefulWidget {
+class EditPlantScreen extends ConsumerStatefulWidget {
   const EditPlantScreen({super.key, required this.id});
   final String id;
   @override
-  State<EditPlantScreen> createState() => _EditPlantScreenState();
+  ConsumerState<EditPlantScreen> createState() => _EditPlantScreenState();
 }
 
-class _EditPlantScreenState extends State<EditPlantScreen> {
+class _EditPlantScreenState extends ConsumerState<EditPlantScreen> {
   final _nickname = TextEditingController();
   final _species = TextEditingController();
   final _location = TextEditingController();
@@ -32,7 +32,7 @@ class _EditPlantScreenState extends State<EditPlantScreen> {
     super.didChangeDependencies();
     if (_init) return;
     _init = true;
-    final p = context.read<PlantsController>().byId(widget.id);
+    final p = ref.read(plantsControllerProvider).byId(widget.id);
     if (p != null) {
       _nickname.text = p.nickname;
       _species.text = p.species;
@@ -53,7 +53,7 @@ class _EditPlantScreenState extends State<EditPlantScreen> {
   Future<void> _save() async {
     final l10n = AppLocalizations.of(context);
     setState(() => _saving = true);
-    final err = await context.read<PlantsController>().updateDetails(
+    final err = await ref.read(plantsControllerProvider).updateDetails(
       id: widget.id,
       nickname: _nickname.text,
       species: _species.text,
@@ -84,7 +84,7 @@ class _EditPlantScreenState extends State<EditPlantScreen> {
       ),
     );
     if (ok != true || !mounted) return;
-    await context.read<PlantsController>().remove(widget.id);
+    await ref.read(plantsControllerProvider).remove(widget.id);
     if (mounted) context.go('/plants');
   }
 
@@ -96,7 +96,7 @@ class _EditPlantScreenState extends State<EditPlantScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final plant = context.watch<PlantsController>().byId(widget.id);
+    final plant = ref.watch(plantsControllerProvider).byId(widget.id);
     if (plant == null) {
       return AppScreen(title: l10n.editPlantTitle, child: ErrorView(message: l10n.plantNotFoundMessage));
     }

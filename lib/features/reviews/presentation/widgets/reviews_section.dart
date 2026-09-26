@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_card.dart';
-import '../controllers/reviews_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class ReviewsSection extends StatefulWidget {
+class ReviewsSection extends ConsumerStatefulWidget {
   const ReviewsSection({super.key, required this.productId});
   final String productId;
   @override
-  State<ReviewsSection> createState() => _ReviewsSectionState();
+  ConsumerState<ReviewsSection> createState() => _ReviewsSectionState();
 }
 
-class _ReviewsSectionState extends State<ReviewsSection> {
+class _ReviewsSectionState extends ConsumerState<ReviewsSection> {
   int _rating = 0;
   final _comment = TextEditingController();
 
@@ -26,7 +26,7 @@ class _ReviewsSectionState extends State<ReviewsSection> {
   bool get _canSubmit => _rating > 0 && _comment.text.trim().isNotEmpty;
 
   Future<void> _submit() async {
-    await context.read<ReviewsController>().add(
+    await ref.read(reviewsControllerProvider).add(
       widget.productId,
       rating: _rating,
       comment: _comment.text,
@@ -56,7 +56,7 @@ class _ReviewsSectionState extends State<ReviewsSection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final c = context.watch<ReviewsController>();
+    final c = ref.watch(reviewsControllerProvider);
     final list = c.of(widget.productId);
     final avg = c.average(widget.productId);
 

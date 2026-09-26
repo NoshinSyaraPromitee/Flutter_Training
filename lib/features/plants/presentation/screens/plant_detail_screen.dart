@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -7,18 +8,17 @@ import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/state_views.dart';
 import '../../domain/entities/plant.dart';
-import '../controllers/plants_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class PlantDetailScreen extends StatelessWidget {
+class PlantDetailScreen extends ConsumerWidget {
   const PlantDetailScreen({super.key, required this.id});
   final String id;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final plant = context.watch<PlantsController>().byId(id);
+    final plant = ref.watch(plantsControllerProvider).byId(id);
     if (plant == null) {
       return AppScreen(title: l10n.plantDetailsTitle, child: ErrorView(message: l10n.plantNotFoundMessage));
     }
@@ -129,12 +129,12 @@ class _Chip extends StatelessWidget {
   }
 }
 
-class _ActionRow extends StatelessWidget {
+class _ActionRow extends ConsumerWidget {
   const _ActionRow({required this.plant});
   final Plant plant;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     return Column(children: [
       SizedBox(
@@ -143,7 +143,7 @@ class _ActionRow extends StatelessWidget {
           label: l10n.markWateredButton,
           trailingIcon: Icons.water_drop,
           onPressed: () async {
-            await context.read<PlantsController>().markWatered(plant.id);
+            await ref.read(plantsControllerProvider).markWatered(plant.id);
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(l10n.markedWateredSnackbar(plant.nickname))),

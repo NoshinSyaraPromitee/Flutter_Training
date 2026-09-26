@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_screen.dart';
 import '../../domain/entities/care_guide.dart';
-import '../../domain/repositories/care_guide_repository.dart';
-import '../../../plants/presentation/controllers/plants_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class CareGuideScreen extends StatefulWidget {
+class CareGuideScreen extends ConsumerStatefulWidget {
   const CareGuideScreen({super.key, this.plantId});
   final String? plantId;
   @override
-  State<CareGuideScreen> createState() => _CareGuideScreenState();
+  ConsumerState<CareGuideScreen> createState() => _CareGuideScreenState();
 }
 
-class _CareGuideScreenState extends State<CareGuideScreen> {
+class _CareGuideScreenState extends ConsumerState<CareGuideScreen> {
   final _done = <int>{};
 
   IconData _taskIcon(DailyTaskKind k) => switch (k) {
@@ -36,8 +35,8 @@ class _CareGuideScreenState extends State<CareGuideScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final plant = widget.plantId == null ? null : context.watch<PlantsController>().byId(widget.plantId!);
-    final g = context.read<CareGuideRepository>().guideFor(plant);
+    final plant = widget.plantId == null ? null : ref.watch(plantsControllerProvider).byId(widget.plantId!);
+    final g = ref.read(careGuideRepositoryProvider).guideFor(plant);
     final total = g.dailyTasks.length;
     final essentials = <(IconData, Color, String, String)>[
       (Icons.water_drop, AppColors.waterBlue, l10n.careMetricWater, g.water),

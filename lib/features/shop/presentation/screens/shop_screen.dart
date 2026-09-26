@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -8,20 +9,18 @@ import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/net_image.dart';
 import '../../../../core/widgets/quantity_stepper.dart';
 import '../../../../core/widgets/state_views.dart';
-import '../../../cart/presentation/controllers/cart_controller.dart';
 import '../../domain/entities/product.dart';
-import '../controllers/shop_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class ShopScreen extends StatelessWidget {
+class ShopScreen extends ConsumerWidget {
   const ShopScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final shop = context.watch<ShopController>();
-    final cart = context.watch<CartController>();
+    final shop = ref.watch(shopControllerProvider);
+    final cart = ref.watch(cartControllerProvider);
     final filteredProducts = shop.filtered;
 
     return AppScreen(
@@ -95,14 +94,14 @@ class ShopScreen extends StatelessWidget {
   }
 }
 
-class _ProductCard extends StatelessWidget {
+class _ProductCard extends ConsumerWidget {
   const _ProductCard({required this.product});
   final Product product;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final cart = context.watch<CartController>();
+    final cart = ref.watch(cartControllerProvider);
     // Find the quantity of this product in cart
     final cartItem = cart.items.where((i) => i.product.id == product.id).firstOrNull;
     final qty = cartItem?.quantity ?? 0;

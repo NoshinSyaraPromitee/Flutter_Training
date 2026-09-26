@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/state_views.dart';
-import '../controllers/scan_controller.dart';
 import '../widgets/diagnosis_card.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class ScanResultScreen extends StatelessWidget {
+class ScanResultScreen extends ConsumerWidget {
   const ScanResultScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final scan = context.watch<ScanController>();
+    final scan = ref.watch(scanControllerProvider);
     final r = scan.result;
     return AppScreen(
       title: l10n.plantIdentifiedTitle,

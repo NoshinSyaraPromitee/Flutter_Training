@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -9,17 +10,16 @@ import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/photo_picker_sheet.dart';
 import '../../domain/entities/plant.dart';
-import '../controllers/plants_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class AddPlantScreen extends StatefulWidget {
+class AddPlantScreen extends ConsumerStatefulWidget {
   const AddPlantScreen({super.key});
   @override
-  State<AddPlantScreen> createState() => _AddPlantScreenState();
+  ConsumerState<AddPlantScreen> createState() => _AddPlantScreenState();
 }
 
-class _AddPlantScreenState extends State<AddPlantScreen> {
+class _AddPlantScreenState extends ConsumerState<AddPlantScreen> {
   final _nickname = TextEditingController();
   final _species = TextEditingController();
   final _location = TextEditingController();
@@ -49,7 +49,7 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
       imageBytes: _imageBytes,
     );
     setState(() => _saving = true);
-    final err = await context.read<PlantsController>().add(plant);
+    final err = await ref.read(plantsControllerProvider).add(plant);
     if (!mounted) return;
     setState(() => _saving = false);
     ScaffoldMessenger.of(context).showSnackBar(

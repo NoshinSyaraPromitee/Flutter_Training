@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -6,24 +7,23 @@ import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/state_views.dart';
-import '../controllers/plants_controller.dart';
 import '../widgets/plant_status_card.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class MyPlantsScreen extends StatefulWidget {
+class MyPlantsScreen extends ConsumerStatefulWidget {
   const MyPlantsScreen({super.key});
   @override
-  State<MyPlantsScreen> createState() => _MyPlantsScreenState();
+  ConsumerState<MyPlantsScreen> createState() => _MyPlantsScreenState();
 }
 
-class _MyPlantsScreenState extends State<MyPlantsScreen> {
+class _MyPlantsScreenState extends ConsumerState<MyPlantsScreen> {
   String _q = '';
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => context.read<PlantsController>().load());
+    WidgetsBinding.instance.addPostFrameCallback((_) => ref.read(plantsControllerProvider).load());
   }
 
   Widget _stat(String value, String label) => Expanded(
@@ -40,7 +40,7 @@ class _MyPlantsScreenState extends State<MyPlantsScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final c = context.watch<PlantsController>();
+    final c = ref.watch(plantsControllerProvider);
     final q = _q.toLowerCase().trim();
     final list = c.plants
         .where((p) => q.isEmpty || p.nickname.toLowerCase().contains(q) || p.species.toLowerCase().contains(q))

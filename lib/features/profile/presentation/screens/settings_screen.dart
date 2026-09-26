@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_screen.dart';
-import '../controllers/settings_controller.dart';
 import '../widgets/logout_dialog.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
+import '../controllers/settings_controller.dart';
 
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   Widget _icon(IconData i, Color c) => CircleAvatar(
@@ -90,9 +91,9 @@ class SettingsScreen extends StatelessWidget {
   );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final s = context.watch<SettingsController>();
+    final s = ref.watch(settingsControllerProvider);
     return AppScreen(
       title: l10n.settingsMenuLabel,
       child: ListView(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -6,21 +7,19 @@ import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_screen.dart';
-import '../../../cart/presentation/controllers/cart_controller.dart';
 import '../../domain/entities/payment_models.dart';
-import '../controllers/payment_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class PaymentScreen extends StatefulWidget {
+class PaymentScreen extends ConsumerStatefulWidget {
   const PaymentScreen({super.key, required this.total, required this.eta});
   final double total;
   final String eta;
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  ConsumerState<PaymentScreen> createState() => _PaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   PaymentMethod _method = PaymentMethod.all.first;
 
   static const _icons = {
@@ -32,7 +31,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Future<void> _pay() async {
     final l10n = AppLocalizations.of(context);
-    final result = await context.read<PaymentController>().pay(widget.total, _method);
+    final result = await ref.read(paymentControllerProvider).pay(widget.total, _method);
     if (!mounted) return;
 
     if (result.success) {
@@ -47,7 +46,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
       );
       if (!mounted) return;
-      context.read<CartController>().clear();
+      ref.read(cartControllerProvider).clear();
       context.go(Uri(path: '/order-success', queryParameters: {'orderId': result.orderId, 'eta': widget.eta}).toString());
     } else {
       final changeMethod = await showDialog<bool>(
@@ -69,7 +68,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final processing = context.watch<PaymentController>().processing;
+    final processing = ref.watch(paymentControllerProvider).processing;
 
     return AppScreen(
       title: l10n.paymentTitle,

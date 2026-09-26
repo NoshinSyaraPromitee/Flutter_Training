@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../app/riverpod_providers.dart';
 import '../../core/theme/app_colors.dart';
-import '../../features/plants/presentation/controllers/plants_controller.dart';
 import '../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 /// Bottom navigation: Home (Main Menu), Scan, Shop, AI Doctor, Profile.
-class MainShell extends StatefulWidget {
+class MainShell extends ConsumerStatefulWidget {
   const MainShell({super.key, required this.shell});
   final StatefulNavigationShell shell;
   @override
-  State<MainShell> createState() => _MainShellState();
+  ConsumerState<MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends State<MainShell> {
+class _MainShellState extends ConsumerState<MainShell> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => context.read<PlantsController>().load(),
+      (_) => ref.read(plantsControllerProvider).load(),
     );
   }
 

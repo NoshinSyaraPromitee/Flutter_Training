@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -10,18 +11,17 @@ import '../../../../core/widgets/net_image.dart';
 import '../../../../core/widgets/price_summary.dart';
 import '../../../../core/widgets/quantity_stepper.dart';
 import '../../../../core/widgets/state_views.dart';
-import '../controllers/cart_controller.dart';
 import '../../../checkout/domain/entities/checkout_models.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final cart = context.watch<CartController>();
+    final cart = ref.watch(cartControllerProvider);
     if (cart.isEmpty) {
       return AppScreen(
         title: l10n.cartTitle,

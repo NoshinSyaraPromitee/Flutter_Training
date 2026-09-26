@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -7,18 +8,16 @@ import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/net_image.dart';
 import '../../../../core/widgets/state_views.dart';
-import '../../../cart/presentation/controllers/cart_controller.dart';
-import '../controllers/wishlist_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class WishlistScreen extends StatelessWidget {
+class WishlistScreen extends ConsumerWidget {
   const WishlistScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final wishlist = context.watch<WishlistController>();
+    final wishlist = ref.watch(wishlistControllerProvider);
     return AppScreen(
       title: l10n.wishlistTitle,
       child: wishlist.items.isEmpty
@@ -75,7 +74,7 @@ class WishlistScreen extends StatelessWidget {
                               children: [
                                 TextButton.icon(
                                   onPressed: () =>
-                                      context.read<CartController>().add(p),
+                                      ref.read(cartControllerProvider).add(p),
                                   icon: const Icon(
                                     Icons.add_shopping_cart,
                                     size: 16,

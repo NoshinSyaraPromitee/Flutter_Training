@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../../../../core/data/local_product_images.dart';
 import '../../../../core/network/failure.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
@@ -43,7 +44,13 @@ class ProductRemoteRepository implements ProductRepository {
         rating: _placeholderRating(id),
         stock: _placeholderStock(id),
         description: j['description'] as String? ?? '',
-        imageUrl: j['imageUrl'] as String? ?? '',
+        // Bundled asset takes priority over the vendor-hosted URL: the
+        // backend's remote imageUrl values (Daraz/Ongkoor/etc CDNs) aren't
+        // reliably renderable by Image.network on-device, so any product we
+        // shipped a local photo for uses that instead. Falls back to the
+        // remote URL for products added to the catalog without one yet.
+        imageUrl:
+            localProductImagePaths[id] ?? (j['imageUrl'] as String? ?? ''),
       );
     }).toList();
 

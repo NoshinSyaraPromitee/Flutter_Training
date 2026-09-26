@@ -8,22 +8,23 @@ class PlantRemoteDataSource {
   final ApiClient _api;
 
   Future<List<Map<String, dynamic>>> fetchAll() async {
-    final r = await _api.dio.get('/plants');
+    final r = await _api.dio.get('/api/v1/plants');
     return (r.data as List).cast<Map<String, dynamic>>();
   }
 
   Future<Map<String, dynamic>> create(Map<String, dynamic> body) async =>
-      (await _api.dio.post('/plants', data: body)).data as Map<String, dynamic>;
+      (await _api.dio.post('/api/v1/plants', data: body)).data
+          as Map<String, dynamic>;
 
   Future<Map<String, dynamic>> patch(
     String id,
     Map<String, dynamic> body,
   ) async =>
-      (await _api.dio.patch('/plants/$id', data: body)).data
+      (await _api.dio.patch('/api/v1/plants/$id', data: body)).data
           as Map<String, dynamic>;
 
   Future<void> remove(String id) async {
-    await _api.dio.delete('/plants/$id');
+    await _api.dio.delete('/api/v1/plants/$id');
   }
 
   Future<Map<String, dynamic>> uploadImage(
@@ -33,7 +34,7 @@ class PlantRemoteDataSource {
     final form = FormData.fromMap({
       'image': MultipartFile.fromBytes(imageBytes, filename: 'plant.jpg'),
     });
-    return (await _api.dio.post('/plants/$id/image', data: form)).data
+    return (await _api.dio.post('/api/v1/plants/$id/image', data: form)).data
         as Map<String, dynamic>;
   }
 }

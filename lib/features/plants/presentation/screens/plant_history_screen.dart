@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -8,27 +9,26 @@ import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/net_image.dart';
 import '../../../../core/widgets/state_views.dart';
 import '../../domain/usecases/plant_history.dart';
-import '../controllers/plants_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class PlantHistoryScreen extends StatefulWidget {
+class PlantHistoryScreen extends ConsumerStatefulWidget {
   const PlantHistoryScreen({super.key});
   @override
-  State<PlantHistoryScreen> createState() => _PlantHistoryScreenState();
+  ConsumerState<PlantHistoryScreen> createState() => _PlantHistoryScreenState();
 }
 
-class _PlantHistoryScreenState extends State<PlantHistoryScreen> {
+class _PlantHistoryScreenState extends ConsumerState<PlantHistoryScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => context.read<PlantsController>().load());
+    WidgetsBinding.instance.addPostFrameCallback((_) => ref.read(plantsControllerProvider).load());
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final history = const BuildPlantHistory()(context.watch<PlantsController>().plants);
+    final history = const BuildPlantHistory()(ref.watch(plantsControllerProvider).plants);
 
     return AppScreen(
       title: l10n.plantHistoryTitle,

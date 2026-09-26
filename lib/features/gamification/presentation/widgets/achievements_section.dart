@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_card.dart';
-import '../../domain/repositories/achievement_repository.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class AchievementsSection extends StatelessWidget {
+class AchievementsSection extends ConsumerWidget {
   const AchievementsSection({super.key});
 
   static const _icons = {
@@ -18,9 +18,9 @@ class AchievementsSection extends StatelessWidget {
   };
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final badges = context.read<AchievementRepository>().getAchievements();
+    final badges = ref.read(achievementRepositoryProvider).getAchievements();
     final w = (MediaQuery.of(context).size.width - 40 - 30) / 4;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

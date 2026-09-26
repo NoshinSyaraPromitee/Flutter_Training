@@ -14,20 +14,33 @@ class NetImage extends StatelessWidget {
 
   Widget _placeholder() => _box(const Icon(Icons.local_florist, color: AppColors.greenPrimary));
 
+  // Bundled photos (see core/data/local_product_images.dart) are passed in
+  // as "assets/..." paths rather than URLs, so route those through
+  // Image.asset instead of hitting the network at all.
+  bool get _isAsset => url.startsWith('assets/');
+
   @override
   Widget build(BuildContext context) => ClipRRect(
         borderRadius: BorderRadius.circular(radius),
         child: url.isEmpty
             ? _placeholder()
-            : Image.network(
-                url,
-                width: width,
-                height: height,
-                fit: fit,
-                errorBuilder: (_, _, _) => _placeholder(),
-                loadingBuilder: (_, child, p) => p == null
-                    ? child
-                    : _box(const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
-              ),
+            : _isAsset
+                ? Image.asset(
+                    url,
+                    width: width,
+                    height: height,
+                    fit: fit,
+                    errorBuilder: (_, _, _) => _placeholder(),
+                  )
+                : Image.network(
+                    url,
+                    width: width,
+                    height: height,
+                    fit: fit,
+                    errorBuilder: (_, _, _) => _placeholder(),
+                    loadingBuilder: (_, child, p) => p == null
+                        ? child
+                        : _box(const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
+                  ),
       );
 }

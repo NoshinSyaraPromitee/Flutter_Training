@@ -27,20 +27,23 @@ import '../../features/shop/data/repositories/price_refresh_repository.dart';
 import '../../features/shop/data/repositories/product_remote_repository.dart';
 import '../../features/shop/presentation/controllers/shop_controller.dart';
 import '../../features/wishlist/presentation/controllers/wishlist_controller.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
 
 /// Composition root: the only place that knows which implementation backs which interface.
 class AppDependencies {
   AppDependencies() {
-    final storage = const SecureStorage();
-    final api = ApiClient(storage);
+    storage = const SecureStorage();
+    api = ApiClient(storage);
 
-    auth = AuthController(AuthRepositoryImpl(AuthRemoteDataSource(api), storage));
+    auth = AuthController(
+      AuthRepositoryImpl(AuthRemoteDataSource(api), storage),
+    );
     api.onUnauthorized = auth.logout; // expired/invalid token -> back to login
 
     final plantRepo = PlantRepositoryImpl(PlantRemoteDataSource(api));
-    plants = PlantsController(repository: plantRepo, addPlant: AddPlant(plantRepo));
+    plants = PlantsController(
+      repository: plantRepo,
+      addPlant: AddPlant(plantRepo),
+    );
 
     final aiRepo = AiDoctorRepositoryImpl(AiDoctorRemoteDataSource(api));
     chat = ChatController(aiRepo);
@@ -53,6 +56,8 @@ class AppDependencies {
     priceRefresh = PriceRefreshRepository(api.dio);
   }
 
+  late final SecureStorage storage;
+  late final ApiClient api;
   late final AuthController auth;
   late final PlantsController plants;
   late final ChatController chat;
@@ -67,21 +72,4 @@ class AppDependencies {
   final CareGuideRepository careGuide = CareGuideLocalRepository();
   final AchievementRepository achievements = AchievementLocalRepository();
   late final PriceRefreshRepository priceRefresh;
-
-  List<SingleChildWidget> get providers => [
-        ChangeNotifierProvider<AuthController>.value(value: auth),
-        ChangeNotifierProvider<PlantsController>.value(value: plants),
-        ChangeNotifierProvider<ChatController>.value(value: chat),
-        ChangeNotifierProvider<ScanController>.value(value: scan),
-        ChangeNotifierProvider<ShopController>.value(value: shop),
-        ChangeNotifierProvider<CartController>.value(value: cart),
-        ChangeNotifierProvider<WishlistController>.value(value: wishlist),
-        ChangeNotifierProvider<ReviewsController>.value(value: reviews),
-        ChangeNotifierProvider<FertilizerController>.value(value: fertilizer),
-        ChangeNotifierProvider<PaymentController>.value(value: payment),
-        ChangeNotifierProvider<SettingsController>.value(value: settings),
-        Provider<CareGuideRepository>.value(value: careGuide),
-        Provider<AchievementRepository>.value(value: achievements),
-        Provider<PriceRefreshRepository>.value(value: priceRefresh),
-      ];
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -9,18 +10,17 @@ import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/price_summary.dart';
 import '../../../../core/widgets/state_views.dart';
-import '../../../cart/presentation/controllers/cart_controller.dart';
 import '../../domain/entities/checkout_models.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class CheckoutScreen extends StatefulWidget {
+class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key});
   @override
-  State<CheckoutScreen> createState() => _CheckoutScreenState();
+  ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
-class _CheckoutScreenState extends State<CheckoutScreen> {
+class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final _name = TextEditingController();
   final _phone = TextEditingController();
   final _address = TextEditingController();
@@ -49,7 +49,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final cart = context.watch<CartController>();
+    final cart = ref.watch(cartControllerProvider);
     if (cart.isEmpty) {
       return AppScreen(
         title: l10n.checkoutTitle,

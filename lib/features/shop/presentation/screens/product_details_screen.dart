@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -9,38 +10,33 @@ import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/net_image.dart';
 import '../../../../core/widgets/quantity_stepper.dart';
 import '../../../../core/widgets/state_views.dart';
-import '../../../cart/presentation/controllers/cart_controller.dart';
-import '../../../reviews/presentation/controllers/reviews_controller.dart';
 import '../../../reviews/presentation/widgets/reviews_section.dart';
-import '../../data/repositories/price_refresh_repository.dart';
-import '../controllers/shop_controller.dart';
 import '../widgets/price_refresh_button.dart';
-import '../../../wishlist/presentation/controllers/wishlist_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class ProductDetailsScreen extends StatefulWidget {
+class ProductDetailsScreen extends ConsumerStatefulWidget {
   const ProductDetailsScreen({super.key, required this.productId});
   final String productId;
   @override
-  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+  ConsumerState<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 }
 
-class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   int _qty = 1;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => context.read<ReviewsController>().load(widget.productId),
+      (_) => ref.read(reviewsControllerProvider).load(widget.productId),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final product = context.watch<ShopController>().byId(widget.productId);
+    final product = ref.watch(shopControllerProvider).byId(widget.productId);
     if (product == null) {
       return AppScreen(
         title: l10n.productFallbackTitle,
@@ -49,8 +45,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
 
 
-    final reviews = context.watch<ReviewsController>();
-    final wishlist = context.watch<WishlistController>();
+    final reviews = ref.watch(reviewsControllerProvider);
+    final wishlist = ref.watch(wishlistControllerProvider);
     final liked = wishlist.contains(product.id);
     final count = reviews.of(product.id).length;
     final avg =
@@ -147,7 +143,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               label: l10n.addToCartButton,
               trailingIcon: Icons.add_shopping_cart,
               onPressed: () {
-                context.read<CartController>().add(product, quantity: _qty);
+                ref.read(cartControllerProvider).add(product, quantity: _qty);
                 context.push('/cart');
               },
             ),
@@ -159,7 +155,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               label: l10n.buyNowButton,
               variant: AppButtonVariant.orange,
               onPressed: () {
-                context.read<CartController>().add(product, quantity: _qty);
+                ref.read(cartControllerProvider).add(product, quantity: _qty);
                 context.push('/checkout');
               },
             ),
@@ -168,7 +164,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           // AI-powered live price check (calls backend → Groq Compound)
           PriceRefreshButton(
             product: product,
-            repository: context.read<PriceRefreshRepository>(),
+            repository: ref.read(priceRefreshRepositoryProvider),
           ),
           const SizedBox(height: 4),
           ReviewsSection(productId: product.id),

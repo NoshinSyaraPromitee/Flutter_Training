@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/gradient_background.dart';
-import '../controllers/auth_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
 class AuthScaffold extends StatelessWidget {
   const AuthScaffold({super.key, required this.title, this.subtitle, required this.children});
@@ -44,12 +44,12 @@ class AuthScaffold extends StatelessWidget {
       );
 }
 
-class GoogleSignInButton extends StatelessWidget {
+class GoogleSignInButton extends ConsumerWidget {
   const GoogleSignInButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final auth = context.watch<AuthController>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authControllerProvider);
     final l10n = AppLocalizations.of(context);
     return Column(children: [
       SizedBox(

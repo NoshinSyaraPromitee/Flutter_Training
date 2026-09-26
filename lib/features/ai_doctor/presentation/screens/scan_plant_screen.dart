@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -6,24 +7,23 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_screen.dart';
 import '../../../../core/widgets/photo_picker_sheet.dart';
-import '../controllers/scan_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class ScanPlantScreen extends StatelessWidget {
+class ScanPlantScreen extends ConsumerWidget {
   const ScanPlantScreen({super.key});
 
-  Future<void> _scan(BuildContext context, ImageSource source) async {
+  Future<void> _scan(BuildContext context, WidgetRef ref, ImageSource source) async {
     final bytes = await pickPhoto(context, source: source);
     if (bytes == null || !context.mounted) return;
-    final ok = await context.read<ScanController>().analyze(bytes);
+    final ok = await ref.read(scanControllerProvider).analyze(bytes);
     if (ok && context.mounted) context.push('/scan-result');
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final scan = context.watch<ScanController>();
+    final scan = ref.watch(scanControllerProvider);
     return AppScreen(
       title: l10n.scanPlantTitle,
       showBack: false,
@@ -71,14 +71,14 @@ class ScanPlantScreen extends StatelessWidget {
                   AppButton(
                     label: l10n.openCameraButton,
                     trailingIcon: Icons.photo_camera,
-                    onPressed: () => _scan(context, ImageSource.camera),
+                    onPressed: () => _scan(context, ref, ImageSource.camera),
                   ),
                   const SizedBox(height: 12),
                   AppButton(
                     label: l10n.chooseFromGalleryButton,
                     variant: AppButtonVariant.orange,
                     trailingIcon: Icons.photo_library_outlined,
-                    onPressed: () => _scan(context, ImageSource.gallery),
+                    onPressed: () => _scan(context, ref, ImageSource.gallery),
                   ),
                 ],
               ),

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_screen.dart';
-import '../controllers/chat_controller.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/chat_input.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class AiChatScreen extends StatelessWidget {
+class AiChatScreen extends ConsumerWidget {
   const AiChatScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final chat = context.watch<ChatController>();
+    final chat = ref.watch(chatControllerProvider);
     return AppScreen(
       title: l10n.aiDoctorMenuLabel,
       showBack: false,
@@ -28,7 +28,7 @@ class AiChatScreen extends StatelessWidget {
               itemCount: chat.messages.length,
               itemBuilder: (_, i) => ChatBubble(
                 message: chat.messages[i],
-                onChip: (t) => context.read<ChatController>().send(t),
+                onChip: (t) => ref.read(chatControllerProvider).send(t),
               ),
             ),
           ),
@@ -54,7 +54,7 @@ class AiChatScreen extends StatelessWidget {
               ),
             ),
           ChatInput(
-            onSend: (text, imageBytes) => context.read<ChatController>().send(
+            onSend: (text, imageBytes) => ref.read(chatControllerProvider).send(
               text,
               imageBytes: imageBytes,
             ),

@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/net_image.dart';
-import '../../../cart/presentation/controllers/cart_controller.dart';
 import '../../domain/entities/product.dart';
-import '../../../wishlist/presentation/controllers/wishlist_controller.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
+import '../../../../app/riverpod_providers.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends ConsumerWidget {
   const ProductCard({super.key, required this.product});
   final Product product;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final wishlist = context.watch<WishlistController>();
+    final wishlist = ref.watch(wishlistControllerProvider);
     final liked = wishlist.contains(product.id);
 
     return AppCard(
@@ -134,7 +133,7 @@ class ProductCard extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  context.read<CartController>().add(product);
+                  ref.read(cartControllerProvider).add(product);
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
                     ..showSnackBar(
